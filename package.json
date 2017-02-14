@@ -1,21 +1,21 @@
 {
-    "name": "pirates",
-    "version": "0.0.1",
-    "description": "Frontend",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 0",
-        "start": "node index.js"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/frontend-park-mail-ru/2017_1_Pirates.git"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/frontend-park-mail-ru/2017_1_Pirates/issues"
-    },
-    "homepage": "https://github.com/frontend-park-mail-ru/2017_1_Pirates#readme"
+  "name": "pirates",
+  "version": "0.0.1",
+  "description": "Frontend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frontend-park-mail-ru/2017_1_Pirates.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/frontend-park-mail-ru/2017_1_Pirates/issues"
+  },
+  "homepage": "https://github.com/frontend-park-mail-ru/2017_1_Pirates#readme"
 }
