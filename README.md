@@ -8,5 +8,6 @@ M.O.T.I.O.N
 * [@vileven](https://github.com/vileven)
 * [@8coon](https://github.com/8coon)
 
-## Mentor
+## Mentors
 * [@avtyul](https://github.com/avtyul)
+* [@marinatells](https://github.com/marinatells)
