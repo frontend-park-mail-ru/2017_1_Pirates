@@ -1,11 +1,9 @@
 
 # Idea ignore
-**/.idea/workspace.xml
-**/.idea/tasks.xml
+.idea
 
-#JetBrains IDE
-**/.idea/workspace.xml
-**/.idea/tasks.xml
+# macOS Finder
+.DS_Store
 
 # Logs
 logs
