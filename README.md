@@ -1,8 +1,5 @@
-# 2017_1_Pirates [![Build Status](https://travis-ci.org/frontend-park-mail-ru/2017_1_Pirates.svg?branch=master)](https://travis-ci.org/frontend-park-mail-ru/2017_1_Pirates)
-
-## Description
-M.O.T.I.O.N
-### [https://tp314rates.herokuapp.com](https://tp314rates.herokuapp.com)
+# Project M.O.T.I.O.N. [![Build Status](https://travis-ci.org/frontend-park-mail-ru/2017_1_Pirates.svg?branch=nightly)](https://travis-ci.org/frontend-park-mail-ru/2017_1_Pirates)
+### [https://project-motion.herokuapp.com](https://project-motion.herokuapp.com)
 
 ## Members
 * [@vileven](https://github.com/vileven)
