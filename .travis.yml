@@ -1,0 +1,11 @@
+sudo: required
+dist: trusty
+language: node_js
+node_js: 7
+deploy:
+  provider: heroku
+  app:
+    master: tp314rates
+  api_key:
+    master:
+      secure: xV7yOohEIQ0rM6q/hdGyPgQFwETM93F7aUN4h2zbnZjqFpG9zmpyGTrg+u3FIMAuOFDZn+mzIdikr88B67E7jUVyd9lwbeka9LYVFmwvHH4VBtiNuliWfl3Paa5TrQx8Ha+WBHSBgotyYFw2MVowy2d8OT+ZSIHgRBmdLPbfyOk2HtBkLP7urJltuA+2jJCuAg2ybgvhfSfuKvMjZIdPVePz2VGV8w3RfxJl8LJp1QJBHCzHHhlGOu6ngTEGtq2w1soGAK/tAkgbv9AwPHLuI3zvuNMsShl6/6bAemEMh9AyYUTkuZHAxNjIFkVZOEr9A4OK2AXWqm6ATDQD9tnQbz7LgPAzyQW8ZLjYEiZY/oKbzrOihGJt7Miogmyy4R8nsPHlymJ8hCncxEcuogcE9n/Xkc86D/EwqDUaz3TbCKxaYbOdZ/4YWaCmZxHoiDSyqvytWKK0KZy6jAWg4hEmO8S8HT/Oy9Ox4GeDbpfEsOCLEBk+DOXGncFWcD4i2nskdzPgYOSmcWKGXX+GRhb9n/n8MAn0WBQGNfLVzdJ25+9T2Y+0foyKu090ywiqYDRnsnO/vq/uWUA6Wh5DCIMSEQ45XxGt4/g2T4wpgdHRc9PIqdvmuBResTwPMXIyhCNdMBARhR6KuJLnVAzUupZxL9OCxF5pm0TtSFigzmf1KSs=

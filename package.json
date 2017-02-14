@@ -1,0 +1,20 @@
+{
+    "name": "pirates",
+    "version": "1.0.0",
+    "description": "M.O.T.I.O.N",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/frontend-park-mail-ru/2017_1_Pirates.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/frontend-park-mail-ru/2017_1_Pirates/issues"
+    },
+    "homepage": "https://github.com/frontend-park-mail-ru/2017_1_Pirates#readme"
+}
