@@ -3,8 +3,8 @@
 const http = require('http');
 const fs = require('fs');
 
-const worker = function (request, response) {
 
+const server = http.createServer((request, response) => {
 	const url = request.url;
 	console.log(`${request.method} ${url}`);
 
@@ -14,13 +14,17 @@ const worker = function (request, response) {
 
 	response.write(content);
 	response.end();
-	console.log('complete')
+	console.log('Request complete.');
+});
 
-};
-
-const server = http.createServer(worker);
 
 const port = process.env.PORT || 3000;
-console.log(`Server start! Port ${port}`);
 
-server.listen(port);
+server.listen(port, (error) => {
+	if (!error) {
+		console.log(`Server started! Port ${port}`);
+		return;
+	}
+
+	console.log(`Error! ${error}`);
+});
