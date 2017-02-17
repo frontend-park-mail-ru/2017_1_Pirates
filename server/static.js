@@ -1,6 +1,4 @@
-/**
- * Created by coon on 17.02.17.
- */
+'use strict';
 
 const fs = require('fs');
 
