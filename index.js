@@ -2,19 +2,29 @@
 
 const http = require('http');
 const fs = require('fs');
+const staticServer = require('./server/static');
 
 
 const server = http.createServer((request, response) => {
-	const url = request.url;
-	console.log(`${request.method} ${url}`);
+	console.log(`${request.method} ${request.url}`);
 
-	let content = fs.readFileSync('./static/hello.html', 'utf-8');
+	if (request.url == '/') {
 
-	response.writeHead(200, {"Content-Type": "text/html"});
+		let content = fs.readFileSync('./static/index.html', 'utf-8');
+		response.writeHead(200, {'Content-Type': 'text/html'});
+		response.write(content);
+		response.end();
+		return;
 
-	response.write(content);
-	response.end();
-	console.log('Request complete.');
+	}
+
+	if (request.url.startsWith('/static/')) {
+
+		return staticServer.serve(request, response);
+
+	}
+
+	return staticServer.error(response, 404, 'Not Found', request.url);
 });
 
 
@@ -26,5 +36,5 @@ server.listen(port, (error) => {
 		return;
 	}
 
-	console.log(`Error! ${error}`);
+	console.error(`Error! ${error}`);
 });
