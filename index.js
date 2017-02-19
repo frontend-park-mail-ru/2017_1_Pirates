@@ -1,30 +1,24 @@
 'use strict';
 
-const http = require('http');
 const fs = require('fs');
 
+const express = require('express');
+const app = express();
 
-const server = http.createServer((request, response) => {
-	const url = request.url;
-	console.log(`${request.method} ${url}`);
+app.get('/', function (req, res) {
+	const content = fs.readFileSync('./static/index.html', 'utf-8');
+	res.send(content);
+});
 
-	let content = fs.readFileSync('./static/hello.html', 'utf-8');
+app.use(express.static('static'));
 
-	response.writeHead(200, {"Content-Type": "text/html"});
-
-	response.write(content);
-	response.end();
-	console.log('Request complete.');
+app.listen(3000, function () {
+	console.log('Example app listening on port 3000!');
 });
 
 
-const port = process.env.PORT || 3000;
-
-server.listen(port, (error) => {
-	if (!error) {
-		console.log(`Server started! Port ${port}`);
-		return;
-	}
-
-	console.log(`Error! ${error}`);
+app.use(function (req, res, next) {
+	const content = fs.readFileSync('./static/error.html', 'utf-8');
+	res.status(404).send(content);
 });
+

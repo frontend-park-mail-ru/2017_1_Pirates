@@ -1,0 +1,15 @@
+.header__element {
+	margin-right: 5px;
+	padding: 5px;
+}
+
+.header__element:hover {
+	background-color: #555555;
+	color: #ffffff;
+}
+
+.header__element a {
+	display: block;
+	color: inherit;
+	text-decoration: none;
+}
