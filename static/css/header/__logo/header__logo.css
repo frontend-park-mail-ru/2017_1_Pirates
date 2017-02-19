@@ -1,0 +1,8 @@
+.header__logo {
+	margin-right: auto;
+}
+
+.header__logo:hover {
+	color: inherit;
+	background-color: inherit;
+}

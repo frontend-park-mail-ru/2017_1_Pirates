@@ -1,0 +1,16 @@
+.menu__element {
+	padding: 5px;
+	border: 1px solid #cccccc;
+	margin-bottom: 5px;
+}
+
+.menu__element:hover {
+	background-color: #555555;
+	color: #ffffff;
+}
+
+.menu__element a {
+	color: inherit;
+	text-decoration: none;
+	display: block;
+}

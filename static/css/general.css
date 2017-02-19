@@ -1,0 +1,26 @@
+body {
+	font-size: 16px;
+	padding: 0;
+	font-family: "Open Sans", Helvetica,  Arial, sans-serif;
+}
+
+.central-container {
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.layout {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.col_center {
+	margin-right: auto;
+	margin-left: auto;
+	text-align: center;
+}
+
+.col_medium {
+	width: 500px;
+}
