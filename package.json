@@ -4,18 +4,21 @@
   "description": "Frontend",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 0",
-    "start": "node index.js"
+	"test": "echo \"Error: no test specified\" && exit 0",
+	"start": "node index.js"
   },
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/frontend-park-mail-ru/2017_1_Pirates.git"
+	"type": "git",
+	"url": "git+https://github.com/frontend-park-mail-ru/2017_1_Pirates.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/frontend-park-mail-ru/2017_1_Pirates/issues"
+	"url": "https://github.com/frontend-park-mail-ru/2017_1_Pirates/issues"
   },
-  "homepage": "https://github.com/frontend-park-mail-ru/2017_1_Pirates#readme"
+  "homepage": "https://github.com/frontend-park-mail-ru/2017_1_Pirates#readme",
+  "dependencies": {
+	"express": "^4.14.1"
+  }
 }

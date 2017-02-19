@@ -1,58 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Project MOTION | Game</title>
-	<link href="/static/css/general.css" rel="stylesheet">
-	<link href="/static/css/brand-name/brand-name.css" rel="stylesheet">
-	<link href="/static/css/header/header.css" rel="stylesheet">
-	<link href="/static/css/header/__element/header__element.css" rel="stylesheet">
-	<link href="/static/css/header/__logo/header__logo.css" rel="stylesheet">
+	<meta charset="UTF-8">
+	<title>Project MOTION | Game</title>
+	<link href="/css/general.css" rel="stylesheet">
+	<link href="/css/brand-name/brand-name.css" rel="stylesheet">
+	<link href="/css/header/header.css" rel="stylesheet">
+	<link href="/css/header/__element/header__element.css" rel="stylesheet">
+	<link href="/css/header/__logo/header__logo.css" rel="stylesheet">
 </head>
 <body>
-	<header class="header">
-		<div class="header__logo header__element">
-			<a href="/">Logo</a>
-		</div>
-
-		<div class="header__element">
-			<a href="/static/login.html">Log in</a>
-		</div>
-
-		<div class="header__element">
-			<a href="/static/signup.html">Sign up</a>
-		</div>
-	</header>
-
-	<div class="layout">
-		<div class="col-1 col_center col_medium">
-			<div class="brand-name">
-				M.O.T.I.O.N.
-			</div>
-
-			<div id="game"></div>
-		</div>
+<header class="header">
+	<div class="header__logo header__element">
+		<a href="/">Logo</a>
 	</div>
 
-	<script>
-		"use strict";
-		let x = new Date().getTime() + 11000;
-		function backTimer() {
-			let game = document.getElementById('game');
-			let i = new Date().getTime();
-			if(i < x) {
-			    const time = new Date(x - i);
-				game.textContent = time.getMinutes() + " : " + time.getSeconds();
-				setTimeout(backTimer, 1000);
+	<div class="header__element">
+		<a href="/static/login.html">Log in</a>
+	</div>
+
+	<div class="header__element">
+		<a href="/static/signup.html">Sign up</a>
+	</div>
+</header>
+
+<div class="layout">
+	<div class="col-1 col_center col_medium">
+		<div class="brand-name">
+			M.O.T.I.O.N.
+		</div>
+
+		<div id="game"></div>
+	</div>
+</div>
+
+<script>
+	"use strict";
+	let x = new Date().getTime() + 11000;
+	function backTimer() {
+		let game = document.getElementById('game');
+		let i = new Date().getTime();
+		if (i < x) {
+			const time = new Date(x - i);
+			game.textContent = time.getMinutes() + " : " + time.getSeconds();
+			setTimeout(backTimer, 1000);
+		} else {
+			if (Math.random() > 0.5) {
+				game.textContent = "You win!"
 			} else {
-				if (Math.random() > 0.5) {
-				    game.textContent = "You win!"
-				} else {
-				    game.textContent = "You lose :("
-				}
+				game.textContent = "You lose :("
 			}
 		}
-		backTimer();
-	</script>
+	}
+	backTimer();
+</script>
 </body>
 </html>
