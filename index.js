@@ -5,20 +5,19 @@ const fs = require('fs');
 const express = require('express');
 const app = express();
 
-app.get('/', function (req, res) {
+app.get('/', (req, res) => {
 	const content = fs.readFileSync('./static/index.html', 'utf-8');
 	res.send(content);
 });
 
 app.use(express.static('static'));
 
-app.listen(3000, function () {
+app.listen(process.env.prot || 3000, () => {
 	console.log('Example app listening on port 3000!');
 });
 
 
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
 	const content = fs.readFileSync('./static/error.html', 'utf-8');
 	res.status(404).send(content);
 });
-
