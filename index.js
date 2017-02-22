@@ -12,10 +12,9 @@ app.get('/', (req, res) => {
 
 app.use(express.static('static'));
 
-app.listen(process.env.prot || 3000, () => {
+app.listen(process.env.port || 3000, () => {
 	console.log('Example app listening on port 3000!');
 });
-
 
 app.use((req, res, next) => {
 	const content = fs.readFileSync('./static/error.html', 'utf-8');
