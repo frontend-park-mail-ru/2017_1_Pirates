@@ -9,22 +9,28 @@
 	<link rel="import" href="/app/views/second.html">
 
 	<script src="/framework/framework.js"></script>
+	<script src="/app/activities/first.js"></script>
+	<script src="/app/activities/second.js"></script>
 
 </head>
 <body>
 
 	<app-inf>
 		<app-activities>
-			<app-activity id="FirstPage" view="FirstView"></app-activity>
-			<app-activity id="SecondPage" view="SecondView"></app-activity>
+			<app-activity id="FirstActivity" view="FirstView"></app-activity>
+			<app-activity id="SecondActivity" view="SecondView"></app-activity>
 		</app-activities>
 
 		<app-routing>
-			<app-route id="SayHiRoute" activity="FirstPage#sayHi" path="#first__<name>__<age=34>"></app-route>
-			<app-route id="SecondRoute" activity="SecondPage" path="#second"></app-route>
-			<app-route id="IndexRoute" activity="FirstPage" path="#" index></app-route>
+			<app-route id="SayHiRoute" activity="FirstActivity#sayHi" path="#hello__<name>__<age=34>"></app-route>
+			<app-route id="SecondRoute" activity="SecondActivity" path="#second"></app-route>
+			<app-route id="IndexRoute" activity="FirstActivity" path="#"></app-route>
 		</app-routing>
 	</app-inf>
+
+	<a href="#">First</a><br>
+	<a href="#second">Second</a><br>
+	<a href="#hello__Asriel__9000">Say HI!</a><br>
 
 </body>
 </html>

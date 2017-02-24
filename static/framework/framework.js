@@ -1,18 +1,25 @@
 'use strict';
 
 
-class Activity extends HTMLElement {
+class ActivityData extends HTMLElement {
 	constructor() {
 		super();
-		this.__view = null;
+	}
+}
+
+
+class Activity {
+	constructor() {
+		this.view = null;
 	}
 
-	get view() {
-		return this.__view;
+	onEnter(args) {
 	}
 
-	set view(view) {
-		this.__view = view;
+	onLeave(args) {
+	}
+
+	onSetupListeners() {
 	}
 }
 
@@ -32,15 +39,15 @@ class Route extends HTMLElement {
 	complies(hash) {
 		const argExp = /<(\w|\d|=)+>/;
 
-		let declared = this.getAttribute('path').split('__');
-		let requested = hash.split('__');
+		let declared = this.getAttribute('path').slice(1).split('__');
+		let requested = hash.slice(1).split('__');
 		let args = {};
 
 		try {
 			for (let i = 0; i < declared.length; i++) {
 				if (argExp.test(declared[i])) {
 					let arg = declared[i].slice(1, -1).split('=');
-					args[arg[0]] = requested.slice(1, -1) || arg[1];
+					args[arg[0]] = requested[i] || arg[1];
 				} else if (declared[i].toLowerCase() !== requested[i].toLowerCase()) {
 					return null;
 				}
@@ -72,7 +79,7 @@ class Route extends HTMLElement {
 	}
 
 	get activity() {
-		return document.querySelector(`app-activity#${this.activityId}`);
+		return window.Framework.activities.hash[this.activityId];
 	}
 }
 
@@ -98,31 +105,37 @@ const loadRouting = () => {
 
 const loadActivities = () => {
 	let activities = [...document.querySelectorAll('app-inf app-activities app-activity')];
+	let hash = {};
 
-	activities.forEach((activity) => {
-		activity.view = window.Framework.views[activity.getAttribute('view')];
+	activities = activities.map((activity) => {
+		let userActivity = new window.Activity[activity.id]();
+
+		userActivity.view = window.Framework.views[activity.getAttribute('view')];
+		userActivity.id = activity.id;
+
+		hash[activity.id] = userActivity;
+		return userActivity;
 	});
 
-	return activities;
+	return [activities, hash];
 };
 
 
 const ready = () => {
 	customElements.define('app-view', View);
-	customElements.define('app-activity', Activity);
+	customElements.define('app-activity', ActivityData);
 	customElements.define('app-route', Route);
 
-	window.Framework = {};
 	window.Framework.views = loadViews();
 	window.Framework.routing = loadRouting();
-	window.Framework.activities = loadActivities();
+	[window.Framework.activities.list, window.Framework.activities.hash] = loadActivities();
+
+	hashChange();
 };
 
 
 const hashChange = () => {
 	window.Framework.routing.some((route) => {
-		console.log(route.getAttribute('path'));
-
 		let args = route.complies(document.location.hash);
 
 		if (args) {
@@ -132,6 +145,19 @@ const hashChange = () => {
 	});
 };
 
+
+window.Activity = {};
+window.Framework = {};
+window.Framework.Activity = Activity;
+window.Framework.ActivityData = ActivityData;
+window.Framework.View = View;
+window.Framework.Route = Route;
+window.Framework.views = [];
+window.Framework.routing = [];
+window.Framework.activities = {
+	list: [],
+	hash: {}
+};
 
 window.addEventListener("hashchange", hashChange);
 window.addEventListener("load", ready);
