@@ -90,7 +90,20 @@ const loadViews = () => {
 
 
 const loadRouting = () => {
-	return [...document.querySelectorAll('app-routing app-route')];
+	return [...document.querySelectorAll('app-routing app-route')].sort((a, b) => {
+		return a.length - b.length;
+	});
+};
+
+
+const loadActivities = () => {
+	let activities = [...document.querySelectorAll('app-inf app-activities app-activity')];
+
+	activities.forEach((activity) => {
+		activity.view = window.Framework.views[activity.getAttribute('view')];
+	});
+
+	return activities;
 };
 
 
@@ -102,16 +115,14 @@ const ready = () => {
 	window.Framework = {};
 	window.Framework.views = loadViews();
 	window.Framework.routing = loadRouting();
-	window.Framework.activities = [...document.querySelectorAll('app-inf app-activities app-activity')];
-
-	window.Framework.activities.forEach((activity) => {
-		activity.view = window.Framework.views[activity.getAttribute('view')];
-	});
+	window.Framework.activities = loadActivities();
 };
 
 
 const hashChange = () => {
 	window.Framework.routing.some((route) => {
+		console.log(route.getAttribute('path'));
+
 		let args = route.complies(document.location.hash);
 
 		if (args) {
