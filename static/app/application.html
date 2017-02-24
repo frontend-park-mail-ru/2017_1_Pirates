@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>My Application</title>
+
+	<link rel="import" href="/app/views/first.html">
+	<link rel="import" href="/app/views/second.html">
+
+	<script src="/framework/framework.js"></script>
+
+</head>
+<body>
+
+	<app-inf>
+		<app-activities>
+			<app-activity id="FirstPage" view="FirstView"></app-activity>
+			<app-activity id="SecondPage" view="SecondView"></app-activity>
+		</app-activities>
+
+		<app-routing>
+			<app-route id="SayHiRoute" activity="FirstPage#sayHi" path="#first__<name>__<age=34>"></app-route>
+			<app-route id="SecondRoute" activity="SecondPage" path="#second"></app-route>
+			<app-route id="IndexRoute" activity="FirstPage" path="#" index></app-route>
+		</app-routing>
+	</app-inf>
+
+</body>
+</html>
