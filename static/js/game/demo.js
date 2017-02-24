@@ -1,7 +1,4 @@
-/**
- * Created by coon on 18.02.17.
- */
-
+'use strict';
 
 const canvas = document.getElementById('renderCanvas');
 const engine = new BABYLON.Engine(canvas, true);
@@ -11,7 +8,7 @@ const camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -10),
 camera.setTarget(BABYLON.Vector3.Zero());
 camera.attachControl(canvas, true);
 
-const ship = BABYLON.SceneLoader.ImportMesh('', '/static/models/', 'starship.obj', scene, (newMeshes) => {});
+const ship = BABYLON.SceneLoader.ImportMesh('', '/models/', 'starship.obj', scene, (newMeshes) => {});
 
 /*const metal = new BABYLON.PBRMaterial('metal', scene);
 metal.reflectionTexture = new BABYLON.CubeTexture('/static/models/starship.png', scene, 512);
