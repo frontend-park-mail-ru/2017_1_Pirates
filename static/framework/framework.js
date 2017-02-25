@@ -1,7 +1,7 @@
 'use strict';
 
 
-class ActivityData extends HTMLElement {
+class ActivityTag extends HTMLElement {
 	constructor() {
 		super();
 	}
@@ -37,6 +37,16 @@ class View extends HTMLElement {
 		super();
 	}
 
+	static renderTree(parent) {
+		[...parent.children].forEach((element) => {
+			if (typeof element.render === 'function') {
+				element.render();
+			}
+
+			View.renderTree(element);
+		});
+	}
+
 	render() {
 		if (this.hasAttribute('inherits')) {
 			const base = window.Framework.views[this.getAttribute('inherits')];
@@ -47,17 +57,7 @@ class View extends HTMLElement {
 			this.removeAttribute('inherits');
 		}
 
-		const rowsIter = (parent) => {
-			[...parent.children].forEach((element) => {
-				if (typeof element.render === 'function') {
-					element.render();
-				}
-
-				rowsIter(element);
-			});
-		};
-
-		rowsIter(this);
+		View.renderTree(this);
 	}
 }
 
@@ -138,6 +138,17 @@ class ViewColumn extends HTMLElement {
 }
 
 
+class ComponentView extends HTMLElement {
+	constructor() {
+		super();
+	}
+
+	render() {
+		View.renderTree(this);
+	}
+}
+
+
 
 class Route extends HTMLElement {
 	constructor() {
@@ -197,7 +208,7 @@ const loadViews = () => {
 	let views = {};
 
 	[...document.querySelectorAll('link[rel=import]')].forEach((link) => {
-		let view = link.import.querySelector('app-view');
+		let view = link.import.querySelector('app-view, component-view');
 		views[view.id] = view;
 	});
 
@@ -244,11 +255,12 @@ const loadActivities = () => {
 
 const ready = () => {
 	customElements.define('app-view', View);
-	customElements.define('app-activity', ActivityData);
+	customElements.define('app-activity', ActivityTag);
 	customElements.define('app-route', Route);
 	customElements.define('view-include', ViewInclude);
 	customElements.define('view-row', ViewRow);
 	customElements.define('view-column', ViewColumn);
+	customElements.define('component-view', ComponentView);
 
 	window.Framework.views = loadViews();
 	window.Framework.routing = loadRouting();
@@ -274,8 +286,11 @@ const hashChange = () => {
 window.Activity = {};
 window.Framework = {};
 window.Framework.Activity = Activity;
-window.Framework.ActivityData = ActivityData;
+window.Framework.ActivityTag = ActivityTag;
 window.Framework.View = View;
+window.Framework.ViewRow = ViewRow;
+window.Framework.ViewColumn = ViewColumn;
+window.Framework.ComponentView = ComponentView;
 window.Framework.Route = Route;
 window.Framework.views = {};
 window.Framework.routing = [];
