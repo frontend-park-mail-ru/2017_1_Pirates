@@ -1,3 +1,21 @@
 app-content {
 	display: block;
 }
+
+app-view {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-content: space-around;
+}
+
+view-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-content: space-around;
+}
+
+view-column {
+	display: block;
+}

@@ -46,6 +46,46 @@ class View extends HTMLElement {
 			this.querySelector('view-yield').outerHTML = content;
 			this.removeAttribute('inherits');
 		}
+
+		const rowsIter = (parent) => {
+			[...parent.children].forEach((element) => {
+
+				if (element.tagName === 'VIEW-ROW') {
+					const maxWidth = element.getAttribute('width') || 12;
+					const children = [...element.children].filter((el) => {
+						rowsIter(el);
+						return el.tagName === 'VIEW-COLUMN';
+					});
+
+					let width = 0;
+					let free = 0;
+
+					children.forEach((column) => {
+						width += column.getAttribute('width') || 0;
+						free += (column.hasAttribute('width')) ? (0) : (0);
+					});
+
+					let diff = maxWidth - width;
+					if (diff < 0) diff = 0;
+					let med = diff / free;
+
+					const channel = () => {
+						return Math.floor(195 + Math.random() * 60);
+					};
+
+					children.forEach((column) => {
+						column.style.flexGrow = column.getAttribute('width') || med;
+
+						if (window.Framework.debug) {
+							column.style.backgroundColor = `rgb(${channel()},${channel()},${channel()})`;
+						}
+					});
+				}
+
+			});
+		};
+
+		rowsIter(this);
 	}
 }
 
@@ -58,6 +98,28 @@ class ViewInclude extends HTMLElement {
 	render() {
 		const includes = window.Framework.views[this.getAttribute('view')];
 		this.outerHTML = includes.innerHTML;
+	}
+}
+
+
+class ViewRow extends HTMLElement {
+	constructor() {
+		super();
+	}
+
+	render() {
+
+	}
+}
+
+
+class ViewColumn extends HTMLElement {
+	constructor() {
+		super();
+	}
+
+	render() {
+		const parent = this.parentNode;
 	}
 }
 
@@ -171,6 +233,8 @@ const ready = () => {
 	customElements.define('app-activity', ActivityData);
 	customElements.define('app-route', Route);
 	customElements.define('view-include', ViewInclude);
+	customElements.define('view-row', ViewRow);
+	customElements.define('view-column', ViewColumn);
 
 	window.Framework.views = loadViews();
 	window.Framework.routing = loadRouting();
@@ -202,6 +266,7 @@ window.Framework.Route = Route;
 window.Framework.views = {};
 window.Framework.routing = [];
 window.Framework.activities = {};
+window.Framework.debug = true;
 
 window.addEventListener("hashchange", hashChange);
 window.addEventListener("load", ready);
