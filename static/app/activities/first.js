@@ -8,7 +8,7 @@ window.Activity.FirstActivity = class extends window.Framework.Activity {
 	};
 
 	onEnter(args) {
-		alert('It works!');
+		//alert('It works!');
 	};
 
 	sayHi(args) {

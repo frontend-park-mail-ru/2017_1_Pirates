@@ -49,39 +49,11 @@ class View extends HTMLElement {
 
 		const rowsIter = (parent) => {
 			[...parent.children].forEach((element) => {
-
-				if (element.tagName === 'VIEW-ROW') {
-					const maxWidth = element.getAttribute('width') || 12;
-					const children = [...element.children].filter((el) => {
-						rowsIter(el);
-						return el.tagName === 'VIEW-COLUMN';
-					});
-
-					let width = 0;
-					let free = 0;
-
-					children.forEach((column) => {
-						width += column.getAttribute('width') || 0;
-						free += (column.hasAttribute('width')) ? (0) : (0);
-					});
-
-					let diff = maxWidth - width;
-					if (diff < 0) diff = 0;
-					let med = diff / free;
-
-					const channel = () => {
-						return Math.floor(195 + Math.random() * 60);
-					};
-
-					children.forEach((column) => {
-						column.style.flexGrow = column.getAttribute('width') || med;
-
-						if (window.Framework.debug) {
-							column.style.backgroundColor = `rgb(${channel()},${channel()},${channel()})`;
-						}
-					});
+				if (typeof element.render === 'function') {
+					element.render();
 				}
 
+				rowsIter(element);
 			});
 		};
 
@@ -105,10 +77,48 @@ class ViewInclude extends HTMLElement {
 class ViewRow extends HTMLElement {
 	constructor() {
 		super();
+		this.medWidth = 1;
+	}
+
+	getUsedWidthAndSpace(children) {
+		let width = 0;
+		let free = 0;
+
+		children.forEach((column) => {
+			width += column.getAttribute('width') || 0;
+			free += (column.hasAttribute('width')) ? (0) : (0);
+		});
+
+		return [width, free];
+	}
+
+	static debugRandomRGBColor() {
+		const randChan = () => {
+			return Math.floor(195 + Math.random() * 60);
+		};
+
+		return `rgb(${randChan()},${randChan()},${randChan()})`;
 	}
 
 	render() {
+		if (this.hasAttribute('fill')) {
+			this.style.overflow = 'auto';
+			this.style.flex = 1;
+			return;
+		}
 
+		const maxWidth = this.getAttribute('width') || 12;
+		const children = [...this.children].filter((el) => {
+			return el.tagName === 'VIEW-COLUMN';
+		});
+
+		let width;
+		let free;
+		[width, free] = this.getUsedWidthAndSpace(children);
+
+		let diff = maxWidth - width;
+		if (diff < 0) diff = 0;
+		this.medWidth = diff / free;
 	}
 }
 
@@ -119,7 +129,11 @@ class ViewColumn extends HTMLElement {
 	}
 
 	render() {
-		const parent = this.parentNode;
+		this.style.flexGrow = this.getAttribute('width') || this.parentElement.medWidth || 1;
+
+		if (window.Framework.debug) {
+			this.style.backgroundColor = ViewRow.debugRandomRGBColor();
+		}
 	}
 }
 
