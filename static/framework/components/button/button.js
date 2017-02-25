@@ -1,3 +1,17 @@
-/**
- * Created by coon on 25.02.17.
- */
+'use strict';
+
+
+window.addEventListener('CreateComponents', () => {
+
+	window.Component.Button = class extends window.Framework.ComponentStub.Button {
+		constructor() {
+			super();
+		}
+
+		textChange(text) {
+			alert(text);
+		}
+	};
+
+});
+
