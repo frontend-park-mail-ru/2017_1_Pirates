@@ -13,6 +13,14 @@ class Activity {
 		this.view = null;
 	}
 
+	onBeforeEnter() {
+		if (this.view) {
+			let content = document.querySelector('app-content');
+			content.innerHTML = '';
+			content.appendChild(this.view);
+		}
+	}
+
 	onEnter(args) {
 	}
 
@@ -28,7 +36,31 @@ class View extends HTMLElement {
 	constructor() {
 		super();
 	}
+
+	render() {
+		if (this.hasAttribute('inherits')) {
+			const base = window.Framework.views[this.getAttribute('inherits')];
+
+			const content = this.innerHTML;
+			this.innerHTML = base.innerHTML;
+			this.querySelector('view-yield').outerHTML = content;
+			this.removeAttribute('inherits');
+		}
+	}
 }
+
+
+class ViewInclude extends HTMLElement {
+	constructor() {
+		super();
+	}
+
+	render() {
+		const includes = window.Framework.views[this.getAttribute('view')];
+		this.outerHTML = includes.innerHTML;
+	}
+}
+
 
 
 class Route extends HTMLElement {
@@ -60,6 +92,7 @@ class Route extends HTMLElement {
 	}
 
 	fire(args) {
+		this.activity.onBeforeEnter();
 		this.activity[this.methodName](args);
 	}
 
@@ -79,7 +112,7 @@ class Route extends HTMLElement {
 	}
 
 	get activity() {
-		return window.Framework.activities.hash[this.activityId];
+		return window.Framework.activities[this.activityId];
 	}
 }
 
@@ -96,6 +129,19 @@ const loadViews = () => {
 };
 
 
+const renderViews = () => {
+	Object.keys(window.Framework.views).forEach((id) => {
+		window.Framework.views[id].render();
+	});
+
+	Object.keys(window.Framework.views).forEach((id) => {
+		[...window.Framework.views[id].querySelectorAll('view-include')].forEach((include) => {
+			include.render();
+		})
+	});
+};
+
+
 const loadRouting = () => {
 	return [...document.querySelectorAll('app-routing app-route')].sort((a, b) => {
 		return a.length - b.length;
@@ -104,20 +150,19 @@ const loadRouting = () => {
 
 
 const loadActivities = () => {
-	let activities = [...document.querySelectorAll('app-inf app-activities app-activity')];
-	let hash = {};
+	let activities = {};
 
-	activities = activities.map((activity) => {
+	[...document.querySelectorAll('app-inf app-activities app-activity')].forEach((activity) => {
 		let userActivity = new window.Activity[activity.id]();
 
 		userActivity.view = window.Framework.views[activity.getAttribute('view')];
 		userActivity.id = activity.id;
 
-		hash[activity.id] = userActivity;
+		activities[activity.id] = userActivity;
 		return userActivity;
 	});
 
-	return [activities, hash];
+	return activities;
 };
 
 
@@ -125,11 +170,13 @@ const ready = () => {
 	customElements.define('app-view', View);
 	customElements.define('app-activity', ActivityData);
 	customElements.define('app-route', Route);
+	customElements.define('view-include', ViewInclude);
 
 	window.Framework.views = loadViews();
 	window.Framework.routing = loadRouting();
-	[window.Framework.activities.list, window.Framework.activities.hash] = loadActivities();
+	window.Framework.activities = loadActivities();
 
+	renderViews();
 	hashChange();
 };
 
@@ -152,12 +199,9 @@ window.Framework.Activity = Activity;
 window.Framework.ActivityData = ActivityData;
 window.Framework.View = View;
 window.Framework.Route = Route;
-window.Framework.views = [];
+window.Framework.views = {};
 window.Framework.routing = [];
-window.Framework.activities = {
-	list: [],
-	hash: {}
-};
+window.Framework.activities = {};
 
 window.addEventListener("hashchange", hashChange);
 window.addEventListener("load", ready);

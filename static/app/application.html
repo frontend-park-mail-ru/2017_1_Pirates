@@ -5,8 +5,12 @@
     <meta charset="UTF-8">
     <title>My Application</title>
 
+	<link rel="stylesheet" href="/framework/framework.css">
+
+	<link rel="import" href="/app/views/base.html">
 	<link rel="import" href="/app/views/first.html">
 	<link rel="import" href="/app/views/second.html">
+	<link rel="import" href="/app/views/blocks/_menu.html">
 
 	<script src="/framework/framework.js"></script>
 	<script src="/app/activities/first.js"></script>
@@ -28,9 +32,7 @@
 		</app-routing>
 	</app-inf>
 
-	<a href="#">First</a><br>
-	<a href="#second">Second</a><br>
-	<a href="#hello__Asriel__9000">Say HI!</a><br>
+	<app-content></app-content>
 
 </body>
 </html>
