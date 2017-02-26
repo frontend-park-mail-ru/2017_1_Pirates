@@ -23,6 +23,7 @@ window.Framework.View = class View extends HTMLElement {
 
 				component.tag = componentTag;
 				component.view = view;
+				component.id = element.id;
 				component.setDefaults();
 
 				Object.keys(componentTag.properties).forEach((name) => {
@@ -30,6 +31,8 @@ window.Framework.View = class View extends HTMLElement {
 						component[name] = element.getAttribute(name);
 					}
 				});
+
+				element.style.display = 'block';
 
 				/*
 				 ToDo: Add event binding

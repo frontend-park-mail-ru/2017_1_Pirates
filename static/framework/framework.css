@@ -12,19 +12,19 @@ app-content {
 app-view {
 	display: flex;
 	flex-direction: column;
-	/*justify-content: space-around;
-	align-content: space-around;*/
 	flex: 1;
 }
 
 view-row {
 	display: flex;
 	flex-direction: row;
-	/*justify-content: flex-start;
-	align-content: flex-start;*/
 }
 
 view-column {
 	display: block;
 	flex: 1
+}
+
+component-view {
+	display: block;
 }

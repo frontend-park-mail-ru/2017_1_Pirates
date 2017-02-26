@@ -20,6 +20,7 @@ window.Framework.Component = class Component {
 	constructor() {
 		this.__tag__ = null;
 		this.__view__ = null;
+		this.__id__ = null;
 	}
 
 	get tag() {
@@ -40,6 +41,14 @@ window.Framework.Component = class Component {
 		/*
 			ToDo: Add necessary hooks
 		 */
+	}
+
+	get id() {
+		return this.__id__;
+	}
+
+	set id(value) {
+		this.__id__ = value;
 	}
 
 	setDefaults() {
