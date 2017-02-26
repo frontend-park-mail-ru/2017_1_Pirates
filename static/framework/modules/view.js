@@ -17,7 +17,12 @@ window.Framework.View = class View extends HTMLElement {
 				let componentTag = window.Framework.componentTags[componentTagName];
 				let component = new window.Component[componentTag.id]();
 
+				const view = window.Framework.views[componentTag.viewId].cloneNode(true);
+				view.removeAttribute('id');
+				element.appendChild(view);
+
 				component.tag = componentTag;
+				component.view = view;
 				component.setDefaults();
 
 				Object.keys(componentTag.properties).forEach((name) => {

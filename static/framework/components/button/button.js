@@ -9,7 +9,7 @@ window.addEventListener('CreateComponents', () => {
 		}
 
 		textChange(text) {
-			alert(text);
+			this.view.innerHTML += `<br>Text changed! New value: '${text}'.`;
 		}
 	};
 

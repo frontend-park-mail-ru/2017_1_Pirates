@@ -6,6 +6,10 @@ window.Framework.ComponentView = class ComponentView extends HTMLElement {
 		super();
 	}
 
+	get id() {
+		return `${this.parentNode.getAttribute('id')}__ComponentView`;
+	}
+
 	render() {
 		window.Framework.View.renderTree(this);
 	}
@@ -14,7 +18,28 @@ window.Framework.ComponentView = class ComponentView extends HTMLElement {
 
 window.Framework.Component = class Component {
 	constructor() {
-		this.tag = null;
+		this.__tag__ = null;
+		this.__view__ = null;
+	}
+
+	get tag() {
+		return this.__tag__;
+	}
+
+	set tag(value) {
+		this.__tag__ = value;
+	}
+
+	get view() {
+		return this.__view__;
+	}
+
+	set view(value) {
+		this.__view__ = value;
+
+		/*
+			ToDo: Add necessary hooks
+		 */
 	}
 
 	setDefaults() {
