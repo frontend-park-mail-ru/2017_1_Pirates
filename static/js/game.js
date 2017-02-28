@@ -1,4 +1,5 @@
-"use strict";
+'use strict';
+
 let x = new Date().getTime() + 11000;
 function backTimer() {
 	let game = document.getElementById('game');
