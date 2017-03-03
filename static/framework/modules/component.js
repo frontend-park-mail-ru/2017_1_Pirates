@@ -120,6 +120,10 @@ window.Framework.Component = class Component {
 		if (maps) {
 			this.__setMappedPropertyValue__(mapsSelector, mapsProperty, value);
 		}
+
+		/*
+			ToDo: Add custom validators
+		 */
 	}
 
 
