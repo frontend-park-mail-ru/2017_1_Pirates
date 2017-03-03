@@ -87,6 +87,8 @@ window.Framework.Component = class Component {
 		[...this.view.querySelectorAll(selector)].forEach((element) => {
 			if (property.startsWith('style.')) {
 				element.style[property.slice('style.'.length)] = value;
+			} else if (property.startsWith('attribute.')) {
+				element.setAttribute(property.slice('attribute.'.length), value);
 			} else {
 				element[property] = value;
 			}
