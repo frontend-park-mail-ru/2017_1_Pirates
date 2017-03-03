@@ -8,7 +8,11 @@ window.Activity.FirstActivity = class extends window.Framework.Activity {
 	};
 
 	onEnter(args) {
-		//alert('It works!');
+		this.view.queryComponentAll('button.my-button').forEach((button) => {
+			button.text = 'kek';
+		});
+
+		this.view.queryComponent('#Button2').text = 'lol';
 	};
 
 	sayHi(args) {

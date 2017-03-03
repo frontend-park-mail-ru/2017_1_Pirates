@@ -6,6 +6,30 @@ window.Framework.View = class View extends HTMLElement {
 		super();
 	}
 
+	queryComponentAll(query) {
+		query = query.replace(/[.#\w][\S]+/g, (queryPart) => {
+			if ((queryPart[0] != '#') && (queryPart[0] != '.') && (queryPart[0] != '[')) {
+				return `c-${queryPart}`;
+			}
+
+			return queryPart;
+		});
+
+		let result = [];
+
+		[...this.querySelectorAll(query)].forEach((element) => {
+			if (element.__component__ !== undefined) {
+				result.push(element.__component__);
+			}
+		});
+
+		return result;
+	};
+
+	queryComponent(query) {
+		return this.queryComponentAll(query)[0];
+	}
+
 	static renderTree(parent) {
 		[...parent.children].forEach((element) => {
 			if (typeof element.render === 'function') {
@@ -33,6 +57,7 @@ window.Framework.View = class View extends HTMLElement {
 				});
 
 				element.style.display = 'block';
+				element.__component__ = component;
 
 				/*
 				 ToDo: Add event binding

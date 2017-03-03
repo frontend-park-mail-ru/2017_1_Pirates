@@ -22,7 +22,7 @@ window.Framework.Route = class Route extends HTMLElement {
 					return null;
 				}
 			}
-		} catch (TypeError) {
+		} catch (error) {
 			return null;
 		}
 

@@ -6,7 +6,7 @@ const loadViews = () => {
 
 	[...document.querySelectorAll('link[rel=import]')].forEach((link) => {
 		let view = link.import.querySelector('app-view, component-view');
-		views[view.id] = view;
+		if (view !== null) views[view.id] = view;
 	});
 
 	return views;
