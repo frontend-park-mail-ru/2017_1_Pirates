@@ -51,29 +51,45 @@ window.Framework.Component = class Component {
 		this.__id__ = value;
 	}
 
+	static toTyped(property, value) {
+		switch (property.type) {
+
+			case 'Boolean': {
+				return value == 'true';
+			} break;
+
+			case 'Integer': {
+				return parseInt(value);
+			} break;
+
+			case 'Float': {
+				return parseFloat(value);
+			} break;
+
+			default: {
+				return value;
+			} break;
+
+		}
+	}
+
 	setDefaults() {
 		Object.keys(this.tag.properties).forEach((name) => {
+			this[name] = window.Framework.Component.toTyped(
+				this.tag.properties[name],
+				this.tag.properties[name].default
+			);
+		});
+	}
 
-			switch (this.tag.properties[name].type) {
 
-				case 'Boolean': {
-					this[name] = this.tag.properties[name].default == 'true';
-				} break;
-
-				case 'Integer': {
-					this[name] = parseInt(this.tag.properties[name].default);
-				} break;
-
-				case 'Float': {
-					this[name] = parseFloat(this.tag.properties[name].default);
-				} break;
-
-				default: {
-					this[name] = this.tag.properties[name].default;
-				} break;
-
+	setMappedPropertyValue(selector, property, value) {
+		[...this.view.querySelectorAll(selector)].forEach((element) => {
+			if (property.startsWith('style.')) {
+				element.style[property.slice('style.'.length)] = value;
+			} else {
+				element[property] = value;
 			}
-
 		});
 	}
 
@@ -89,9 +105,16 @@ window.Framework.Component = class Component {
 					if (newValue !== undefined) {
 						this.__${name}__ = newValue;
 					}
-					return;
+				} else {
+					this.__${name}__ = value;
 				}
-				this.__${name}__ = value;
+				if (${property.maps !== undefined}) {
+					this.setMappedPropertyValue(
+						"${(property.maps || {}).selector}",
+						"${(property.maps || {}).property}",
+						this.__${name}__
+					);
+				}
 			}`;
 	}
 
@@ -142,6 +165,19 @@ window.Framework.ComponentTag = class ComponentTag extends HTMLElement {
 			property.handlerName = propertyTag.getAttribute('handler');  // OnPropertyChange will fire this
 			property.default = propertyTag.getAttribute('default');
 			property.type = propertyTag.getAttribute('type');
+
+			if (propertyTag.hasAttribute('maps')) {
+				property.maps = {};
+				const maps = propertyTag.getAttribute('maps').split('@');
+				property.maps.selector = maps[0];
+				property.maps.property = maps[1];
+			}
+
+			property.validates = (propertyTag.getAttribute('validates') || '').replace(' ', '').split(',');
+			// ToDo: Validators
+
+			property.dataFlow = propertyTag.getAttribute('data-flow');
+			// ToDo: DataFlow
 
 			this.__properties__[propertyTag.getAttribute('name')] = property;
 		});
