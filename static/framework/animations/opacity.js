@@ -38,11 +38,10 @@ window.Animation.Opacity = class extends window.Framework.Animation {
 		 */
 
 		const that = this;
-
-		function listener() {
+		const listener = function listener() {
 			that.end();
 			that.view.removeEventListener('transitionend', listener);
-		}
+		};
 
 		this.view.addEventListener('transitionend', listener);
 	}
