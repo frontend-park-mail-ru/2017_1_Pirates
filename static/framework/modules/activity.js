@@ -10,9 +10,20 @@ window.Framework.ActivityTag = class ActivityTag extends HTMLElement {
 
 window.Framework.Activity = class Activity {
 	constructor() {
-		super();
 		this.view = null;
-		this.animations = [];
+		this.enterAnimation = null;
+		this.leaveAnimation = null;
+	}
+
+	fireAnimation(animation, reverse) {
+		if (!animation) {
+			return;
+		}
+
+		animation.apply(this.view, reverse || false);
+		this.view.addEventListener('AnimationEnd', () => {
+			animation.remove(this.view);
+		});
 	}
 
 	onBeforeEnter() {
@@ -20,17 +31,21 @@ window.Framework.Activity = class Activity {
 			let content = document.querySelector('app-content');
 			content.innerHTML = '';
 			content.appendChild(this.view);
+
+			this.fireAnimation(this.enterAnimation);
 		}
 	}
 
 	onBeforeLeave() {
-
+		if (this.view) {
+			this.fireAnimation(this.leaveAnimation, true);
+		}
 	}
 
 	onEnter(args) {
 	}
 
-	onLeave(args) {
+	onLeave() {
 	}
 
 	onSetupListeners() {

@@ -30,8 +30,25 @@ window.Framework.Route = class Route extends HTMLElement {
 	}
 
 	fire(args) {
-		this.activity.onBeforeEnter();
-		this.activity[this.methodName](args);
+		Route.showActivity(this.activity, this.methodName, args);
+	}
+
+	static showActivity(activity, methodName, args) {
+		methodName = methodName || 'onEnter';
+		args = args || {};
+
+		if (typeof activity === 'string') {
+			activity = window.Framework.activities[activity];
+		}
+
+		if (window.Framework.currentActivity) {
+			window.Framework.currentActivity.onBeforeLeave();
+			window.Framework.currentActivity.onLeave();
+		}
+
+		window.Framework.currentActivity = activity;
+		activity.onBeforeEnter();
+		activity[methodName](args);
 	}
 
 
