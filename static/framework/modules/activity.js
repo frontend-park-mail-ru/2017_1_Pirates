@@ -10,7 +10,9 @@ window.Framework.ActivityTag = class ActivityTag extends HTMLElement {
 
 window.Framework.Activity = class Activity {
 	constructor() {
+		super();
 		this.view = null;
+		this.animations = [];
 	}
 
 	onBeforeEnter() {
@@ -19,6 +21,10 @@ window.Framework.Activity = class Activity {
 			content.innerHTML = '';
 			content.appendChild(this.view);
 		}
+	}
+
+	onBeforeLeave() {
+
 	}
 
 	onEnter(args) {

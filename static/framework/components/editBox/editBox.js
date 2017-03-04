@@ -9,7 +9,14 @@ window.addEventListener('CreateComponents', () => {
 		}
 
 		textChange(text) {
-			alert(`New value: "${text}"`);
+			//alert(`New value: "${text}"`);
+			//console.dir(this.view);
+			//console.log(this.view.queryComponent('#btn'));
+			const button = this.view.queryComponent('button');
+
+			if (button) {
+				button.text = `New value: "${text}"`;
+			};
 		}
 	};
 

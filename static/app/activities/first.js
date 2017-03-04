@@ -13,6 +13,7 @@ window.Activity.FirstActivity = class extends window.Framework.Activity {
 		});
 
 		this.view.queryComponent('#Button2').text = 'lol';
+		this.view.queryComponent('#Button1').color = 'rgb(0,0,255)'
 	};
 
 	sayHi(args) {

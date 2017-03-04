@@ -40,6 +40,7 @@ const renderComponents = () => {
 const loadRouting = () => {
 	return [...document.querySelectorAll('app-routing app-route')].sort((a, b) => {
 		return a.length - b.length;
+		// ToDo: тут что-то необычное
 	});
 };
 
@@ -79,6 +80,10 @@ const ready = () => {
 
 	const event = new Event('CreateComponents');
 	window.dispatchEvent(event);
+
+	/*Object.keys(window.Component).forEach((name) => {
+		window.Component[name].rendered = true;
+	});*/
 
 	renderViews();
 	hashChange();

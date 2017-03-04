@@ -6,7 +6,7 @@ window.Framework.View = class View extends HTMLElement {
 		super();
 	}
 
-	queryComponentAll(query) {
+	static queryComponentFromViewAll(view, query) {
 		query = query.replace(/[.#\w][\S]+/g, (queryPart) => {
 			if ((queryPart[0] != '#') && (queryPart[0] != '.') && (queryPart[0] != '[')) {
 				return `c-${queryPart}`;
@@ -17,8 +17,8 @@ window.Framework.View = class View extends HTMLElement {
 
 		let result = [];
 
-		[...this.querySelectorAll(query)].forEach((element) => {
-			if (element.__component__ !== undefined) {
+		[...view.querySelectorAll(query)].forEach((element) => {
+			if (element.__component__) {
 				result.push(element.__component__);
 			}
 		});
@@ -26,8 +26,16 @@ window.Framework.View = class View extends HTMLElement {
 		return result;
 	};
 
+	static queryComponentFromView(view, query) {
+		return view.queryComponentAll(query)[0];
+	}
+
+	queryComponentAll(query) {
+		return window.Framework.View.queryComponentFromViewAll(this, query);
+	}
+
 	queryComponent(query) {
-		return this.queryComponentAll(query)[0];
+		return window.Framework.View.queryComponentFromView(this, query);
 	}
 
 	static renderTree(parent) {
@@ -37,6 +45,10 @@ window.Framework.View = class View extends HTMLElement {
 			}
 
 			if (element.tagName.startsWith('C-')) {
+				[...element.querySelectorAll('component-view')].forEach((view) => {
+					view.outerHTML = '';
+				});
+
 				const componentTagName = element.tagName.slice('C-'.length).toLowerCase();
 				let componentTag = window.Framework.componentTags[componentTagName];
 				let component = new window.Component[componentTag.id]();
@@ -48,23 +60,27 @@ window.Framework.View = class View extends HTMLElement {
 				component.tag = componentTag;
 				component.view = view;
 				component.id = element.id;
+
+				element.style.display = 'block';
+				element.__component__ = component;
+			}
+
+			window.Framework.View.renderTree(element);
+
+			if (element.__component__) {
+				const component = element.__component__;
 				component.setDefaults();
 
-				Object.keys(componentTag.properties).forEach((name) => {
+				Object.keys(component.tag.properties).forEach((name) => {
 					if (element.hasAttribute(name)) {
 						component[name] = element.getAttribute(name);
 					}
 				});
 
-				element.style.display = 'block';
-				element.__component__ = component;
-
 				/*
 				 ToDo: Add event binding
 				 */
 			}
-
-			window.Framework.View.renderTree(element);
 		});
 	}
 

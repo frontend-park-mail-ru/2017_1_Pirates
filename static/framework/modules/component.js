@@ -13,6 +13,14 @@ window.Framework.ComponentView = class ComponentView extends HTMLElement {
 	render() {
 		window.Framework.View.renderTree(this);
 	}
+
+	queryComponentAll(query) {
+		return window.Framework.View.queryComponentFromViewAll(this, query);
+	}
+
+	queryComponent(query) {
+		return window.Framework.View.queryComponentFromView(this, query);
+	}
 };
 
 
