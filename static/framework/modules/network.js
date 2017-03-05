@@ -8,8 +8,15 @@ window.Framework.BackendTag = class extends HTMLElement {
 	}
 
 	get host() {
-		return this.getAttribute('url');
+		const url = this.getAttribute('url');
+
+		if (url == '*') {
+			return document.location.origin + '/';
+		}
+
+		return url;
 	}
+
 	get swagger() {
 		return this.__swagger__;
 	}
@@ -20,8 +27,6 @@ window.Framework.BackendTag = class extends HTMLElement {
 
 	connectedCallback() {
 		const xhr = new XMLHttpRequest();
-		let loaded = false;
-
 		xhr.open('GET', this.swaggerUrl, true);
 
 		xhr.onreadystatechange = () => {
@@ -38,9 +43,50 @@ window.Framework.BackendTag = class extends HTMLElement {
 		xhr.send();
 	}
 
+
+	__checkArgs__(pathInfo, args) {
+
+	}
+
+
+	__createHandler__(current, handlerName, path, method) {
+		current[handlerName] = (args, callback) => {
+			const xhr = new XMLHttpRequest();
+
+			xhr.open(method.toUpperCase(), `${this.host}/${path}`, true);
+			xhr.onreadystatechange = () => {
+				if (xhr.readyState === XMLHttpRequest.DONE && callback) {
+					callback(xhr.status, JSON.parse(xhr.responseText));
+				}
+			};
+
+			xhr.send(JSON.stringify(args));
+		}
+	}
+
 	__parseSwagger__() {
 		Object.keys(this.swagger.paths).forEach((path) => {
-			const parts = path.split('/');
+			let current = window.Network;
+
+			path.split('/').forEach((part, index, parts) => {
+				if (part.length == 0) return;
+
+				if (index != parts.length - 1) {
+					if (!current[part]) {
+						current[part] = {};
+					}
+
+					current = current[part];
+					return;
+				}
+
+				Object.keys(this.swagger.paths[path]).forEach((method) => {
+					const handlerName = `${method}${part.slice(0, 1).toUpperCase()}${part.slice(1)}`;
+					this.__createHandler__(current, handlerName, path, method);
+				});
+			});
 		});
+
+		console.dir(window.Network);
 	}
 };

@@ -5,7 +5,7 @@
 	"title": "TestApplication"
   },
   "paths": {
-	"/validators/no_numbers": {
+	"/validators/noNumbers": {
 	  "get": {
 		"description": "Warns if **value** has no numbers.\n",
 		"parameters": [
@@ -38,7 +38,7 @@
 		}
 	  }
 	},
-	"/validators/is_bob": {
+	"/validators/isBob": {
 	  "get": {
 		"description": "Validates if **value** starts with \"Bob\".\n",
 		"parameters": [
