@@ -32,47 +32,47 @@ window.Animation.Shift = class extends window.Framework.Animation {
 		// CSS3 анимация
 		// const rows = document.querySelectorAll('view-row');
 
-		let rows = [...this.view.querySelectorAll('view-row')];
-
-		let step = this.duration / rows.length;
-		console.log(step);
-		let cur = 0.02;
-
-
-		rows.forEach(row => {
-			row.style.left = start;
-			cur += step;
-			row.style.transition = `left ${this.duration}s ${timeFunction} ${cur}s`;
-			row.style.left = end;
-		});
-
-		// let animate = row => {
-		// 	return new Promise((resolve, reject) => {
-		// 		setTimeout(()=>{
-		// 			row.style.left = end;
-		// 			resolve();
-		// 		},200)
-		// 	});
+		// let rows = [...this.view.querySelectorAll('view-row')];
         //
-		// };
+		// let step = this.duration / rows.length;
+		// console.log(step);
+		// let cur = 0.02;
         //
-		// let rows = [...document.querySelectorAll('view-row')];
+        //
 		// rows.forEach(row => {
 		// 	row.style.left = start;
-		// 	row.style.transition = `left 2s ease`;
-		// });
-        //
-		// let p = Promise.resolve();
-		// rows.forEach(row => {
-		// 	console.log(row);
-		// 	p = p.then( () => { return animate(row); } );
+		// 	cur += step;
+		// 	row.style.transition = `left ${this.duration}s ${timeFunction} ${cur}s`;
+		// 	row.style.left = end;
 		// });
 
-		this.view.addEventListener('transitionend', () => {
+		let animate = row => {
+			return new Promise((resolve, reject) => {
+				setTimeout(()=>{
+					row.style.left = end;
+					resolve();
+				},200)
+			});
+
+		};
+
+		let rows = [...document.querySelectorAll('view-row')];
+		rows.forEach(row => {
+			row.style.left = start;
+			row.style.transition = `left 2s ease`;
+		});
+
+		let p = Promise.resolve();
+		rows.forEach(row => {
+			console.log(row);
+			p = p.then( () => { return animate(row); } );
+		});
+
+		this.view.addEventListener('timeout', () => {
 			this.end();
 		}, {once: true});
 
-		this.view.style.opacity = 1;
+		// this.view.style.opacity = 1;
 
 		/*
 		 В конце анимации обязательно надо вызвать this.end()
