@@ -6,7 +6,7 @@ window.Animation.Opacity = class extends window.Framework.Animation {
 		super(activity);
 
 		// duration попадает сюда из аттрибута enterDuration или leaveDuration тэга app-activity
-		this.duration = duration || 3000;
+		this.duration = duration || 1;
 	}
 
 	// Применить анимацию (и запустить её)
@@ -26,7 +26,12 @@ window.Animation.Opacity = class extends window.Framework.Animation {
 
 		// CSS3 анимация
 		this.view.style.opacity = start;
-		this.view.style.transition = `opacity ${this.duration}ms ease`;
+		this.view.style.transition = `opacity ${this.duration}s ease`;
+
+		this.view.addEventListener('transitionend', () => {
+			this.end();
+		}, {once: true});
+
 		this.view.style.opacity = end;
 
 		/*
@@ -36,14 +41,6 @@ window.Animation.Opacity = class extends window.Framework.Animation {
 
 		 Мы хотим послушать его всего лишь один раз, поэтому удалим listener за собой
 		 */
-
-		const that = this;
-		const listener = function listener() {
-			that.end();
-			that.view.removeEventListener('transitionend', listener);
-		};
-
-		this.view.addEventListener('transitionend', listener);
 	}
 
 	// Убрать анимацию (когда отработала)

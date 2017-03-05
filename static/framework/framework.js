@@ -48,11 +48,25 @@ const loadRouting = () => {
 const loadActivities = () => {
 	let activities = {};
 
+	const addAnimation = (activity, state) => {
+		if (activity.tag.hasAttribute(`animation-${state}`)) {
+			const animName = activity.tag.getAttribute(`animation-${state}`);
+
+			activity[`${state}Animation`] = new window.Animation[animName](
+				activity,
+				activity.tag.getAttribute(`animation-${state}-duration`)
+			);
+		}
+	};
+
 	[...document.querySelectorAll('app-inf app-activities app-activity')].forEach((activity) => {
 		let userActivity = new window.Activity[activity.id]();
 
 		userActivity.view = window.Framework.views[activity.getAttribute('view')];
 		userActivity.id = activity.id;
+		userActivity.tag = activity;
+		addAnimation(userActivity, 'enter');
+		addAnimation(userActivity, 'leave');
 
 		activities[activity.id] = userActivity;
 		return userActivity;
