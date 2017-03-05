@@ -16,11 +16,13 @@ app-view {
 }
 
 view-row {
+	position: relative;
 	display: flex;
 	flex-direction: row;
 }
 
 view-column {
+	position: relative;
 	display: block;
 	flex: 1
 }

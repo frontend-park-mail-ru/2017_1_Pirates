@@ -28,6 +28,7 @@
 
 	<!-- Animations -->
 	<script src="/framework/animations/opacity.js"></script>
+	<script src="/framework/animations/shift.js"></script>
 	<!-- End Animations -->
 
 	<!-- Views -->
@@ -52,7 +53,8 @@
 			<app-activity id="FirstActivity" view="FirstView" animation-enter="Opacity"
 						  animation-leave="Opacity"></app-activity>
 			<app-activity id="SecondActivity" view="SecondView"></app-activity>
-			<app-activity id="AnimationActivity" view="AnimationView"></app-activity>
+			<app-activity id="AnimationActivity" view="AnimationView" animation-enter="Shift"
+						  animation-leave="Shift"></app-activity>
 		</app-activities>
 
 		<app-routing>
