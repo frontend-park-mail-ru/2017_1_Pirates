@@ -4,49 +4,43 @@
 window.Framework.BackendTag = class extends HTMLElement {
 	constructor() {
 		super();
-		this.__url__ = null;
 		this.__swagger__ = null;
 	}
 
-	get url() {
-		return this.__url__;
+	get host() {
+		return this.getAttribute('url');
 	}
-
-	set url(url) {
-		this.__url__ = url;
-	}
-
 	get swagger() {
 		return this.__swagger__;
 	}
 
-	connectedCallback() {
-		this.url = this.getAttribute('url');
+	get swaggerUrl() {
+		return `${this.host}/${this.getAttribute('swagger') || 'swagger.json'}`;
+	}
 
+	connectedCallback() {
 		const xhr = new XMLHttpRequest();
 		let loaded = false;
-		xhr.open('GET', this.url, true);
+
+		xhr.open('GET', this.swaggerUrl, true);
 
 		xhr.onreadystatechange = () => {
-			if (xhr.status == 200) {
-				//alert(xhr.responseText);
-				//this.__swagger__= JSON.parse(xhr.responseText);
-				//this.__parseSwagger__();
-				if (!loaded) {
-					loaded = true;
-					window.dispatchEvent(new Event('SwaggerSpecLoad'));
-				}
-			} else {
-				this.__swagger__ = null;
+			if (xhr.readyState === XMLHttpRequest.DONE && xhr.status == 200) {
+				this.__swagger__= JSON.parse(xhr.responseText);
+				this.__parseSwagger__();
+
+				window.dispatchEvent(new Event('SwaggerSpecLoad'));
 			}
+
+			this.__swagger__ = null;
 		};
 
 		xhr.send();
 	}
 
 	__parseSwagger__() {
-		//Object.keys(this.swagger.paths).forEach((path) => {
-		//	const parts = path.split('/');
-		//});
+		Object.keys(this.swagger.paths).forEach((path) => {
+			const parts = path.split('/');
+		});
 	}
 };

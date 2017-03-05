@@ -48,7 +48,6 @@ window.Framework.Route = class Route extends HTMLElement {
 			activity[methodName](args);
 		}, {once: true});
 
-		console.log(window.Framework.currentActivity);
 		if (window.Framework.currentActivity) {
 			window.Framework.currentActivity.onBeforeLeave();
 			window.Framework.currentActivity.onLeave();

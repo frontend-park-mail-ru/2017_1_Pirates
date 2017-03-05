@@ -102,7 +102,6 @@ const ready = () => {
 
 
 const hashChange = () => {
-	console.log((new Error()).stack);
 	window.Framework.routing.some((route) => {
 		let args = route.complies(document.location.hash);
 
