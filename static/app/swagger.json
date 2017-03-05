@@ -77,7 +77,7 @@
 
 	"/validators/isBob": {
 	  "post": {
-		"description": "`alias: validateIsBob`<br>Validates ifc **value** starts with \"Bob\".\n",
+		"description": "`alias: validateIsBob`<br>Validates if **value** starts with \"Bob\".\n",
 		"parameters": [
 		  {
 			"name": "request",
