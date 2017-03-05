@@ -1,0 +1,75 @@
+{
+  "swagger": "2.0",
+  "info": {
+	"version": "1.0.0",
+	"title": "TestApplication"
+  },
+  "paths": {
+	"/validators/no_numbers": {
+	  "get": {
+		"description": "Warns if **value** has no numbers.\n",
+		"parameters": [
+		  {
+			"name": "value",
+			"in": "body",
+			"description": "Your super cute name",
+			"required": true,
+			"schema": {
+			  "type": "string"
+			}
+		  }
+		],
+		"responses": {
+		  "200": {
+			"description": "Any response",
+			"schema": {
+			  "title": "ValidatorResponse",
+			  "type": "object",
+			  "properties": {
+				"state": {
+				  "type": "string"
+				},
+				"desc": {
+				  "type": "string"
+				}
+			  }
+			}
+		  }
+		}
+	  }
+	},
+	"/validators/is_bob": {
+	  "get": {
+		"description": "Validates if **value** starts with \"Bob\".\n",
+		"parameters": [
+		  {
+			"name": "value",
+			"in": "body",
+			"description": "Your super cute name",
+			"required": true,
+			"schema": {
+			  "type": "string"
+			}
+		  }
+		],
+		"responses": {
+		  "200": {
+			"description": "Any response",
+			"schema": {
+			  "title": "ValidatorResponse",
+			  "type": "object",
+			  "properties": {
+				"state": {
+				  "type": "string"
+				},
+				"desc": {
+				  "type": "string"
+				}
+			  }
+			}
+		  }
+		}
+	  }
+	}
+  }
+}
