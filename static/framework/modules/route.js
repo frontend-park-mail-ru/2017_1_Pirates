@@ -36,19 +36,25 @@ window.Framework.Route = class Route extends HTMLElement {
 	static showActivity(activity, methodName, args) {
 		methodName = methodName || 'onEnter';
 		args = args || {};
+		const content = document.querySelector('app-content');
 
 		if (typeof activity === 'string') {
 			activity = window.Framework.activities[activity];
 		}
 
+		content.addEventListener('AnimationEnd', () => {
+			window.Framework.currentActivity = activity;
+			console.log('onBeforeEnter', activity.view);
+			activity.onBeforeEnter();
+			activity[methodName](args);
+		}, {once: true});
+
 		if (window.Framework.currentActivity) {
 			window.Framework.currentActivity.onBeforeLeave();
 			window.Framework.currentActivity.onLeave();
+		} else {
+			content.dispatchEvent(new Event('AnimationEnd'));
 		}
-
-		window.Framework.currentActivity = activity;
-		activity.onBeforeEnter();
-		activity[methodName](args);
 	}
 
 

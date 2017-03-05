@@ -14,8 +14,7 @@ window.Framework.Animation = class Animation {
 	}
 
 	end() {
-		const event = new Event('AnimationEnd');
-		this.view.dispatchEvent(event);
+		document.querySelector('app-content').dispatchEvent(new Event('AnimationEnd'));
 	}
 
 	get view() {
