@@ -80,27 +80,24 @@ const ready = () => {
 	customElements.define('app-view', window.Framework.View);
 	customElements.define('app-activity', window.Framework.ActivityTag);
 	customElements.define('app-route', window.Framework.Route);
+	customElements.define('app-backend', window.Framework.BackendTag);
 	customElements.define('view-include', window.Framework.ViewInclude);
 	customElements.define('view-row', window.Framework.ViewRow);
 	customElements.define('view-column', window.Framework.ViewColumn);
 	customElements.define('component-view', window.Framework.ComponentView);
 	customElements.define('component-info', window.Framework.ComponentTag);
 
-	window.Framework.views = loadViews();
-	window.Framework.routing = loadRouting();
-	window.Framework.activities = loadActivities();
+	window.addEventListener('SwaggerSpecLoad', () => {
+		window.Framework.views = loadViews();
+		window.Framework.routing = loadRouting();
+		window.Framework.activities = loadActivities();
 
-	renderComponents();
+		renderComponents();
+		window.dispatchEvent(new Event('CreateComponents'));
 
-	const event = new Event('CreateComponents');
-	window.dispatchEvent(event);
-
-	/*Object.keys(window.Component).forEach((name) => {
-		window.Component[name].rendered = true;
-	});*/
-
-	renderViews();
-	hashChange();
+		renderViews();
+		hashChange();
+	});
 };
 
 

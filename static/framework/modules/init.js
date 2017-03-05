@@ -4,6 +4,7 @@ window.Activity = {};
 window.Component = {};
 window.Animation = {};
 window.Validator = {};
+window.Backend = {};
 window.Framework = {};
 window.Framework.ComponentStub = {};
 window.Framework.views = {};
