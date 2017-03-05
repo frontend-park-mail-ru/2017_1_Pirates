@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>My Application</title>
+
+	<!-- Main Framework -->
+	<link rel="stylesheet" href="/framework/framework.css">
+	<script src="/framework/modules/init.js"></script>
+	<script src="/framework/modules/activity.js"></script>
+	<script src="/framework/modules/view.js"></script>
+	<script src="/framework/modules/component.js"></script>
+	<script src="/framework/modules/route.js"></script>
+	<script src="/framework/modules/animation.js"></script>
+	<script src="/framework/modules/validator.js"></script>
+	<script src="/framework/modules/network.js"></script>
+	<script src="/framework/framework.js"></script>
+	<!-- End Main Framework -->
+
+	<!-- Components -->
+	<link rel="import" href="/framework/components/button/button.html">
+	<link rel="stylesheet" href="/framework/components/button/button.css">
+	<script src="/framework/components/button/button.js"></script>
+
+	<link rel="import" href="/framework/components/editBox/editBox.html">
+	<link rel="stylesheet" href="/framework/components/editBox/editBox.css">
+	<script src="/framework/components/editBox/editBox.js"></script>
+	<!-- End Components -->
+
+	<!-- Animations -->
+	<script src="/framework/animations/opacity.js"></script>
+	<script src="/framework/animations/shift.js"></script>
+	<!-- End Animations -->
+
+	<!-- Validators -->
+	<!-- End Validators -->
+
+	<!-- Views -->
+	<link rel="import" href="/app/views/base.html">
+	<link rel="import" href="/app/views/first.html">
+	<link rel="import" href="/app/views/second.html">
+	<link rel="import" href="/app/views/blocks/_menu.html">
+	<link rel="import" href="/app/views/animation_view.html">
+	<!-- End Views -->
+
+	<!-- Activities -->
+	<script src="/app/activities/first.js"></script>
+	<script src="/app/activities/second.js"></script>
+	<script src="/app/activities/animation.js"></script>
+	<!-- End Activities -->
+
+</head>
+<body>
+
+	<app-inf>
+		<app-backend url="http://localhost:3000/" swagger="/app/swagger.json"></app-backend>
+
+		<app-activities>
+			<app-activity id="FirstActivity" view="FirstView"
+						  animation-enter="Shift"
+						  animation-leave="Shift"></app-activity>
+			<app-activity id="SecondActivity" view="SecondView"></app-activity>
+			<app-activity id="AnimationActivity" view="AnimationView"
+						  animation-enter="Shift"
+						  animation-leave="Shift"></app-activity>
+		</app-activities>
+
+		<app-routing>
+			<app-route id="SayHiRoute" activity="FirstActivity#sayHi" path="#hello__<name>__<age=34>"></app-route>
+			<app-route id="AnimationRoute" activity="AnimationActivity" path="#animation"></app-route>
+			<app-route id="SecondRoute" activity="SecondActivity" path="#second"></app-route>
+			<app-route id="IndexRoute" activity="FirstActivity" path="#"></app-route>
+		</app-routing>
+	</app-inf>
+
+	<app-content></app-content>
+
+</body>
+</html>

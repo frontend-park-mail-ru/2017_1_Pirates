@@ -1,0 +1,32 @@
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+app-content {
+	display: flex;
+	min-height: 100%;
+}
+
+app-view {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+
+view-row {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+}
+
+view-column {
+	position: relative;
+	display: block;
+	flex: 1
+}
+
+component-view {
+	display: block;
+}
