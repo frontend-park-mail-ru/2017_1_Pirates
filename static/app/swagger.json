@@ -27,6 +27,15 @@
 	  "items": {
 		"$ref": "#/definitions/ValidatorStatus"
 	  }
+	},
+
+	"ValidatorRequest": {
+	  "type": "object",
+	  "properties": {
+		"value": {
+		  "type": "string"
+		}
+	  }
 	}
 
   },
@@ -49,12 +58,12 @@
 		"description": "`alias: validateNoNumbers`<br>Warns if **value** has no numbers.\n",
 		"parameters": [
 		  {
-			"name": "value",
+			"name": "request",
 			"in": "body",
-			"description": "Your super cute name",
+			"description": "Request body",
 			"required": true,
 			"schema": {
-			  "type": "string"
+			  "$ref": "#/definitions/ValidatorRequest"
 			}
 		  }
 		],
@@ -68,15 +77,15 @@
 
 	"/validators/isBob": {
 	  "post": {
-		"description": "`alias: validateIsBob`<br>Validates if **value** starts with \"Bob\".\n",
+		"description": "`alias: validateIsBob`<br>Validates ifc **value** starts with \"Bob\".\n",
 		"parameters": [
 		  {
-			"name": "value",
+			"name": "request",
 			"in": "body",
-			"description": "Your super cute name",
+			"description": "Request body",
 			"required": true,
 			"schema": {
-			  "type": "string"
+			  "$ref": "#/definitions/ValidatorRequest"
 			}
 		  }
 		],
