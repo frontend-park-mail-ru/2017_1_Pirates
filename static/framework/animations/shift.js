@@ -30,47 +30,52 @@ window.Animation.Shift = class extends window.Framework.Animation {
 		}
 
 		// CSS3 анимация
-		// const rows = document.querySelectorAll('view-row');
 
-		// let rows = [...this.view.querySelectorAll('view-row')];
-        //
-		// let step = this.duration / rows.length;
-		// console.log(step);
-		// let cur = 0.02;
-        //
-        //
-		// rows.forEach(row => {
-		// 	row.style.left = start;
-		// 	cur += step;
-		// 	row.style.transition = `left ${this.duration}s ${timeFunction} ${cur}s`;
-		// 	row.style.left = end;
-		// });
 
-		let animate = row => {
-			return new Promise((resolve, reject) => {
-				setTimeout(()=>{
-					row.style.left = end;
-					resolve();
-				},200)
-			});
+		let rows = [...this.view.querySelectorAll('view-row')];
 
-		};
+		let step = this.duration / rows.length;
+		console.log(step);
+		let cur = 0.02;
 
-		let rows = [...document.querySelectorAll('view-row')];
+
 		rows.forEach(row => {
 			row.style.left = start;
-			row.style.transition = `left 2s ease`;
+			cur += step;
+			row.style.transition = `left ${this.duration}s ${timeFunction} ${cur}s`;
+			//row.style.left = end;
 		});
 
-		let p = Promise.resolve();
 		rows.forEach(row => {
-			console.log(row);
-			p = p.then( () => { return animate(row); } );
+			row.style.left = end;
 		});
 
-		this.view.addEventListener('timeout', () => {
+		// let animate = row => {
+		// 	return new Promise((resolve, reject) => {
+		// 		setTimeout(()=>{
+		// 			row.style.left = end;
+		// 			resolve();
+		// 		},200)
+		// 	});
+        //
+		// };
+        //
+		// let rows = [...document.querySelectorAll('view-row')];
+		// rows.forEach(row => {
+		// 	row.style.left = start;
+		// 	row.style.transition = `left ${this.duration}s ${timeFunction}`;
+		// });
+        //
+		// let p = Promise.resolve();
+		// rows.forEach(row => {
+		// 	console.log(row);
+		// 	p = p.then( () => { return animate(row); } );
+		// });
+
+
+		window.setTimeout(() => {
 			this.end();
-		}, {once: true});
+		}, 6000);
 
 		// this.view.style.opacity = 1;
 
