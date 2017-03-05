@@ -11,7 +11,7 @@ window.Framework.BackendTag = class extends HTMLElement {
 		const url = this.getAttribute('url');
 
 		if (url == '*') {
-			return document.location.origin + '/';
+			return document.location.origin;
 		}
 
 		return url;
@@ -22,7 +22,7 @@ window.Framework.BackendTag = class extends HTMLElement {
 	}
 
 	get swaggerUrl() {
-		return `${this.host}/${this.getAttribute('swagger') || 'swagger.json'}`;
+		return `${this.getAttribute('swagger') || 'swagger.json'}`;
 	}
 
 	connectedCallback() {
@@ -43,17 +43,17 @@ window.Framework.BackendTag = class extends HTMLElement {
 		xhr.send();
 	}
 
-
 	__checkArgs__(pathInfo, args) {
 
 	}
-
 
 	__createHandler__(current, handlerName, path, method) {
 		current[handlerName] = (args, callback) => {
 			const xhr = new XMLHttpRequest();
 
-			xhr.open(method.toUpperCase(), `${this.host}/${path}`, true);
+			xhr.open(method.toUpperCase(), `${this.host}${path}`, true);
+			xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+
 			xhr.onreadystatechange = () => {
 				if (xhr.readyState === XMLHttpRequest.DONE && callback) {
 					callback(xhr.status, JSON.parse(xhr.responseText));
@@ -61,6 +61,13 @@ window.Framework.BackendTag = class extends HTMLElement {
 			};
 
 			xhr.send(JSON.stringify(args));
+		};
+
+		const pathInfo = this.swagger.paths[path][method];
+		const alias = (pathInfo.description.match(/`([^)]+)`/)[1] || '').replace(' ', '').split(':')[1];
+
+		if (alias) {
+			window.Network[alias] = current[handlerName];
 		}
 	}
 

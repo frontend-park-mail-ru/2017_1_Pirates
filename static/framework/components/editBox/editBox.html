@@ -2,11 +2,16 @@
 
 	<component-properties>
 		<component-property name="text" handler="textChange" default=""
-							maps="input@value" listen></component-property>
+							maps="input@value" listen
+							validates="IsBob,NoNumbers" validateHandler="textValidate"
+		></component-property>
 	</component-properties>
 
 	<component-view>
 		<input type="text">
+		<div class="oks" style="color: green"></div>
+		<div class="warnings" style="color: yellow"></div>
+		<div class="errors" style="color: red"></div>
 		<c-button id="btn" text="kek"></c-button>
 	</component-view>
 

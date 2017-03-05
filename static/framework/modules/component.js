@@ -29,6 +29,7 @@ window.Framework.Component = class Component {
 		this.__tag__ = null;
 		this.__view__ = null;
 		this.__id__ = null;
+		this.validators = {};
 	}
 
 	get tag() {
@@ -110,11 +111,20 @@ window.Framework.Component = class Component {
 	}
 
 
+	__defaultValidateHandler__() {
+	}
+
+
 	__createListeners__() {
 	}
 
 
 	__validateProperty__(name, value, handlerName, maps, mapsSelector, mapsProperty) {
+		this.validators[name].chain.onStateChange = (chain) => {
+			this[this.validators[name].handler || '__defaultValidateHandler__'](chain);
+		};
+		this.validators[name].chain.validate(value);
+
 		if (typeof this[handlerName || '__defaultHandler__'] === 'function') {
 			const newValue = this[handlerName || '__defaultHandler__'](value, name);
 
@@ -128,10 +138,6 @@ window.Framework.Component = class Component {
 		if (maps) {
 			this.__setMappedPropertyValue__(mapsSelector, mapsProperty, value);
 		}
-
-		/*
-			ToDo: Add custom validators
-		 */
 	}
 
 
@@ -222,8 +228,7 @@ window.Framework.ComponentTag = class ComponentTag extends HTMLElement {
 			}
 
 			property.validates = (propertyTag.getAttribute('validates') || '').replace(' ', '').split(',');
-			// ToDo: Validators
-
+			property.validateHandler = propertyTag.getAttribute('validateHandler') || '__defaultValidateHandler__';
 			property.dataFlow = propertyTag.getAttribute('data-flow');
 			// ToDo: DataFlow
 

@@ -1,13 +1,52 @@
 {
   "swagger": "2.0",
+
+
   "info": {
 	"version": "1.0.0",
 	"title": "TestApplication"
   },
+
+
+  "definitions": {
+
+	"ValidatorStatus": {
+	  "type": "object",
+	  "properties": {
+		"state": {
+		  "type": "string"
+		},
+		"desc": {
+		  "type": "string"
+		}
+	  }
+	},
+
+	"ValidatorStatusCollection": {
+	  "type": "array",
+	  "items": {
+		"$ref": "#/definitions/ValidatorStatus"
+	  }
+	}
+
+  },
+
+
+  "responses": {
+	"ValidatorResponse": {
+	  "description": "General validator response",
+	  "schema": {
+		"$ref": "#/definitions/ValidatorStatusCollection"
+	  }
+	}
+  },
+
+
   "paths": {
+
 	"/validators/noNumbers": {
-	  "get": {
-		"description": "Warns if **value** has no numbers.\n",
+	  "post": {
+		"description": "`alias: validateNoNumbers`<br>Warns if **value** has no numbers.\n",
 		"parameters": [
 		  {
 			"name": "value",
@@ -21,26 +60,15 @@
 		],
 		"responses": {
 		  "200": {
-			"description": "Any response",
-			"schema": {
-			  "title": "ValidatorResponse",
-			  "type": "object",
-			  "properties": {
-				"state": {
-				  "type": "string"
-				},
-				"desc": {
-				  "type": "string"
-				}
-			  }
-			}
+		  	"$ref": "#/responses/ValidatorResponse"
 		  }
 		}
 	  }
 	},
+
 	"/validators/isBob": {
-	  "get": {
-		"description": "Validates if **value** starts with \"Bob\".\n",
+	  "post": {
+		"description": "`alias: validateIsBob`<br>Validates if **value** starts with \"Bob\".\n",
 		"parameters": [
 		  {
 			"name": "value",
@@ -54,22 +82,11 @@
 		],
 		"responses": {
 		  "200": {
-			"description": "Any response",
-			"schema": {
-			  "title": "ValidatorResponse",
-			  "type": "object",
-			  "properties": {
-				"state": {
-				  "type": "string"
-				},
-				"desc": {
-				  "type": "string"
-				}
-			  }
-			}
+			"$ref": "#/responses/ValidatorResponse"
 		  }
 		}
 	  }
 	}
   }
+
 }

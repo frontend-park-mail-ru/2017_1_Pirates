@@ -2,23 +2,46 @@
 
 
 window.Framework.Validator = class Validator {
-	constructor() {
+	constructor(chain) {
+		this.chain = chain;
 	}
 
 	validate(value) {
 		/*
 			state: 'ok', 'warning', 'error'
 			value: any string or null
-		 */
+		*/
 
-		return {state: 'warning', desc: `Value "${value}" may be invalid, unimplemented validator.`}
+		this.chain.setInvalid('warning', `Value "${value}" may be invalid, unimplemented validator.`);
 	}
 };
 
 
 window.Framework.NetworkValidator = class NetworkValidator extends window.Framework.Validator {
-	constructor() {
-		super();
+	constructor(chain) {
+		super(chain);
+		this.__networkMethod__ = null;
+	}
+
+	get networkMethod() {
+		return this.__networkMethod__;
+	}
+
+	set networkMethod(value) {
+		if (typeof value === 'string') {
+			this.__networkMethod__ = window.Network[value];
+			return;
+		}
+
+		this.__networkMethod__ = value;
+	}
+
+	validate(value) {
+		this.networkMethod({ value: value }, (status, responses) => {
+			responses.forEach((response) => {
+				this.chain.setInvalid(response.state, response.desc);
+			});
+		});
 	}
 };
 
@@ -29,17 +52,17 @@ window.Framework.ValidatorChain = class ValidatorChain {
 		this.__warnings__ = [];
 		this.__oks__ = [];
 		this.__validators__ = [];
-
-		if (typeof validators === 'string') {
-			validators = validators.replace(' ', '').split(',');
-		}
+		this.__firedCount__ = 0;
+		this.onStateChange = null;
 
 		validators.forEach((validator) => {
 			if (typeof validator === 'string') {
 				validator = window.Validator[validator];
 			}
 
-			this.__validators__.push(new validator());
+			if (validator) {
+				this.__validators__.push(new validator(this));
+			}
 		});
 	}
 
@@ -59,18 +82,30 @@ window.Framework.ValidatorChain = class ValidatorChain {
 		this.__errors__ = [];
 		this.__warnings__ = [];
 		this.__oks__ = [];
+		this.__firedCount__ = 0;
 	}
 
-	setInvalid(type, desc) {
-		if (type === 'warning') {
+	setInvalid(state, desc) {
+		this.__firedCount__++;
+
+		if (state == 'ok') {
+			this.__oks__.push(desc);
+		} else if (state == 'warning') {
 			this.__warnings__.push(desc);
-			return;
+		} else {
+			this.__errors__.push(desc);
 		}
 
-		this.__errors__.push(desc);
+		if (this.__firedCount__ == this.__validators__.length && this.onStateChange) {
+			this.onStateChange(this);
+		}
 	}
 
 	isValid(strict) {
+		if (this.__firedCount__ != this.__validators__.length) {
+			return false;
+		}
+
 		if (strict || true) {
 			return (this.__warnings__.length == 0) && (this.__errors__.length == 0);
 		}
@@ -82,25 +117,7 @@ window.Framework.ValidatorChain = class ValidatorChain {
 		this.clear();
 
 		this.__validators__.forEach((validator) => {
-			const result = validator.validate(value);
-
-			switch (result.state) {
-				case 'ok': {
-					this.__oks__.push(result.desc);
-				} break;
-
-				case 'warning': {
-					this.__warnings__.push(result.desc);
-				} break;
-
-				case 'error': {
-					this.__errors__.push(result.desc);
-				} break;
-
-				default: break;
-			}
+			validator.validate(value);
 		});
-
-		return this.isValid(true);
 	}
 };

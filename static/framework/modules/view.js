@@ -69,6 +69,17 @@ window.Framework.View = class View extends HTMLElement {
 
 			if (element.__component__) {
 				const component = element.__component__;
+
+				Object.keys(component.tag.properties).forEach((name) => {
+					component.validators[name] =
+						{
+							handler: component.tag.properties[name].validateHandler,
+							chain: new window.Framework.ValidatorChain(
+								component.tag.properties[name].validates
+							)
+						};
+				});
+
 				component.setDefaults();
 
 				Object.keys(component.tag.properties).forEach((name) => {
