@@ -21,7 +21,7 @@ app.use('/validators/noNumbers', bodyParser.json(), (req, res) => {
 		res.send(JSON.stringify(
 			[
 				{
-					status: 'warning',
+					state: 'warning',
 					desc: 'Your name has no numbers, that\'s really bad.'
 				}
 			]
@@ -33,7 +33,7 @@ app.use('/validators/noNumbers', bodyParser.json(), (req, res) => {
 	res.send(JSON.stringify(
 		[
 			{
-				status: 'ok',
+				state: 'ok',
 				desc: 'Allright, your name has some numbers in it.'
 			}
 		]
@@ -43,14 +43,14 @@ app.use('/validators/noNumbers', bodyParser.json(), (req, res) => {
 
 app.use('/validators/isBob', bodyParser.json(), (req, res) => {
 	if ((req.body.value || '').toLowerCase().startsWith('bob')) {
-		res.send(JSON.stringify([{status: 'ok'}]));
+		res.send(JSON.stringify([{state: 'ok'}]));
 		return;
 	}
 
 	res.send(JSON.stringify(
 		[
 			{
-				status: 'error',
+				state: 'error',
 				desc: 'Get lost! Only Bob allowed.'
 			}
 		]

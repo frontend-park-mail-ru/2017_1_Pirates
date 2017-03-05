@@ -45,8 +45,8 @@
   "paths": {
 
 	"/validators/noNumbers": {
-	  "get": {
-		"description": "`alias: validateNumbers`<br>Warns if **value** has no numbers.\n",
+	  "post": {
+		"description": "`alias: validateNoNumbers`<br>Warns if **value** has no numbers.\n",
 		"parameters": [
 		  {
 			"name": "value",
@@ -67,7 +67,7 @@
 	},
 
 	"/validators/isBob": {
-	  "get": {
+	  "post": {
 		"description": "`alias: validateIsBob`<br>Validates if **value** starts with \"Bob\".\n",
 		"parameters": [
 		  {
