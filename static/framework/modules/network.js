@@ -22,7 +22,7 @@ window.Framework.BackendTag = class extends HTMLElement {
 	}
 
 	get swaggerUrl() {
-		return `${this.host}/${this.getAttribute('swagger') || 'swagger.json'}`;
+		return `${this.getAttribute('swagger') || 'swagger.json'}`;
 	}
 
 	connectedCallback() {
@@ -61,6 +61,13 @@ window.Framework.BackendTag = class extends HTMLElement {
 			};
 
 			xhr.send(JSON.stringify(args));
+		};
+
+		const pathInfo = this.swagger.paths[path][method];
+		const alias = (pathInfo.description.match(/`([^)]+)`/)[1] || '').replace(' ', '').split(':')[1];
+
+		if (alias) {
+			window.Network[alias] = current[handlerName];
 		}
 	}
 

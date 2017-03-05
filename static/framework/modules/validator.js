@@ -19,6 +19,20 @@ window.Framework.Validator = class Validator {
 window.Framework.NetworkValidator = class NetworkValidator extends window.Framework.Validator {
 	constructor() {
 		super();
+		this.__networkMethod__ = nil;
+	}
+
+	get networkMethod() {
+		return this.__networkMethod__;
+	}
+
+	set networkMethod(value) {
+		if (typeof value === 'string') {
+			this.__networkMethod__ = window.Network[value];
+			return;
+		}
+
+		this.__networkMethod__ = value;
 	}
 };
 
