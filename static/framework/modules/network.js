@@ -24,6 +24,7 @@ window.Framework.BackendTag = class extends HTMLElement {
 		this.url = this.getAttribute('url');
 
 		const xhr = new XMLHttpRequest();
+		let loaded = false;
 		xhr.open('GET', this.url, true);
 
 		xhr.onreadystatechange = () => {
@@ -31,11 +32,13 @@ window.Framework.BackendTag = class extends HTMLElement {
 				//alert(xhr.responseText);
 				//this.__swagger__= JSON.parse(xhr.responseText);
 				//this.__parseSwagger__();
+				if (!loaded) {
+					loaded = true;
+					window.dispatchEvent(new Event('SwaggerSpecLoad'));
+				}
 			} else {
 				this.__swagger__ = null;
 			}
-
-			window.dispatchEvent(new Event('SwaggerSpecLoad'));
 		};
 
 		xhr.send();

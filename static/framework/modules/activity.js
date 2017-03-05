@@ -24,14 +24,12 @@ window.Framework.Activity = class Activity {
 			return;
 		}
 
-		animation.apply(reverse);
-
 		content.addEventListener('_AnimationEnd', () => {
 			animation.remove();
 			content.dispatchEvent(new Event('AnimationEnd'));
 		}, {once: true});
 
-		//animation.apply(reverse);
+		animation.apply(reverse);
 	}
 
 	onBeforeEnter() {
