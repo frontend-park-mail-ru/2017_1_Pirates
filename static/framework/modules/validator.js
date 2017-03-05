@@ -16,7 +16,7 @@ window.Framework.Validator = class Validator {
 };
 
 
-window.Framework.NetworkValidator = class NetworkValidator extends Validator {
+window.Framework.NetworkValidator = class NetworkValidator extends window.Framework.Validator {
 	constructor() {
 		super();
 	}

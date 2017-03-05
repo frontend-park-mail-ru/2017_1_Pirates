@@ -6,7 +6,7 @@ window.Animation.Shift = class extends window.Framework.Animation {
 		super(activity);
 
 		// duration попадает сюда из аттрибута enterDuration или leaveDuration тэга app-activity
-		this.duration = duration || 2;
+		this.duration = duration || 0.4;
 	}
 
 	// Применить анимацию (и запустить её)
@@ -16,39 +16,47 @@ window.Animation.Shift = class extends window.Framework.Animation {
 		 при появлении вьюхи, а при исчезновении.
 		 */
 
-		let start;
-		let end;
-		let timeFunction;
+		let start = '-10%';
+		let end = '0px';
+		let opacityStart = 0;
+		let opacityEnd = 1;
+		let offset = 0.7;
+		let timingFunction = 'ease-out';
+
 		if (reverse) {
 			start = '0%';
-			end = '-100%';
-			timeFunction = 'ease-in'
-		} else {
-			start = '-100%';
-			end = '0%';
-			timeFunction = 'ease-out';
+			end = '10%';
+			opacityStart = 1;
+			opacityEnd = 0;
+			offset = 0.2;
+			timingFunction = 'ease-in';
 		}
 
 		// CSS3 анимация
 
-
 		let rows = [...this.view.querySelectorAll('view-row')];
-
-		let step = this.duration / rows.length;
-		console.log(step);
+		let step = 0.1;
 		let cur = 0.02;
-
+		let lastRow = null;
 
 		rows.forEach(row => {
 			row.style.left = start;
+			row.style.opacity = opacityStart;
 			cur += step;
-			row.style.transition = `left ${this.duration}s ${timeFunction} ${cur}s`;
-			//row.style.left = end;
+
+			row.style.transition = `
+				left ${this.duration}s ${timingFunction} ${cur}s,
+				opacity ${this.duration * 0.7}s ease ${cur}s
+			`;
+			lastRow = row;
 		});
 
-		rows.forEach(row => {
-			row.style.left = end;
-		});
+		window.setTimeout(() => {
+			rows.forEach(row => {
+				row.style.left = end;
+				row.style.opacity = opacityEnd;
+			});
+		}, 20);
 
 		// let animate = row => {
 		// 	return new Promise((resolve, reject) => {
@@ -72,10 +80,15 @@ window.Animation.Shift = class extends window.Framework.Animation {
 		// 	p = p.then( () => { return animate(row); } );
 		// });
 
+		lastRow.addEventListener('transitionend', () => {
+			window.setTimeout(() => {
+				this.end();
+			}, 100);
+		}, {once: true});
 
-		window.setTimeout(() => {
+		/*window.setTimeout(() => {
 			this.end();
-		}, 6000);
+		}, 1000);*/
 
 		// this.view.style.opacity = 1;
 
@@ -90,6 +103,11 @@ window.Animation.Shift = class extends window.Framework.Animation {
 
 	// Убрать анимацию (когда отработала)
 	remove() {
-		this.view.style.transition = 'none';
+		let rows = [...this.view.querySelectorAll('view-row')];
+
+		rows.forEach(row => {
+			row.style.transition = 'none';
+		});
+		//this.view.style.transition = 'none';
 	}
 };
