@@ -44,7 +44,7 @@ window.Framework.Route = class Route extends HTMLElement {
 
 		content.addEventListener('AnimationEnd', () => {
 			window.Framework.currentActivity = activity;
-			console.log('onBeforeEnter', activity.view);
+			console.log((new Date()).toTimeString(), 'onBeforeEnter', activity.view.style.transition);
 			activity.onBeforeEnter();
 			activity[methodName](args);
 		}, {once: true});

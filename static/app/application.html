@@ -13,6 +13,7 @@
 	<script src="/framework/modules/component.js"></script>
 	<script src="/framework/modules/route.js"></script>
 	<script src="/framework/modules/animation.js"></script>
+	<script src="/framework/modules/validator.js"></script>
 	<script src="/framework/framework.js"></script>
 	<!-- End Main Framework -->
 
@@ -22,7 +23,7 @@
 	<script src="/framework/components/button/button.js"></script>
 
 	<link rel="import" href="/framework/components/editBox/editBox.html">
-	<!--link rel="stylesheet" href="/framework/components/button/button.css"-->
+	<link rel="stylesheet" href="/framework/components/editBox/editBox.css">
 	<script src="/framework/components/editBox/editBox.js"></script>
 	<!-- End Components -->
 
@@ -30,6 +31,9 @@
 	<script src="/framework/animations/opacity.js"></script>
 	<script src="/framework/animations/shift.js"></script>
 	<!-- End Animations -->
+
+	<!-- Validators -->
+	<!-- End Validators -->
 
 	<!-- Views -->
 	<link rel="import" href="/app/views/base.html">
@@ -49,9 +53,12 @@
 <body>
 
 	<app-inf>
+		<app-backend url="http://localhost:3000/" swagger="/app/swagger.json"></app-backend>
+
 		<app-activities>
-			<app-activity id="FirstActivity" view="FirstView" animation-enter="Opacity"
-						  animation-leave="Opacity"></app-activity>
+			<app-activity id="FirstActivity" view="FirstView"
+						  animation-enter="Opacity" animation-enter-duration="0.5"
+						  animation-leave="Opacity" animation-leave-duration="1"></app-activity>
 			<app-activity id="SecondActivity" view="SecondView"></app-activity>
 			<app-activity id="AnimationActivity" view="AnimationView" animation-enter="Shift"
 						  animation-leave="Shift"></app-activity>

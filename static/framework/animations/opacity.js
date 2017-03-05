@@ -27,12 +27,19 @@ window.Animation.Opacity = class extends window.Framework.Animation {
 		// CSS3 анимация
 		this.view.style.opacity = start;
 		this.view.style.transition = `opacity ${this.duration}s ease`;
+		//alert(this.duration);
 
-		this.view.addEventListener('transitionend', () => {
+		//this.view.addEventListener('transitionend', () => {
+		//	this.end();
+		//}, {once: true});
+
+		window.setTimeout(() => {
 			this.end();
-		}, {once: true});
+		}, 20 + this.duration * 1000);
 
-		this.view.style.opacity = end;
+		window.setTimeout(() => {
+			this.view.style.opacity = end;
+		}, 20);
 
 		/*
 		 В конце анимации обязательно надо вызвать this.end()
@@ -46,5 +53,7 @@ window.Animation.Opacity = class extends window.Framework.Animation {
 	// Убрать анимацию (когда отработала)
 	remove() {
 		this.view.style.transition = 'none';
+		this.view.style.opacity = 1;
+		console.log((new Date()).toTimeString(), 'animation removed');
 	}
 };

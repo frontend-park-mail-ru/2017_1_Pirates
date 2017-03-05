@@ -17,7 +17,6 @@ window.Framework.Activity = class Activity {
 	}
 
 	fireAnimation(animation, reverse) {
-		console.log('animation fired', animation, reverse);
 		const content = document.querySelector('app-content');
 
 		if (!animation) {
@@ -26,30 +25,25 @@ window.Framework.Activity = class Activity {
 		}
 
 		animation.apply(reverse);
-		content.addEventListener('AnimationEnd', () => {
+
+		content.addEventListener('_AnimationEnd', () => {
 			animation.remove();
-			console.log('removed listener');
-
-			if (reverse) {
-				animation.view.style.opacity = 0;
-				return;
-			}
-
-			animation.view.style.opacity = 1;
+			content.dispatchEvent(new Event('AnimationEnd'));
 		}, {once: true});
+
+		//animation.apply(reverse);
 	}
 
 	onBeforeEnter() {
 		if (this.view) {
 			const content = document.querySelector('app-content');
 
-			content.innerHTML = '';
-			content.appendChild(this.view);
-			this.view.style.opacity = 0;
+			while(content.firstChild) {
+				content.removeChild(content.firstChild);
+			}
 
-			window.setTimeout(() => {
-				this.fireAnimation(this.enterAnimation, false);
-			}, 1);
+			content.appendChild(this.view);
+			this.fireAnimation(this.enterAnimation, false);
 		}
 	}
 
