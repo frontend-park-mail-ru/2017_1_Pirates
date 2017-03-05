@@ -30,6 +30,7 @@
 
 	<!-- Animations -->
 	<script src="/framework/animations/opacity.js"></script>
+	<script src="/framework/animations/shift.js"></script>
 	<!-- End Animations -->
 
 	<!-- Validators -->
@@ -40,11 +41,13 @@
 	<link rel="import" href="/app/views/first.html">
 	<link rel="import" href="/app/views/second.html">
 	<link rel="import" href="/app/views/blocks/_menu.html">
+	<link rel="import" href="/app/views/animation_view.html">
 	<!-- End Views -->
 
 	<!-- Activities -->
 	<script src="/app/activities/first.js"></script>
 	<script src="/app/activities/second.js"></script>
+	<script src="/app/activities/animation.js"></script>
 	<!-- End Activities -->
 
 </head>
@@ -55,13 +58,17 @@
 
 		<app-activities>
 			<app-activity id="FirstActivity" view="FirstView"
-						  animation-enter="Opacity" animation-enter-duration="0.5"
-						  animation-leave="Opacity" animation-leave-duration="1"></app-activity>
+						  animation-enter="Shift"
+						  animation-leave="Shift"></app-activity>
 			<app-activity id="SecondActivity" view="SecondView"></app-activity>
+			<app-activity id="AnimationActivity" view="AnimationView"
+						  animation-enter="Shift"
+						  animation-leave="Shift"></app-activity>
 		</app-activities>
 
 		<app-routing>
 			<app-route id="SayHiRoute" activity="FirstActivity#sayHi" path="#hello__<name>__<age=34>"></app-route>
+			<app-route id="AnimationRoute" activity="AnimationActivity" path="#animation"></app-route>
 			<app-route id="SecondRoute" activity="SecondActivity" path="#second"></app-route>
 			<app-route id="IndexRoute" activity="FirstActivity" path="#"></app-route>
 		</app-routing>
