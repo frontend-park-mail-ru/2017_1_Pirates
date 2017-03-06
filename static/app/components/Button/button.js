@@ -24,11 +24,12 @@ window.addEventListener('CreateComponents', () => {
 		}
 
 		socialNets(condition) {
-			if (condition !== null && condition) {
+			console.log(condition);
+			if (condition !== null && condition !== 'false') {
 				const btn = this.view.children[0];
 				const classes = btn.getAttribute('class');
 				btn.setAttribute('class', classes + ' btn-social');
-				console.log(btn.firstChild);
+				console.log(btn);
 			}
 		}
 	};

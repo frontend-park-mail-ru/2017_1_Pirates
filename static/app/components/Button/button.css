@@ -1,4 +1,93 @@
 
+
+.btn {
+	text-align: center;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 0;
+	font-weight: normal;
+	vertical-align: middle;
+	cursor: pointer;
+	border-radius: 25px;
+	/*line-height: 1.5;*/
+	border: 1px solid transparent;
+	padding: 6px 12px;
+}
+
+.btn span{
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.btn a {
+	text-decoration: none;
+	color: inherit;
+}
+
+
+.btn-fa {
+	background-color: #ff8f26;
+}
+
+.btn-social {
+	/*position: relative;*/
+	/*text-align: left;*/
+	/*vertical-align: middle;*/
+	white-space: nowrap;
+	/**/
+	/*overflow: hidden;*/
+	/*text-overflow: ellipsis;*/
+}
+
+.btn-social>:first-child {
+	position: relative;
+	display: inline-block;
+	/*left: 0;*/
+	/*top: -3px;*/
+	/*bottom: 0;*/
+	width: 40px;
+	line-height: 40px;
+	font-size: 1.6em;
+	text-align: center;
+	border-right: 1px solid;
+	margin-right: 5px;
+}
+
+.btn-social>:first-child:before {
+	content: 'f';
+}
+
+.btn-social>:last-child {
+	position: relative;
+	display: inline-block;
+	/*left: 0;*/
+	/*top: -3px;*/
+	/*bottom: 0;*/
+	width: 40px;
+	line-height: 40px;
+	font-size: 1.6em;
+	text-align: center;
+	border-left: 1px solid;
+	margin-right: 5px;
+}
+
+.btn-social>:last-child:after {
+	content: 'vk';
+}
+
+
+
+/*.fa {*/
+	/*display: inline-block;*/
+	/*!*background-image: url('social_icons.png');*!*/
+	/*background-repeat: no-repeat;*/
+	/*background-position: -50px 0;*/
+/*}*/
+
+
 .orange:hover {
 	background-color: #ffd90e;
 }
@@ -21,56 +110,4 @@
 
 .black:active {
 	background-color: #111111;
-}
-
-.btn {
-	box-sizing: border-box;
-	display: block;
-	margin-bottom: 0;
-	font-weight: normal;
-	vertical-align: middle;
-	cursor: pointer;
-	border-radius: 25px;
-	line-height: 1.5;
-	border: 1px solid transparent;
-	padding: 6px 12px;
-}
-
-.btn a {
-	text-decoration: none;
-	color: inherit;
-}
-
-
-.btn-fa {
-	background-color: #ff8f26;
-}
-
-.btn-social {
-	position: relative;
-	padding-left: 44px;
-	text-align: left;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-.btn-social>:first-child {
-	position: absolute;
-	left: 0;
-	top: -3px;
-	bottom: 0;
-	width: 40px;
-	line-height: 40px;
-	font-size: 1.6em;
-	text-align: center;
-	border-right: 1px solid;
-	margin-right: 5px;
-}
-
-.fa {
-	display: inline-block;
-	/*background-image: url('social_icons.png');*/
-	background-repeat: no-repeat;
-	background-position: -50px 0;
 }
