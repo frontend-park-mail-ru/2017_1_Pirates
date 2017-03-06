@@ -14,6 +14,7 @@ window.Framework.Animation = class Animation {
 	}
 
 	end() {
+		window.Framework.animating = false;
 		document.querySelector('app-content').dispatchEvent(new Event('_AnimationEnd'));
 	}
 

@@ -102,6 +102,11 @@ const ready = () => {
 
 
 const hashChange = () => {
+	if (window.Framework.animating) {
+		window.setTimeout(hashChange, 1000);
+		return;
+	}
+
 	window.Framework.routing.some((route) => {
 		let args = route.complies(document.location.hash);
 
