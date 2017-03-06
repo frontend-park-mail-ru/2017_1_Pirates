@@ -1,10 +1,9 @@
-/**
- * Created by Vileven on 06.03.17.
- */
+'use strict';
+
 
 window.addEventListener('CreateComponents', () => {
 
-	window.Component.TButton = class extends window.Framework.ComponentStub.TButton {
+	window.Component.Button = class extends window.Framework.ComponentStub.Button {
 		constructor() {
 			super();
 		}

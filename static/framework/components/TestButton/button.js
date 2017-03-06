@@ -3,7 +3,7 @@
 
 window.addEventListener('CreateComponents', () => {
 
-	window.Component.Button = class extends window.Framework.ComponentStub.Button {
+	window.Component.TestButton = class extends window.Framework.ComponentStub.TestButton {
 		constructor() {
 			super();
 		}

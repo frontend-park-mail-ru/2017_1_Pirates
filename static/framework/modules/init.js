@@ -11,6 +11,7 @@ window.Framework.views = {};
 window.Framework.routing = [];
 window.Framework.activities = {};
 window.Framework.componentTags = {};
-window.Framework.debug = true;
+window.Framework.debug = false;
 window.Framework.currentActivity = null;
 window.Framework.animating = false;
+

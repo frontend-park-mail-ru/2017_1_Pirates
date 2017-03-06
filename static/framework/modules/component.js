@@ -81,7 +81,7 @@ window.Framework.Component = class Component {
 
 	setDefaults() {
 		Object.keys(this.tag.properties).forEach((name) => {
-			this[name] = window.Framework.Component.toTyped(
+			this[`__${name}__`] = window.Framework.Component.toTyped(
 				this.tag.properties[name],
 				this.tag.properties[name].default
 			);

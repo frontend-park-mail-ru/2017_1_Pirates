@@ -3,7 +3,7 @@
 
 window.addEventListener('CreateComponents', () => {
 
-	window.Component.EditBox = class extends window.Framework.ComponentStub.EditBox {
+	window.Component.TestEditBox = class extends window.Framework.ComponentStub.TestEditBox {
 		constructor() {
 			super();
 		}
