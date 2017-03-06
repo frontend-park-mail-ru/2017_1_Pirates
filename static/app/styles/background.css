@@ -15,8 +15,18 @@ div#background {
 	background-color: black;
 	box-shadow: inset 0 0 500px rgba(0, 0, 0, 0.8);
 	z-index: -1;
-	transition: background-color 7s linear 5s;
-	opacity: 0.5;
+	transition: background-color 3s linear 0s;
+	opacity: 0.7;
+}
+
+
+div.stain {
+	width: 1px;
+	height: 1px;
+	position: absolute;
+	background-color: rgba(255, 255, 255, 0.5);
+
+	/*transition: left 5s linear, top 5s linear, height 5s linear, width 5s linear;*/
 }
 
 

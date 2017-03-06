@@ -6,12 +6,14 @@ window.Activity.FirstActivity = class extends window.Framework.Activity {
 	constructor() {
 		super();
 		this.setupBackground();
+		//this.setupStains();
 	};
+
 
 	setupBackground() {
 		const background = document.querySelector('div#background');
 		const colors = [
-			'black', '#7f3357', '#3e1228', '#174466', '#251e3f', '#022837', '#4f5840', '#7a6b4b'
+			'black', '#7f3357', '#3e1228', '#174466', '#251e3f', '#022837' /*'#4f5840' '#7a6b4b'*/
 		];
 		let last = 'black';
 
@@ -27,10 +29,43 @@ window.Activity.FirstActivity = class extends window.Framework.Activity {
 
 		window.setInterval(() => {
 			fire();
-		}, 10 * 1000 + 100);
+		}, 3 * 1000 + 10);
 
 		fire();
 	}
+
+
+	setupStains() {
+		const background = document.querySelector('div#background');
+		let count = 0;
+
+		window.setInterval(() => {
+			if (count > 5) return;
+
+			const stain = document.createElement('div');
+			count++;
+
+			stain.className = 'stain';
+			stain.style.left = Math.floor(background.width / 2);
+			stain.style.top = Math.floor(background.height / 2);
+			stain.style.transition = `
+				transition: left 5s linear,
+				top 5s linear,
+				height 5s linear,
+				width 5s linear
+			`;
+
+			background.appendChild(stain);
+
+			window.setTimeout(() => {
+				stain.left = 0;
+				stain.top = 0;
+				stain.height = background.height;
+				stain.width = background.width;
+			}, 20);
+		}, 1000);
+	}
+
 
 	onEnter(args) {
 		this.view.queryComponentAll('test-button.my-button').forEach((button) => {
