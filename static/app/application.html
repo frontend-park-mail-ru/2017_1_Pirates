@@ -23,6 +23,11 @@
 	<link rel="stylesheet" href="/framework/components/button/button.css">
 	<script src="/framework/components/button/button.js"></script>
 
+	<link rel="import" href="/framework/components/tr_button/tr_button.html">
+	<link rel="stylesheet" href="/framework/components/tr_button/tr_button.css">
+	<script src="/framework/components/tr_button/tr_button.js"></script>
+
+
 	<link rel="import" href="/framework/components/editBox/editBox.html">
 	<link rel="stylesheet" href="/framework/components/editBox/editBox.css">
 	<script src="/framework/components/editBox/editBox.js"></script>
@@ -61,7 +66,8 @@
 			<app-activity id="FirstActivity" view="FirstView"
 						  animation-enter="Shift"
 						  animation-leave="Shift"></app-activity>
-			<app-activity id="SecondActivity" view="SecondView"></app-activity>
+			<app-activity id="SecondActivity" view="SecondView" animation-enter="Shift"
+						  animation-leave="Shift"></app-activity>
 			<app-activity id="AnimationActivity" view="AnimationView"
 						  animation-enter="Shift"
 						  animation-leave="Shift"></app-activity>

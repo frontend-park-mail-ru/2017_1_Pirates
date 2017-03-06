@@ -1,0 +1,23 @@
+<component-info id="TButton" tag="tbutton">
+
+	<component-properties>
+		<component-property name="text" default="" maps="div@textContent"></component-property>
+		<component-property name="link" handler="linkByButton" default=""></component-property>
+		<!--<component-property name="background" default="#ff8f26" maps="div@style.background-color"></component-property>-->
+		<component-property name="background" defaut="orange" handler="setBackgroundColour"></component-property>
+		<component-property name="icon" default=""></component-property>
+		<component-property name="iconJustify" default="left"></component-property>
+		<component-property name="invertColors" default="false" type="Boolean"></component-property>
+		<component-property name="color" default="rgb(255,255,255)" maps="div@style.color"></component-property>
+		<component-property name="align" default="center" maps="div@attribute.align"></component-property>
+		<component-property name="fontSize" default="inherit" maps="div@style.font-size"></component-property>
+		<component-property name="social" default="false" type="Boolean" handler="socialNets"></component-property>
+	</component-properties>
+
+	<component-view>
+		<div class="btn">
+			<span class=""></span>
+		</div>
+	</component-view>
+
+</component-info>
