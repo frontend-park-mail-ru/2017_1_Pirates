@@ -13,7 +13,15 @@ window.Activity.FirstActivity = class extends window.Framework.Activity {
 		});
 
 		this.view.queryComponent('#Button2').text = 'lol';
-		this.view.queryComponent('#Button1').color = 'rgb(0,0,255)'
+		this.view.queryComponent('#Button1').color = 'rgb(0,0,255)';
+
+		const edit = this.view.queryComponent('edit-box');
+		edit.text = 'lol kek cheburek';
+		const data = edit.data;
+
+		data.text = 'bob12';
+		data.children.btn.text = 'It Works!';
+		edit.data = data;
 	};
 
 	sayHi(args) {

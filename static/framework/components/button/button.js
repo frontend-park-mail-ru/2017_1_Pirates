@@ -9,7 +9,8 @@ window.addEventListener('CreateComponents', () => {
 		}
 
 		textChange(text) {
-			this.view.innerHTML += `<br>Text of #${this.id} changed! New value: '${text}'.`;
+			this.view.innerHTML = `<br>Text of #${this.id} changed! New value: '${text}'.`;
+			return text;
 		}
 	};
 
