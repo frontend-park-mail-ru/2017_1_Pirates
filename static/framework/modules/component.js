@@ -81,10 +81,63 @@ window.Framework.Component = class Component {
 
 	setDefaults() {
 		Object.keys(this.tag.properties).forEach((name) => {
-			this[name] = window.Framework.Component.toTyped(
+			this[`__${name}__`] = window.Framework.Component.toTyped(
 				this.tag.properties[name],
 				this.tag.properties[name].default
 			);
+		});
+	}
+
+
+	static serializeComponents(element) {
+		let obj = {};
+
+		[...element.childNodes].forEach((node) => {
+			if (node.__component__) {
+				obj[node.__component__.id] = node.__component__.data;
+			} else {
+				obj = Object.assign(obj, window.Framework.Component.serializeComponents(node));
+			}
+		});
+
+		return obj;
+	}
+
+
+	static deserializeComponents(element, data) {
+		[...element.childNodes].forEach((node) => {
+			if (node.__component__ && data[node.__component__.id]) {
+				node.__component__.data = data[node.__component__.id];
+			} else {
+				window.Framework.Component.deserializeComponents(node, data);
+			}
+		});
+	}
+
+
+	get data() {
+		let data = {};
+
+		Object.keys(this.tag.properties).forEach((property) => {
+			data[property] = this[property];
+		});
+
+		data.children = window.Framework.Component.serializeComponents(this.view);
+		return data;
+	}
+
+
+	set data(data) {
+		if (typeof data === 'string') {
+			data = JSON.parse(data);
+		}
+
+		Object.keys(data).forEach((property) => {
+			if (property === 'children') {
+				window.Framework.Component.deserializeComponents(this.view, data.children);
+			} else {
+				this[property] = data[property];
+			}
 		});
 	}
 
@@ -104,9 +157,18 @@ window.Framework.Component = class Component {
 
 	__createChangeListener__(name, selector, handlerName) {
 		[...this.view.querySelectorAll(selector)].forEach((element) => {
-			element.addEventListener('change', (event) => {
+
+			const validateProperty = (event) => {
 				this.__validateProperty__(name, event.target.value, handlerName);
+			};
+
+			element.addEventListener('change', validateProperty);
+			element.addEventListener('keyup', (event) => {
+				window.setTimeout(() => {
+					validateProperty(event);
+				}, 1000);
 			});
+
 		});
 	}
 
@@ -237,6 +299,10 @@ window.Framework.ComponentTag = class ComponentTag extends HTMLElement {
 
 		window.Framework.ComponentStub[this.getAttribute('id')] = window.Framework.Component.createStub(this);
 		window.Framework.componentTags[this.getAttribute('tag')] = this;
+	}
+
+	get name() {
+		return this.getAttribute('tag');
 	}
 
 	get viewId() {

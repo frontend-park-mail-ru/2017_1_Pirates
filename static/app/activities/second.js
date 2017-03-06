@@ -8,7 +8,7 @@ window.Activity.SecondActivity = class extends window.Framework.Activity {
 	};
 
 	onEnter(args) {
-		alert('Second activity works!');
+		// alert('Second activity works!');
 	};
 
 };

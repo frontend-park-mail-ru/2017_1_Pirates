@@ -38,7 +38,7 @@ window.Animation.Shift = class extends window.Framework.Animation {
 
 		// CSS3 анимация
 
-		let rows = [...this.view.querySelectorAll('view-row')];
+		let rows = [...this.view.parentNode.querySelectorAll('app-view > view-row')];
 		let step = 0.1;
 		let cur = 0.02;
 		let lastRow = null;
@@ -65,39 +65,11 @@ window.Animation.Shift = class extends window.Framework.Animation {
 			});
 		}, 20);
 
-		// let animate = row => {
-		// 	return new Promise((resolve, reject) => {
-		// 		setTimeout(()=>{
-		// 			row.style.left = end;
-		// 			resolve();
-		// 		},200)
-		// 	});
-        //
-		// };
-        //
-		// let rows = [...document.querySelectorAll('view-row')];
-		// rows.forEach(row => {
-		// 	row.style.left = start;
-		// 	row.style.transition = `left ${this.duration}s ${timeFunction}`;
-		// });
-        //
-		// let p = Promise.resolve();
-		// rows.forEach(row => {
-		// 	console.log(row);
-		// 	p = p.then( () => { return animate(row); } );
-		// });
-
 		lastRow.addEventListener('transitionend', () => {
 			window.setTimeout(() => {
 				this.end();
 			}, 100);
 		}, {once: true});
-
-		/*window.setTimeout(() => {
-			this.end();
-		}, 1000);*/
-
-		// this.view.style.opacity = 1;
 
 		/*
 		 В конце анимации обязательно надо вызвать this.end()
@@ -110,11 +82,10 @@ window.Animation.Shift = class extends window.Framework.Animation {
 
 	// Убрать анимацию (когда отработала)
 	remove() {
-		let rows = [...this.view.querySelectorAll('view-row')];
+		let rows = [...this.view.parentNode.querySelectorAll('app-view > view-row')];
 
 		rows.forEach(row => {
 			row.style.transition = 'none';
 		});
-		//this.view.style.transition = 'none';
 	}
 };
