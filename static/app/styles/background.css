@@ -1,5 +1,10 @@
 
 
+body {
+	background-color: black;
+}
+
+
 div#background {
 	height: 100%;
 	width: 100%;
@@ -8,5 +13,13 @@ div#background {
 	overflow: hidden;
 	position: fixed;
 	background-color: black;
+	box-shadow: inset 0 0 500px rgba(0, 0, 0, 0.8);
 	z-index: -1;
+	transition: background-color 7s linear 5s;
+	opacity: 0.5;
 }
+
+
+/*
+	Colors: #7f3357, #3e1228, #174466, #251e3f
+ */

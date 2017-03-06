@@ -5,7 +5,32 @@ window.Activity.FirstActivity = class extends window.Framework.Activity {
 
 	constructor() {
 		super();
+		this.setupBackground();
 	};
+
+	setupBackground() {
+		const background = document.querySelector('div#background');
+		const colors = [
+			'black', '#7f3357', '#3e1228', '#174466', '#251e3f', '#022837', '#4f5840', '#7a6b4b'
+		];
+		let last = 'black';
+
+		const fire = () => {
+			let color = last;
+
+			while (color === last) {
+				color = colors[Math.floor(Math.random() * colors.length)];
+			}
+
+			background.style.backgroundColor = color;
+		};
+
+		window.setInterval(() => {
+			fire();
+		}, 10 * 1000 + 100);
+
+		fire();
+	}
 
 	onEnter(args) {
 		this.view.queryComponentAll('test-button.my-button').forEach((button) => {
