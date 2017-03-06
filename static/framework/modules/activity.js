@@ -24,6 +24,7 @@ window.Framework.Activity = class Activity {
 			return;
 		}
 
+		window.Framework.animating = true;
 		content.addEventListener('_AnimationEnd', () => {
 			animation.remove();
 			content.dispatchEvent(new Event('AnimationEnd'));

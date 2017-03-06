@@ -13,3 +13,4 @@ window.Framework.activities = {};
 window.Framework.componentTags = {};
 window.Framework.debug = true;
 window.Framework.currentActivity = null;
+window.Framework.animating = false;

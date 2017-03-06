@@ -22,6 +22,8 @@ window.Animation.Shift = class extends window.Framework.Animation {
 		let opacityEnd = 1;
 		let offset = 0.7;
 		let timingFunction = 'ease-out';
+		let filterStart = 'blur(30px)';
+		let filterEnd = 'blur(0px)';
 
 		if (reverse) {
 			start = '0%';
@@ -30,6 +32,8 @@ window.Animation.Shift = class extends window.Framework.Animation {
 			opacityEnd = 0;
 			offset = 0.2;
 			timingFunction = 'ease-in';
+			filterStart = 'blur(0px)';
+			filterEnd = 'blur(30px)';
 		}
 
 		// CSS3 анимация
@@ -42,11 +46,13 @@ window.Animation.Shift = class extends window.Framework.Animation {
 		rows.forEach(row => {
 			row.style.left = start;
 			row.style.opacity = opacityStart;
+			row.style.filter = filterStart;
 			cur += step;
 
 			row.style.transition = `
 				left ${this.duration}s ${timingFunction} ${cur}s,
-				opacity ${this.duration * 0.7}s ease ${cur}s
+				opacity ${this.duration * 0.7}s ease ${cur}s,
+				filter ${this.duration}s ease ${cur}s
 			`;
 			lastRow = row;
 		});
@@ -55,6 +61,7 @@ window.Animation.Shift = class extends window.Framework.Animation {
 			rows.forEach(row => {
 				row.style.left = end;
 				row.style.opacity = opacityEnd;
+				row.style.filter = filterEnd;
 			});
 		}, 20);
 
