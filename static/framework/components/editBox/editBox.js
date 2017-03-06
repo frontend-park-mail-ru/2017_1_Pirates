@@ -14,6 +14,8 @@ window.addEventListener('CreateComponents', () => {
 			if (button) {
 				button.text = `New value: "${text}"`;
 			}
+
+			return text;
 		}
 
 		textValidate(chain) {
