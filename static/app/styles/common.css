@@ -1,0 +1,12 @@
+
+
+* {
+	font-family: sans-serif;
+	font-weight: 100;
+	font-size: 1em;
+}
+
+
+component-view.with-padding > :first-child, component-view.with-padding > :last-child {
+	height: 20px;
+}

@@ -1,0 +1,19 @@
+
+
+
+c-input component-view .input-border {
+	background-color: white;
+	padding: 10px;
+	border-radius: 10px;
+}
+
+
+/*c-input component-view > :first-child, c-input component-view > :last-child {
+	height: 20px;
+}*/
+
+
+c-input input {
+	border-style: none;
+	width: 100%;
+}
