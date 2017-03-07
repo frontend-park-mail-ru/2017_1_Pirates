@@ -6,6 +6,17 @@ window.addEventListener('CreateComponents', () => {
 	window.Component.Button = class extends window.Framework.ComponentStub.Button {
 		constructor() {
 			super();
+
+			window.setTimeout(() => {
+				this.setup();
+			}, 100);
+		}
+
+		setup() {
+			const button = this.view.querySelector('.btn');
+			button.addEventListener('mouseout', () => {
+				button.blur();
+			});
 		}
 
 		onLinkChange(link) {

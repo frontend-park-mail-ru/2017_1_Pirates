@@ -28,7 +28,8 @@ c-button .btn {
 }
 
 
-c-button .btn:hover {
+c-button .btn:hover, c-button .btn:focus {
+	outline: none;
 	padding: 14px 12px;
 	top: 7px;
 	left: -10%;

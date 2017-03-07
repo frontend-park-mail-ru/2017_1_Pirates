@@ -7,10 +7,26 @@ c-input input {
 	padding: 5px;
 	border-radius: 7px;
 	border: solid white;
-	transition: box-shadow 0.3s;
+	position: relative;
+	top: 0;
+	left: 0;
+	font-size: 0.9em;
+
+	transition: padding 0.2s cubic-bezier(.5,-0.86,.47,1.73),
+				top 0.2s cubic-bezier(.5,-0.86,.47,1.73),
+				left 0.2s cubic-bezier(.5,-0.86,.47,1.73),
+				width 0.2s cubic-bezier(.5,-0.86,.47,1.73),
+				font-size 0.2s cubic-bezier(.5,-0.86,.47,1.73),
+				box-shadow 0.2s linear;
+
 }
 
 c-input input:focus {
 	outline: none;
-	box-shadow: #ff8f26 0 0 10px 4px;
+	padding: 10px;
+	top: 5px;
+	left: -10%;
+	width: 120%;
+	font-size: 1.2em;
+	box-shadow: #ff8f26 0 0 20px 4px;
 }
