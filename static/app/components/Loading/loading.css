@@ -3,9 +3,13 @@
 c-loading .loading {
 	width: 64px;
 	height: 64px;
-	display: inline-block;
+	display: inline-flex;
 	box-sizing: border-box;
 	position: relative;
+}
+
+c-loading .loading-column {
+	align-content: center;
 }
 
 c-loading .balls {

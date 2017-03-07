@@ -15,9 +15,46 @@
 	/*line-height: 1.5;*/
 	border: 1px solid transparent;
 	padding: 8px 12px;
+	top: 0;
+	left: 0;
+	width: 100%;
+	font-size: 1em;
 
 	background-color: #ff8f26;
+	transition: padding 0.1s ease-in-out,
+				top 0.1s ease-in-out,
+				left 0.1s ease-in-out,
+				width 0.1s ease-in-out,
+				font-size 0.1s ease-in-out;
+	position: relative;
 }
+
+
+.btn:hover {
+	padding: 14px 12px;
+	top: 7px;
+	left: -10%;
+	width: 120%;
+	font-size: 1.2em;
+	animation: btn-hover-color 0.25s linear;
+}
+
+
+@keyframes btn-hover-color {
+	0% {
+		background-color: #ff8f26;
+	}
+	10% {
+		background-color: #ff8f26;
+	}
+	40% {
+		background-color: #fec38c;
+	}
+	100% {
+		background-color: #ff8f26;
+	}
+}
+
 
 .btn span{
 	display: inline-block;
