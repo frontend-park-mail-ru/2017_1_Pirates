@@ -1,10 +1,10 @@
 <component-info id="Button" tag="button">
 
 	<component-properties>
-		<component-property name="social" default="false" handler="socialNets" type="Boolean"></component-property>
+		<component-property name="social" default="false" handler="onSocialChange" type="Boolean"></component-property>
 		<component-property name="text" default="" maps=".btn-txt@textContent"></component-property>
-		<component-property name="link" handler="linkByButton" default=""></component-property>
-		<component-property name="invertColors" default="false" type="Boolean"></component-property>
+		<component-property name="link" handler="onLinkChange" default=""></component-property>
+		<component-property name="invertColors" handler="onInvertColorsChange" default="false" type="Boolean"></component-property>
 	</component-properties>
 
 	<component-view class="with-padding">

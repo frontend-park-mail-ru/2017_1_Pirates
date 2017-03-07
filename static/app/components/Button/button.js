@@ -8,29 +8,37 @@ window.addEventListener('CreateComponents', () => {
 			super();
 		}
 
-		linkByButton(link) {
+		onLinkChange(link) {
 			if (link !== '') {
 				this.view.children[0].onclick = () => {
 					location.hash = link;
+					/*
+						ToDo: Make Framework route objects
+					 */
 				}
 			}
+
+			return link;
 		}
 
-		setBackgroundColour(colourClass){
-			if (colourClass === null) return;
-			const btn = this.view.children[0];
-			const classes = btn.getAttribute('class');
-			btn.setAttribute('class', classes + ' ' + colourClass);
-		}
+		onSocialChange(condition) {
+			console.log(typeof condition);
 
-		socialNets(condition) {
-			console.log(condition);
 			if (condition !== null && condition !== 'false') {
 				const btn = this.view.children[0];
 				const classes = btn.getAttribute('class');
 				btn.setAttribute('class', classes + ' btn-social');
-				console.log(btn);
 			}
+
+			return condition;
+		}
+
+		onInvertColorsChange(value) {
+			if (value) {
+
+			}
+
+			return value;
 		}
 	};
 
