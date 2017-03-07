@@ -39,6 +39,17 @@ c-button .btn:hover, c-button .btn:focus {
 }
 
 
+c-button .btn:active {
+	outline: none;
+	padding: 12px 12px;
+	top: 5px;
+	left: -8%;
+	width: 116%;
+	font-size: 1.15em;
+	/*animation: btn-hover-color 0.25s linear;*/
+}
+
+
 @keyframes btn-hover-color {
 	0% {
 		background-color: #ff8f26;
