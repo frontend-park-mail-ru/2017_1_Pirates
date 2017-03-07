@@ -7,7 +7,7 @@ c-loading .loading {
 	box-sizing: border-box;
 	position: relative;
 	opacity: 1;
-	transition: opacity 1s linear;
+	transition: opacity 0.2s linear;
 }
 
 c-loading .loading-column {

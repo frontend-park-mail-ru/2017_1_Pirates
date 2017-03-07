@@ -1,14 +1,81 @@
 {
   "swagger": "2.0",
-
+  "host": "motion-project.herokuapp.com",
 
   "info": {
 	"version": "1.0.0",
 	"title": "TestApplication"
   },
 
+  "schemes": [
+	"https"
+  ],
+
 
   "definitions": {
+
+	"UserAuthorizationRequest": {
+	  "type": "object",
+	  "properties": {
+		"login_or_email": {
+		  "type": "string"
+		},
+		"password": {
+		  "type": "string"
+		}
+	  }
+	},
+
+	"UserCreationRequest": {
+	  "type": "object",
+	  "properties": {
+		"login": {
+		  "type": "string"
+		},
+		"email": {
+		  "type": "string"
+		},
+		"password": {
+		  "type": "string"
+		}
+	  }
+	},
+
+	"GenericResponseObject": {
+	  "type": "object",
+	  "properties": {
+		"status": {
+		  "type": "integer"
+		},
+		"error": {
+		  "type": "string"
+		}
+	  }
+	},
+
+	"UserInfoResponseObject": {
+	  "type": "object",
+	  "properties": {
+		"status": {
+		  "type": "integer"
+		},
+		"error": {
+		  "type": "string"
+		},
+		"login": {
+		  "type": "string"
+		},
+		"email": {
+		  "type": "string"
+		},
+		"createdAt": {
+		  "type": "integer"
+		},
+		"updatedAt": {
+		  "type": "integer"
+		}
+	  }
+	},
 
 	"ValidatorStatus": {
 	  "type": "object",
@@ -42,20 +109,141 @@
 
 
   "responses": {
+
+	"GenericResponse": {
+	  "description": "Generic response",
+	  "schema": {
+		"$ref": "#/definitions/GenericResponseObject"
+	  }
+	},
+
 	"ValidatorResponse": {
 	  "description": "General validator response",
 	  "schema": {
 		"$ref": "#/definitions/ValidatorStatusCollection"
 	  }
+	},
+
+	"LoginResponse": {
+	  "description": "Login response",
+	  "schema": {
+		"$ref": "#/definitions/GenericResponseObject"
+	  }
+	},
+
+	"LogoutResponse": {
+	  "description": "Logout response",
+	  "schema": {
+		"$ref": "#/definitions/GenericResponseObject"
+	  }
+	},
+
+	"UserCreationResponse": {
+	  "description": "User creation response",
+	  "schema": {
+		"$ref": "#/definitions/GenericResponseObject"
+	  }
+	},
+
+	"UserDeletionResponse": {
+	  "description": "User deletion response",
+	  "schema": {
+		"$ref": "#/definitions/GenericResponseObject"
+	  }
+	},
+
+	"UserInfoResponse": {
+	  "description": "User info response",
+	  "schema": {
+		"$ref": "#/definitions/UserInfoResponseObject"
+	  }
 	}
+
   },
 
 
   "paths": {
 
-	"/validators/noNumbers": {
+	"/session/login": {
 	  "post": {
-		"description": "`alias: validateNoNumbers`<br>Warns if **value** has no numbers.\n",
+		"description": "`alias: login`<br>Performs a login request with implied login or username and password.<br>Status code -1 means successfull login, and 603 in case of bad login or password.",
+		"parameters": [
+		  {
+			"name": "request",
+			"in": "body",
+			"description": "Request body",
+			"required": true,
+			"schema": {
+			  "$ref": "#/definitions/UserAuthorizationRequest"
+			}
+		  }
+		],
+		"responses": {
+		  "200": {
+			"$ref": "#/responses/LoginResponse"
+		  }
+		}
+	  }
+	},
+
+	"/session/logout": {
+	  "post": {
+		"description": "`alias: logout`<br>Performs a logout request and returns status -1 in all cases.",
+		"responses": {
+		  "200": {
+			"$ref": "#/responses/LogoutResponse"
+		  }
+		}
+	  }
+	},
+
+	"/session/current": {
+	  "get": {
+		"description": "`alias: current`<br>Returns status -1 and current user info if any user is logged in. Returns status 604 if user is not logged in.",
+		"responses": {
+		  "200": {
+			"$ref": "#/responses/UserInfoResponse"
+		  }
+		}
+	  }
+	},
+
+	"/user/create": {
+	  "post": {
+		"description": "`alias: userCreate`<br>Creates a new user. Can return status -1 if the user was created successfully, 601 if such a user already exists or 604 if another user is binded with current session (nobody can sign up while being logged in).",
+		"parameters": [
+		  {
+			"name": "request",
+			"in": "body",
+			"description": "Request body",
+			"required": true,
+			"schema": {
+			  "$ref": "#/definitions/UserCreationRequest"
+			}
+		  }
+		],
+		"responses": {
+		  "200": {
+			"$ref": "#/responses/UserCreationResponse"
+		  }
+		}
+	  }
+	},
+
+	"/user/delete": {
+	  "post": {
+		"description": "`alias: userDelete`<br>Deletes current user. Returns status -1 in case of success and 604 if current user is not logged in.",
+		"responses": {
+		  "200": {
+			"$ref": "#/responses/UserDeletionResponse"
+		  }
+		}
+	  }
+	},
+
+	"/user/changeLogin": {
+	  "post": {
+		"description": "`alias: changeLogin`<br>Changes login of current user. Returns -1 if value is a valid login and can be changed, 605 if login is invalid.",
 		"parameters": [
 		  {
 			"name": "request",
@@ -69,15 +257,128 @@
 		],
 		"responses": {
 		  "200": {
-		  	"$ref": "#/responses/ValidatorResponse"
+			"$ref": "#/responses/GenericResponse"
 		  }
 		}
 	  }
 	},
 
-	"/validators/isBob": {
+	"/user/changeEmail": {
 	  "post": {
-		"description": "`alias: validateIsBob`<br>Validates if **value** starts with \"Bob\".\n",
+		"description": "`alias: changeEmail`<br>Changes email of current user. Returns -1 if value is a valid email and can be changed, 605 if email is invalid.",
+		"parameters": [
+		  {
+			"name": "request",
+			"in": "body",
+			"description": "Request body",
+			"required": true,
+			"schema": {
+			  "$ref": "#/definitions/ValidatorRequest"
+			}
+		  }
+		],
+		"responses": {
+		  "200": {
+			"$ref": "#/responses/GenericResponse"
+		  }
+		}
+	  }
+	},
+
+	"/user/changePassword": {
+	  "post": {
+		"description": "`alias: changePassword`<br>Changes password of current user. Returns -1 if value is a valid password and can be changed, 605 if password is invalid.",
+		"parameters": [
+		  {
+			"name": "request",
+			"in": "body",
+			"description": "Request body",
+			"required": true,
+			"schema": {
+			  "$ref": "#/definitions/ValidatorRequest"
+			}
+		  }
+		],
+		"responses": {
+		  "200": {
+			"$ref": "#/responses/GenericResponse"
+		  }
+		}
+	  }
+	},
+
+	"/user/getById": {
+	  "post": {
+		"description": "`alias: getUserById`<br>Returns status -1 and user info if such user exists, status 602 if no such user found.",
+		"parameters": [
+		  {
+			"name": "request",
+			"in": "body",
+			"description": "Request body",
+			"required": true,
+			"schema": {
+			  "$ref": "#/definitions/ValidatorRequest"
+			}
+		  }
+		],
+		"responses": {
+		  "200": {
+			"$ref": "#/responses/UserInfoResponse"
+		  }
+		}
+	  }
+	},
+
+
+	"/validators/email": {
+	  "post": {
+		"description": "`alias: validateEmail`<br>Errors if such email exists or no valid email submitted.",
+		"parameters": [
+		  {
+			"name": "request",
+			"in": "body",
+			"description": "Request body",
+			"required": true,
+			"schema": {
+			  "$ref": "#/definitions/ValidatorRequest"
+			}
+		  }
+		],
+		"responses": {
+		  "200": {
+			"$ref": "#/responses/ValidatorResponse"
+		  }
+		}
+	  }
+	},
+
+
+	"/validators/login": {
+	  "post": {
+		"description": "`alias: validateLogin`<br>Errors if such login exists or no valid login submitted.",
+		"parameters": [
+		  {
+			"name": "request",
+			"in": "body",
+			"description": "Request body",
+			"required": true,
+			"schema": {
+			  "$ref": "#/definitions/ValidatorRequest"
+			}
+		  }
+		],
+		"responses": {
+		  "200": {
+			"$ref": "#/responses/ValidatorResponse"
+		  }
+		}
+	  }
+	},
+
+
+	"/validators/password": {
+	  "post": {
+		"description": "`alias: validatePassword`<br>Errors if such password is too short or too long, warns if password is too simple.",
 		"parameters": [
 		  {
 			"name": "request",
@@ -96,6 +397,6 @@
 		}
 	  }
 	}
-  }
 
+  }
 }
