@@ -1,0 +1,95 @@
+
+
+c-loading .loading {
+	width: 64px;
+	height: 64px;
+	display: inline-block;
+	box-sizing: border-box;
+	position: relative;
+}
+
+c-loading .balls {
+	animation: balls-animate 2s linear infinite;
+}
+
+c-loading .balls>:nth-child(2n) {
+	animation: balls-animate-after 7s ease-in-out infinite;
+}
+
+c-loading .balls>:nth-child(2n+1) {
+	animation: balls-animate-before 7s ease-in-out infinite;
+}
+
+
+c-loading .circle {
+	border-radius: 50%;
+	content: " ";
+	width: 4px;
+	height: 4px;
+	display: inline-block;
+	box-sizing: border-box;
+	background-color: whitesmoke;
+	position: absolute;
+}
+
+c-loading .balls>:nth-child(n)::after {
+	content:" ";
+	display: inline-block;
+	position: relative;
+	top: -14px;
+	left: 1px;
+	animation: balls-animate-flicker 0.25s linear 0s infinite;
+}
+
+
+@keyframes balls-animate {
+	0% {
+		transform: rotate(0);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes balls-animate-before {
+
+	0% {
+		transform: translate(-30px, -10px)
+	}
+	30% {
+		transform: translate(0, 0)
+	}
+	50% {
+		transform: translate(0, 0)
+	}
+	100% {
+		transform: translate(-30px, -10px)
+	}
+}
+
+@keyframes balls-animate-after {
+	0% {
+		transform: translate(20px, 10px)
+	}
+	30% {
+		transform: translate(0, 0)
+	}
+	90% {
+		transform: translate(0, 0)
+	}
+	100% {
+		transform: translate(20px, 10px)
+	}
+}
+
+@keyframes balls-animate-flicker {
+	0% {
+		box-shadow: 0 0 50px 5px rgba(255, 255, 255, 1.0);
+	}
+	50% {
+		box-shadow: 0 0 50px 5px rgba(255, 255, 255, 0.7);
+	}
+	100% {
+		box-shadow: 0 0 50px 5px rgba(255, 255, 255, 1.0);
+	}
+}
