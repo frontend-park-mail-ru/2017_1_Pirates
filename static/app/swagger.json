@@ -1,9 +1,15 @@
 {
   "swagger": "2.0",
+  "host": "motion-project.herokuapp.com",
+
   "info": {
 	"version": "1.0.0",
 	"title": "TestApplication"
   },
+
+  "schemes": [
+	"https"
+  ],
 
 
   "definitions": {
@@ -43,6 +49,30 @@
 		},
 		"error": {
 		  "type": "string"
+		}
+	  }
+	},
+
+	"UserInfoResponseObject": {
+	  "type": "object",
+	  "properties": {
+		"status": {
+		  "type": "integer"
+		},
+		"error": {
+		  "type": "string"
+		},
+		"login": {
+		  "type": "string"
+		},
+		"email": {
+		  "type": "string"
+		},
+		"createdAt": {
+		  "type": "integer"
+		},
+		"updatedAt": {
+		  "type": "integer"
 		}
 	  }
 	},
@@ -120,6 +150,13 @@
 	  "schema": {
 		"$ref": "#/definitions/GenericResponseObject"
 	  }
+	},
+
+	"UserInfoResponse": {
+	  "description": "User info response",
+	  "schema": {
+		"$ref": "#/definitions/UserInfoResponseObject"
+	  }
 	}
 
   },
@@ -155,6 +192,17 @@
 		"responses": {
 		  "200": {
 			"$ref": "#/responses/LogoutResponse"
+		  }
+		}
+	  }
+	},
+
+	"/session/current": {
+	  "get": {
+		"description": "`alias: current`<br>Returns status -1 and current user info if any user is logged in. Returns status 604 if user is not logged in.",
+		"responses": {
+		  "200": {
+			"$ref": "#/responses/UserInfoResponse"
 		  }
 		}
 	  }
@@ -254,6 +302,28 @@
 		"responses": {
 		  "200": {
 			"$ref": "#/responses/GenericResponse"
+		  }
+		}
+	  }
+	},
+
+	"/user/getById": {
+	  "post": {
+		"description": "`alias: getUserById`<br>Returns status -1 and user info if such user exists, status 602 if no such user found.",
+		"parameters": [
+		  {
+			"name": "request",
+			"in": "body",
+			"description": "Request body",
+			"required": true,
+			"schema": {
+			  "$ref": "#/definitions/ValidatorRequest"
+			}
+		  }
+		],
+		"responses": {
+		  "200": {
+			"$ref": "#/responses/UserInfoResponse"
 		  }
 		}
 	  }

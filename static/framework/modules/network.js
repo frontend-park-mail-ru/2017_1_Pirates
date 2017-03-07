@@ -51,7 +51,7 @@ window.Framework.BackendTag = class extends HTMLElement {
 		current[handlerName] = (args, callback) => {
 			const xhr = new XMLHttpRequest();
 
-			xhr.open(method.toUpperCase(), `${this.host}${path}`, true);
+			xhr.open(method.toUpperCase(), `${this.swagger.host || ''}${path}`, true);
 			xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 
 			xhr.onreadystatechange = () => {
