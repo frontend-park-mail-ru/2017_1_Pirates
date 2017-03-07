@@ -1,40 +1,87 @@
 
 
-.btn {
+c-button .btn {
 	text-align: center;
 	box-sizing: border-box;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-	/*margin-bottom: 0;*/
 	font-weight: normal;
 	vertical-align: middle;
 	cursor: pointer;
 	border-radius: 25px;
-	/*line-height: 1.5;*/
 	border: 1px solid transparent;
 	padding: 8px 12px;
+	top: 0;
+	left: 0;
+	width: 100%;
+	font-size: 1em;
 
 	background-color: #ff8f26;
+	transition: padding 0.2s cubic-bezier(.5,-0.86,.47,1.73),
+				top 0.2s cubic-bezier(.5,-0.86,.47,1.73),
+				left 0.2s cubic-bezier(.5,-0.86,.47,1.73),
+				width 0.2s cubic-bezier(.5,-0.86,.47,1.73),
+				font-size 0.2s cubic-bezier(.5,-0.86,.47,1.73);
+	position: relative;
 }
 
-.btn span{
+
+c-button .btn:hover, c-button .btn:focus {
+	outline: none;
+	padding: 14px 12px;
+	top: 7px;
+	left: -10%;
+	width: 120%;
+	font-size: 1.2em;
+	animation: btn-hover-color 0.25s linear;
+}
+
+
+c-button .btn:active {
+	outline: none;
+	padding: 12px 12px;
+	top: 5px;
+	left: -8%;
+	width: 116%;
+	font-size: 1.15em;
+	/*animation: btn-hover-color 0.25s linear;*/
+}
+
+
+@keyframes btn-hover-color {
+	0% {
+		background-color: #ff8f26;
+	}
+	10% {
+		background-color: #ff8f26;
+	}
+	40% {
+		background-color: #fec38c;
+	}
+	100% {
+		background-color: #ff8f26;
+	}
+}
+
+
+c-button .btn span{
 	display: inline-block;
 	vertical-align: middle;
 }
 
-.btn a {
+c-button .btn a {
 	text-decoration: none;
 	color: inherit;
 }
 
 
-.btn-fa {
+c-button .btn-fa {
 	background-color: #ff8f26;
 }
 
-.btn-social {
+c-button .btn-social {
 	/*position: relative;*/
 	/*text-align: left;*/
 	/*vertical-align: middle;*/
@@ -44,7 +91,7 @@
 	/*text-overflow: ellipsis;*/
 }
 
-.btn-social>:first-child {
+c-button .btn-social>:first-child {
 	position: relative;
 	display: inline-block;
 	/*left: 0;*/
@@ -58,11 +105,11 @@
 	margin-right: 5px;
 }
 
-.btn-social>:first-child:before {
+c-button .btn-social>:first-child:before {
 	content: 'f';
 }
 
-.btn-social>:last-child {
+c-button .btn-social>:last-child {
 	position: relative;
 	display: inline-block;
 	/*left: 0;*/
@@ -76,40 +123,7 @@
 	margin-right: 5px;
 }
 
-.btn-social>:last-child:after {
+c-button .btn-social>:last-child:after {
 	content: 'vk';
 }
 
-
-
-/*.fa {*/
-	/*display: inline-block;*/
-	/*!*background-image: url('social_icons.png');*!*/
-	/*background-repeat: no-repeat;*/
-	/*background-position: -50px 0;*/
-/*}*/
-
-
-.orange:hover {
-	background-color: #ffd90e;
-}
-
-.orange:active {
-	background-color: #ff8f26;
-}
-
-.orange {
-	background-color: #ff8f26;
-}
-
-.black {
-	background-color: #222222;
-}
-
-.black:hover {
-	background-color: #333333;
-}
-
-.black:active {
-	background-color: #111111;
-}
