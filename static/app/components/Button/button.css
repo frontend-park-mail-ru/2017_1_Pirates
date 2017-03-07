@@ -7,14 +7,16 @@
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-	margin-bottom: 0;
+	/*margin-bottom: 0;*/
 	font-weight: normal;
 	vertical-align: middle;
 	cursor: pointer;
 	border-radius: 25px;
 	/*line-height: 1.5;*/
 	border: 1px solid transparent;
-	padding: 6px 12px;
+	padding: 8px 12px;
+
+	background-color: #ff8f26;
 }
 
 .btn span{
@@ -49,10 +51,10 @@
 	/*top: -3px;*/
 	/*bottom: 0;*/
 	width: 40px;
-	line-height: 40px;
-	font-size: 1.6em;
+	/*line-height: 40px;*/
+	/*font-size: 1.6em;*/
 	text-align: center;
-	border-right: 1px solid;
+	/*border-right: 1px solid;*/
 	margin-right: 5px;
 }
 
@@ -67,10 +69,10 @@
 	/*top: -3px;*/
 	/*bottom: 0;*/
 	width: 40px;
-	line-height: 40px;
-	font-size: 1.6em;
+	/*line-height: 40px;*/
+	/*font-size: 1.6em;*/
 	text-align: center;
-	border-left: 1px solid;
+	/*border-left: 1px solid;*/
 	margin-right: 5px;
 }
 

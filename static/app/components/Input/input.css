@@ -1,0 +1,16 @@
+
+
+c-input input {
+	width: 100%;
+	box-sizing: border-box;
+	background-color: white;
+	padding: 5px;
+	border-radius: 7px;
+	border: solid white;
+	transition: box-shadow 0.3s;
+}
+
+c-input input:focus {
+	outline: none;
+	box-shadow: #ff8f26 0 0 10px 4px;
+}

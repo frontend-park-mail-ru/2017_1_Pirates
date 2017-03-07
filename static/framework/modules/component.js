@@ -81,7 +81,7 @@ window.Framework.Component = class Component {
 
 	setDefaults() {
 		Object.keys(this.tag.properties).forEach((name) => {
-			this[`__${name}__`] = window.Framework.Component.toTyped(
+			this[name] = window.Framework.Component.toTyped(
 				this.tag.properties[name],
 				this.tag.properties[name].default
 			);
@@ -185,6 +185,7 @@ window.Framework.Component = class Component {
 		this.validators[name].chain.onStateChange = (chain) => {
 			this[this.validators[name].handler || '__defaultValidateHandler__'](chain);
 		};
+		value = window.Framework.Component.toTyped(this.tag.properties[name], value);
 		this.validators[name].chain.validate(value);
 
 		if (typeof this[handlerName || '__defaultHandler__'] === 'function') {
