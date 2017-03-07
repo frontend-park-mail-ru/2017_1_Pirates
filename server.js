@@ -10,6 +10,7 @@ const swaggerDocument = require('./static/app/swagger.json');
 
 app.use('/', express.static(__dirname + '/static'));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));  // Swagger
+app.use('/lib/webcomponentsjs', express.static(__dirname + '/node_modules/webcomponents.js'));
 
 app.get('/', (req,res) => {
 	res.sendFile(__dirname + '/static/app/application.html');

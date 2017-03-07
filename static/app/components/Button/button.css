@@ -7,7 +7,7 @@ c-button .btn {
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-	font-weight: normal;
+	/*font-weight: normal;*/
 	vertical-align: middle;
 	cursor: pointer;
 	border-radius: 25px;

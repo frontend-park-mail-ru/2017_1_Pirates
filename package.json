@@ -22,6 +22,7 @@
 	"express": "^4.14.1",
 	"babylonjs": "latest",
 	"swagger-ui-express": "latest",
-	"body-parser": "latest"
+	"body-parser": "latest",
+	"webcomponents.js": "git://github.com/webcomponents/webcomponentsjs.git"
   }
 }
