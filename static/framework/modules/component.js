@@ -61,14 +61,17 @@ window.Framework.Component = class Component {
 		switch (property.type) {
 
 			case 'Boolean': {
+				if (typeof value === 'boolean') return value;
 				return value == 'true';
 			} break;
 
 			case 'Integer': {
+				if (typeof value === 'number') return Math.floor(value);
 				return parseInt(value);
 			} break;
 
 			case 'Float': {
+				if (typeof value === 'number') return value;
 				return parseFloat(value);
 			} break;
 

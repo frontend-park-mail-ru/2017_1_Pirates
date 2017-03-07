@@ -8,7 +8,10 @@ window.Activity.SecondActivity = class extends window.Framework.Activity {
 	};
 
 	onEnter(args) {
-		// alert('Second activity works!');
+		window.setInterval(() => {
+			const loading = this.view.queryComponent('loading');
+			loading.visible = !loading.visible;
+		}, 5000);
 	};
 
 };
