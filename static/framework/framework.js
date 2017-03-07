@@ -76,6 +76,11 @@ const loadActivities = () => {
 };
 
 
+/*const ready = () => {
+	window.addEventListener()
+};*/
+
+
 const ready = () => {
 	customElements.define('app-view', window.Framework.View);
 	customElements.define('app-activity', window.Framework.ActivityTag);
@@ -118,5 +123,5 @@ const hashChange = () => {
 };
 
 
-window.addEventListener("hashchange", hashChange);
-window.addEventListener("load", ready);
+window.addEventListener('hashchange', hashChange);
+window.addEventListener('WebComponentsReady', ready);
