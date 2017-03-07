@@ -3,6 +3,7 @@
 
 window.addEventListener('CreateComponents', () => {
 	window.Component.Loading = class extends window.Framework.ComponentStub.Loading {
+
 		constructor() {
 			super();
 
@@ -10,6 +11,7 @@ window.addEventListener('CreateComponents', () => {
 				this.setup();
 			}, 100);
 		}
+
 
 		setup() {
 			const load = this.view.querySelector('div');
@@ -29,5 +31,17 @@ window.addEventListener('CreateComponents', () => {
 				load.appendChild(circle);
 			}
 		}
+
+
+		onSetVisible(visible) {
+			if (visible) {
+				this.view.querySelector('div').style.opacity = 1;
+			} else {
+				this.view.querySelector('div').style.opacity = 0;
+			}
+
+			return visible;
+		}
+
 	};
 });
