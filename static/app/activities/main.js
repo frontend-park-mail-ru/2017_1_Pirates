@@ -11,7 +11,7 @@ window.Activity.MainActivity = class extends window.Framework.Activity {
 
 	/*onButtonClick(event) {
 	 window.Route.MainRoute.navigate();
-	 }*/
+	}*/
 
 
 	onEnter(args) {

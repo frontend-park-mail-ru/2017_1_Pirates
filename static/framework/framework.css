@@ -38,7 +38,7 @@ view-include {
 
 
 @media all and (max-width: 600px) {
-	view-row {
+	view-row[collapses] {
 		flex-direction: column;
 		padding-left: 30px;
 		padding-right: 30px;
