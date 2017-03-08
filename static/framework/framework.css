@@ -32,6 +32,11 @@ component-view {
 }
 
 
+view-include {
+	display: block;
+}
+
+
 @media all and (max-width: 600px) {
 	view-row {
 		flex-direction: column;

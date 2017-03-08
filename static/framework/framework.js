@@ -38,10 +38,15 @@ const renderComponents = () => {
 
 
 const loadRouting = () => {
-	return [...document.querySelectorAll('app-routing app-route')].sort((a, b) => {
-		return a.length - b.length;
-		// ToDo: тут что-то необычное
+	const routes = [...document.querySelectorAll('app-routing app-route')].sort((a, b) => {
+		return a.path.slice(1).split('__').length - b.path.slice(1).split('__').length;
 	});
+
+	routes.forEach((route) => {
+		window.Route[route.id] = route;
+	});
+
+	return routes;
 };
 
 

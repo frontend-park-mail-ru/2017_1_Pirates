@@ -1,29 +1,24 @@
 <app-view id="BaseView">
 
 	<view-row width="10">
-		<view-column width="2">kek</view-column>
-		<view-column width="8"><h1>It Works!</h1></view-column>
-	</view-row>
+		<view-column width="2"></view-column>
 
-	<view-row width="1">
-		<view-column>
-			<view-include view="MenuBlockView"></view-include>
+		<view-column width="6">
 		</view-column>
+
+		<view-column width="2"></view-column>
 	</view-row>
 
-	<view-row width="1" fill>
-		<view-column>Heh</view-column>
-	</view-row>
-
-	<view-row width="3">
+	<view-row fill>
 		<view-column></view-column>
+	</view-row>
 
-		<view-column width="1">
-			<view-yield></view-yield>
-		</view-column>
 
+	<view-yield></view-yield>
+
+
+	<view-row fill>
 		<view-column></view-column>
 	</view-row>
 
 </app-view>
-

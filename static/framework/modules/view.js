@@ -18,6 +18,7 @@ window.Framework.View = class View extends HTMLElement {
 		let result = [];
 
 		[...view.querySelectorAll(query)].forEach((element) => {
+			console.log(element.__component__);
 			if (element.__component__) {
 				result.push(element.__component__);
 			}
@@ -120,6 +121,10 @@ window.Framework.ViewInclude = class ViewInclude extends HTMLElement {
 	}
 
 	render() {
+		if (this.hasAttribute('rendered')) {
+			return;
+		}
+
 		const includes = window.Framework.views[this.getAttribute('view')].cloneNode(true);
 		const parameter = includes.querySelector('view-parameter');
 
@@ -127,8 +132,10 @@ window.Framework.ViewInclude = class ViewInclude extends HTMLElement {
 			parameter.outerHTML = this.innerHTML;
 		}
 
-		includes.render();
-		this.outerHTML = includes.innerHTML;
+		this.innerHTML = includes.innerHTML;
+		this.setAttribute('rendered', true);
+
+		window.Framework.View.renderTree(this);
 	}
 };
 

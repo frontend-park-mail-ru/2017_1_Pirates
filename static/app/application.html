@@ -58,18 +58,13 @@
 	<!-- End Validators -->
 
 	<!-- Views -->
-	<link rel="import" href="/app/views/base.html">
-	<link rel="import" href="/app/views/first.html">
-	<link rel="import" href="/app/views/second.html">
-	<link rel="import" href="/app/views/blocks/_menu.html">
 	<link rel="import" href="/app/views/blocks/_form-row.html">
-	<link rel="import" href="/app/views/animation_view.html">
+	<link rel="import" href="/app/views/base.html">
+	<link rel="import" href="/app/views/loading.html">
 	<!-- End Views -->
 
 	<!-- Activities -->
-	<script src="/app/activities/first.js"></script>
-	<script src="/app/activities/second.js"></script>
-	<script src="/app/activities/animation.js"></script>
+	<script src="/app/activities/loading.js"></script>
 	<!-- End Activities -->
 
 	<!-- Background -->
@@ -84,28 +79,14 @@
 		<app-backend url="*" swagger="/app/swagger.json"></app-backend>
 
 		<app-activities>
-			<app-activity id="FirstActivity"
-						  view="FirstView"
-						  animation-enter="Shift"
-						  animation-leave="Shift">
-			</app-activity>
-			<app-activity id="SecondActivity"
-						  view="SecondView"
-						  animation-enter="Shift"
-						  animation-leave="Shift">
-			</app-activity>
-			<app-activity id="AnimationActivity"
-						  view="AnimationView"
-						  animation-enter="Shift"
-						  animation-leave="Shift">
+			<app-activity id="LoadingActivity" view="LoadingView" animation-enter="Opacity"
+						  animation-leave="Opacity">
 			</app-activity>
 		</app-activities>
 
 		<app-routing>
-			<app-route id="SayHiRoute" activity="FirstActivity#sayHi" path="#hello__<name>__<age=34>"></app-route>
-			<app-route id="AnimationRoute" activity="AnimationActivity" path="#animation"></app-route>
-			<app-route id="SecondRoute" activity="SecondActivity" path="#second"></app-route>
-			<app-route id="IndexRoute" activity="FirstActivity" path="#"></app-route>
+			<app-route id="RootRoute" activity="LoadingActivity" path="#"></app-route>
+			<app-route id="MainRoute" activity="MainActivity" path="#main"></app-route>
 		</app-routing>
 	</app-inf>
 
