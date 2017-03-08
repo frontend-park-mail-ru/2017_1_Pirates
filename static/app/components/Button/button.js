@@ -33,13 +33,11 @@ window.addEventListener('CreateComponents', () => {
 		}
 
 		onSocialChange(condition) {
-			console.log(typeof condition);
-
-			/*if (condition !== null && condition !== 'false') {
-				const btn = this.view.children[0];
+			if (condition) {
+				const btn = this.view.querySelector('button');
 				const classes = btn.getAttribute('class');
 				btn.setAttribute('class', classes + ' btn-social');
-			}*/
+			}
 
 			return condition;
 		}
