@@ -12,6 +12,19 @@ body, input, button {
 }*/
 
 
+c-loading#loading {
+	position: relative;
+	margin: 0 auto;
+}
+
+
 component-view.with-padding {
 	min-height: 60px;
+}
+
+
+.loading-container {
+	min-height: 70px;
+	display: block;
+	margin-top: 20px;
 }

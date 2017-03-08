@@ -7,13 +7,13 @@ window.Activity.LoadingActivity = class extends window.Framework.Activity {
 		super();
 		this.setupBackground();
 
-		this.bind('button', 'click', 'onButtonClick');
+		//this.bind('button', 'click', 'onButtonClick');
 	};
 
 
-	onButtonClick(event) {
-		alert('binded!');
-	}
+	/*onButtonClick(event) {
+		window.Route.MainRoute.navigate();
+	}*/
 
 
 	setupBackground() {
@@ -44,6 +44,10 @@ window.Activity.LoadingActivity = class extends window.Framework.Activity {
 
 
 	onEnter(args) {
+		window.setTimeout(() => {
+			this.view.queryComponent('loading').visible = false;
+			window.Route.MainRoute.navigate();
+		}, 6000);
 	};
 
 };

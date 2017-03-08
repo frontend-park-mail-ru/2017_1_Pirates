@@ -52,6 +52,7 @@ window.Framework.BackendTag = class extends HTMLElement {
 			const xhr = new XMLHttpRequest();
 
 			xhr.open(method.toUpperCase(), `${this.swagger.host || ''}${path}`, true);
+			xhr.withCredentials = true;
 			xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 
 			xhr.onreadystatechange = () => {
@@ -93,7 +94,5 @@ window.Framework.BackendTag = class extends HTMLElement {
 				});
 			});
 		});
-
-		console.dir(window.Network);
 	}
 };

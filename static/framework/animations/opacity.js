@@ -54,6 +54,5 @@ window.Animation.Opacity = class extends window.Framework.Animation {
 	remove() {
 		this.view.style.transition = 'none';
 		this.view.style.opacity = 1;
-		console.log((new Date()).toTimeString(), 'animation removed');
 	}
 };

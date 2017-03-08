@@ -3,17 +3,15 @@
 c-button .btn {
 	text-align: center;
 	box-sizing: border-box;
-	/*font-weight: normal;*/
-	/*vertical-align: middle;*/
 	cursor: pointer;
 	border-radius: 25px;
 	border: 1px solid transparent;
-	/*padding: 8px 12px;*/
 	padding: 4px;
 	top: 0;
 	left: 0;
 	width: 100%;
 	font-size: 1em;
+	user-select: none;
 
 	background-color: #ff8f26;
 	transition: padding 0.2s cubic-bezier(.5,-0.86,.47,1.73),
@@ -34,8 +32,6 @@ c-button .btn {
 c-button .btn:hover, c-button .btn:focus {
 	outline: none;
 	padding: 8px;
-	/*padding: 14px 12px;*/
-	/*top: 7px;*/
 	top: -6px;
 	left: -4%;
 	width: 108%;
@@ -50,12 +46,34 @@ c-button .btn:active {
 	top: -4px;
 	left: -3%;
 	width: 106%;
-	/*padding: 12px 12px;*/
-	/*top: 5px;*/
-	/*left: -8%;*/
-	/*width: 116%;*/
 	font-size: 1.15em;
-	/*animation: btn-hover-color 0.25s linear;*/
+}
+
+
+c-button.btn-gray .btn {
+	background-color: rgb(10, 10, 10);
+	color: #ff8f26;
+}
+
+
+c-button.btn-gray .btn:hover, c-button.btn-gray .btn:focus {
+	animation: gray-btn-hover-color 0.25s linear;
+}
+
+
+@keyframes gray-btn-hover-color {
+	0% {
+		background-color: rgb(10, 10, 10);
+	}
+	10% {
+		background-color: rgb(10, 10, 10);
+	}
+	40% {
+		background-color: rgb(40, 40, 40);
+	}
+	100% {
+		background-color: rgb(10, 10, 10);
+	}
 }
 
 

@@ -38,10 +38,11 @@ window.Framework.Route = class Route extends HTMLElement {
 	}
 
 	fire(args) {
-		Route.showActivity(this.activity, this.methodName, args);
+		Route.showActivity(this.activity, this.methodName, args || {});
 	}
 
 	navigate(args) {
+		args = args || {};
 		const argExp = /<(\w|\d|=)+>/;
 		const declared = this.path.slice(1).split('__');
 		let final = [];

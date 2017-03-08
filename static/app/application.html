@@ -61,10 +61,12 @@
 	<link rel="import" href="/app/views/blocks/_form-row.html">
 	<link rel="import" href="/app/views/base.html">
 	<link rel="import" href="/app/views/loading.html">
+	<link rel="import" href="/app/views/main.html">
 	<!-- End Views -->
 
 	<!-- Activities -->
 	<script src="/app/activities/loading.js"></script>
+	<script src="/app/activities/main.js"></script>
 	<!-- End Activities -->
 
 	<!-- Background -->
@@ -81,6 +83,9 @@
 		<app-activities>
 			<app-activity id="LoadingActivity" view="LoadingView" animation-enter="Opacity"
 						  animation-leave="Opacity">
+			</app-activity>
+			<app-activity id="MainActivity" view="MainView" animation-enter="Shift"
+						  animation-leave="Shift">
 			</app-activity>
 		</app-activities>
 

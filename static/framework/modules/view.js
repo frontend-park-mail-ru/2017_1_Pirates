@@ -18,7 +18,6 @@ window.Framework.View = class View extends HTMLElement {
 		let result = [];
 
 		[...view.querySelectorAll(query)].forEach((element) => {
-			console.log(element.__component__);
 			if (element.__component__) {
 				result.push(element.__component__);
 			}
