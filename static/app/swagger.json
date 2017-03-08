@@ -330,7 +330,7 @@
 	},
 
 
-	"/validators/email": {
+	"/validator/email": {
 	  "post": {
 		"description": "`alias: validateEmail`<br>Errors if such email exists or no valid email submitted.",
 		"parameters": [
@@ -353,7 +353,7 @@
 	},
 
 
-	"/validators/login": {
+	"/validator/login": {
 	  "post": {
 		"description": "`alias: validateLogin`<br>Errors if such login exists or no valid login submitted.",
 		"parameters": [
@@ -376,7 +376,7 @@
 	},
 
 
-	"/validators/password": {
+	"/validator/password": {
 	  "post": {
 		"description": "`alias: validatePassword`<br>Errors if such password is too short or too long, warns if password is too simple.",
 		"parameters": [
