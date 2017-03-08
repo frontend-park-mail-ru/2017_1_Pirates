@@ -47,7 +47,7 @@ window.addEventListener('CreateComponents', () => {
 
 		onSocialChange(condition) {
 			if (condition) {
-				const btn = this.view.querySelector('button');
+				const btn = this.view.querySelector('.btn');
 				const classes = btn.getAttribute('class');
 				btn.setAttribute('class', classes + ' btn-social');
 			}
