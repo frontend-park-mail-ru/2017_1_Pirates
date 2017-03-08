@@ -36,8 +36,6 @@ window.Framework.BackendTag = class extends HTMLElement {
 
 				window.dispatchEvent(new Event('SwaggerSpecLoad'));
 			}
-
-			this.__swagger__ = null;
 		};
 
 		xhr.send();

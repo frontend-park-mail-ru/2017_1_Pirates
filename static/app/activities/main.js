@@ -22,11 +22,20 @@ window.Activity.MainActivity = class extends window.Framework.Activity {
 
 
 	onEnter(args) {
-		console.log(window.ErrorCodes.SUCCESS);
+		window.setTimeout(() => {
+			window.Network.current({}, (status, response) => {
+				if (response.status === window.ErrorCodes.SUCCESS) {
+					window.currentUser = response;
+					// ToDo: Trigger text change
+					return;
+				}
 
-		window.Network.current({}, (status, response) => {
-			console.log(status, response);
-		});
+				if (response.status === window.ErrorCodes.SESSION_INVALID) {
+					window.currentUser = null;
+					// ToDo: Trigger unauthorized text
+				}
+			});
+		}, 1000);
 	};
 
 };

@@ -28,3 +28,16 @@ component-view.with-padding {
 	display: block;
 	margin-top: 20px;
 }
+
+
+
+.left-link, .right-link {
+	padding: 30px 80px;
+	color: white;
+}
+.left-link {
+	text-align: left;
+}
+.right-link {
+	text-align: right;
+}
