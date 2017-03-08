@@ -1,0 +1,14 @@
+.link-container {
+	justify-content: center;
+}
+
+.link-txt {
+	display: inline-flex;
+	color: #ff8f26;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.link-txt:hover {
+	color: #fec38c;
+}
