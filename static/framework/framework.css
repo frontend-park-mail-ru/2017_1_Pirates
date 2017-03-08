@@ -30,3 +30,20 @@ view-column {
 component-view {
 	display: block;
 }
+
+
+@media all and (max-width: 600px) {
+	view-row {
+		flex-direction: column;
+		padding-left: 30px;
+		padding-right: 30px;
+	}
+}
+
+
+@media all and (min-width: 601px) and (max-width: 1000px) {
+	view-row [filler] {
+		display: none;
+	}
+}
+
