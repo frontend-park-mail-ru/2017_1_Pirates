@@ -70,7 +70,7 @@ c-button .btn:active {
 
 c-button .btn > span > span{
 	display: inline-block;
-	vertical-align: middle;
+	/*vertical-align: middle;*/
 }
 
 c-button .btn  a {
@@ -83,7 +83,7 @@ c-button .btn-fa {
 	background-color: #ff8f26;
 }
 
-c-button .btn-social {
+c-button .btn-social > span > span {
 	/*position: relative;*/
 	/*text-align: left;*/
 	/*vertical-align: middle;*/
@@ -93,7 +93,7 @@ c-button .btn-social {
 	/*text-overflow: ellipsis;*/
 }
 
-c-button .btn-social>:first-child {
+c-button .btn-social>span>:first-child {
 	position: relative;
 	display: inline-block;
 	/*left: 0;*/
@@ -102,12 +102,12 @@ c-button .btn-social>:first-child {
 	width: 40px;
 	/*line-height: 40px;*/
 	/*font-size: 1.6em;*/
-	text-align: center;
+	text-align: left;
 	/*border-right: 1px solid;*/
-	margin-right: 5px;
+	/*margin-right: 5px;*/
 }
 
-c-button .btn-social>span>:first-child:before {
+c-button .btn-social>span>:first-child:after {
 	content: 'f';
 }
 
@@ -120,9 +120,9 @@ c-button .btn-social>span>:last-child {
 	width: 40px;
 	/*line-height: 40px;*/
 	/*font-size: 1.6em;*/
-	text-align: center;
+	text-align: right;
 	/*border-left: 1px solid;*/
-	margin-right: 5px;
+	/*margin-right: 5px;*/
 }
 
 c-button .btn-social>span>:last-child:after {
