@@ -3,10 +3,6 @@
 c-button .btn {
 	text-align: center;
 	box-sizing: border-box;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
 	/*font-weight: normal;*/
 	vertical-align: middle;
 	cursor: pointer;
@@ -27,6 +23,12 @@ c-button .btn {
 	position: relative;
 }
 
+.btn > span {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
 
 c-button .btn:hover, c-button .btn:focus {
 	outline: none;
@@ -66,12 +68,12 @@ c-button .btn:active {
 }
 
 
-c-button .btn span{
+c-button .btn > span > span{
 	display: inline-block;
 	vertical-align: middle;
 }
 
-c-button .btn a {
+c-button .btn  a {
 	text-decoration: none;
 	color: inherit;
 }
@@ -105,11 +107,11 @@ c-button .btn-social>:first-child {
 	margin-right: 5px;
 }
 
-c-button .btn-social>:first-child:before {
+c-button .btn-social>span>:first-child:before {
 	content: 'f';
 }
 
-c-button .btn-social>:last-child {
+c-button .btn-social>span>:last-child {
 	position: relative;
 	display: inline-block;
 	/*left: 0;*/
@@ -123,7 +125,7 @@ c-button .btn-social>:last-child {
 	margin-right: 5px;
 }
 
-c-button .btn-social>:last-child:after {
+c-button .btn-social>span>:last-child:after {
 	content: 'vk';
 }
 
