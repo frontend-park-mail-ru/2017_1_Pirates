@@ -5,13 +5,20 @@ window.Activity.MainActivity = class extends window.Framework.Activity {
 
 	constructor() {
 		super();
-		//this.bind('button', 'click', 'onButtonClick');
+
+		this.bind('#singlePlayer', 'click', 'onSingleClick');
+		this.bind('#multiPlayer', 'click', 'onMultiClick');
 	};
 
 
-	/*onButtonClick(event) {
-	 window.Route.MainRoute.navigate();
-	}*/
+	onSingleClick(event) {
+		window.Route.SinglePlayerRoute.navigate();
+	};
+
+
+	onMultiClick(event) {
+		window.Route.MultiPlayerRoute.navigate();
+	};
 
 
 	onEnter(args) {

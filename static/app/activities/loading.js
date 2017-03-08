@@ -44,10 +44,10 @@ window.Activity.LoadingActivity = class extends window.Framework.Activity {
 
 
 	onEnter(args) {
-		/*window.setTimeout(() => {
+		window.setTimeout(() => {
 			this.view.queryComponent('loading').visible = false;
 			window.Route.MainRoute.navigate();
-		}, 6000);*/
+		}, 2000);
 	};
 
 };
