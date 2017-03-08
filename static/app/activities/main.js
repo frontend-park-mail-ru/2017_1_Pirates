@@ -22,10 +22,11 @@ window.Activity.MainActivity = class extends window.Framework.Activity {
 
 
 	onEnter(args) {
-		/*window.setInterval(() => {
-			const loading = this.view.queryComponent('#loading');
-			loading.visible = !loading.visible;
-		}, 3000);*/
+		console.log(window.ErrorCodes.SUCCESS);
+
+		window.Network.current({}, (status, response) => {
+			console.log(status, response);
+		});
 	};
 
 };

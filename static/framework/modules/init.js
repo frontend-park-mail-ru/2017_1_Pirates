@@ -16,4 +16,5 @@ window.Framework.debug = false;
 window.Framework.debugAnimation = true;
 window.Framework.currentActivity = null;
 window.Framework.animating = false;
+window.Framework.currentRequests = 0;
 
