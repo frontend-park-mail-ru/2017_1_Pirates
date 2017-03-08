@@ -4,11 +4,12 @@ c-button .btn {
 	text-align: center;
 	box-sizing: border-box;
 	/*font-weight: normal;*/
-	vertical-align: middle;
+	/*vertical-align: middle;*/
 	cursor: pointer;
 	border-radius: 25px;
 	border: 1px solid transparent;
-	padding: 8px 12px;
+	/*padding: 8px 12px;*/
+	padding: 4px;
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -32,10 +33,12 @@ c-button .btn {
 
 c-button .btn:hover, c-button .btn:focus {
 	outline: none;
-	padding: 14px 12px;
-	top: 7px;
-	left: -10%;
-	width: 120%;
+	padding: 8px;
+	/*padding: 14px 12px;*/
+	/*top: 7px;*/
+	top: -6px;
+	left: -4%;
+	width: 108%;
 	font-size: 1.2em;
 	animation: btn-hover-color 0.25s linear;
 }
@@ -43,12 +46,21 @@ c-button .btn:hover, c-button .btn:focus {
 
 c-button .btn:active {
 	outline: none;
-	padding: 12px 12px;
-	top: 5px;
-	left: -8%;
-	width: 116%;
+	padding: 6px;
+	top: -4px;
+	left: -3%;
+	width: 106%;
+	/*padding: 12px 12px;*/
+	/*top: 5px;*/
+	/*left: -8%;*/
+	/*width: 116%;*/
 	font-size: 1.15em;
 	/*animation: btn-hover-color 0.25s linear;*/
+}
+
+
+.button-panel {
+	text-align: center;
 }
 
 

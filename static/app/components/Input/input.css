@@ -23,10 +23,10 @@ c-input input {
 
 c-input input:focus {
 	outline: none;
-	padding: 10px;
-	top: 5px;
-	left: -10%;
-	width: 120%;
-	font-size: 1.2em;
+	padding: 4px;
+	top: -2px;
+	left: -4%;
+	width: 108%;
+	font-size: 1.1em;
 	box-shadow: #ff8f26 0 0 20px 4px;
 }

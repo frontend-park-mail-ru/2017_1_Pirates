@@ -55,9 +55,13 @@ window.addEventListener('CreateComponents', () => {
 			return condition;
 		}
 
-		onInvertColorsChange(value) {
-			if (value) {
+		onInlineChange(value) {
+			console.log('inline change: ', value);
 
+			if (value) {
+				this.view.parentNode.style.display = 'inline-block';
+			} else {
+				this.view.parentNode.style.display = 'block';
 			}
 
 			return value;

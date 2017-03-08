@@ -14,6 +14,24 @@
 		<view-column></view-column>
 	</view-row>
 
+
+	<view-row width="8">
+		<view-column width="0.5" filler></view-column>
+
+		<view-column width="1.5">
+			<c-info-box id="errors" class="expands"></c-info-box>
+		</view-column>
+
+		<view-column width="2.5">
+		</view-column>
+
+		<view-column width="1.5">
+			<c-info-box id="info" class="expands"></c-info-box>
+		</view-column>
+
+		<view-column width="0.5" filler></view-column>
+	</view-row>
+
 	<view-include view="FormRowView">
 		<c-input id="email" placeholder="Email"></c-input>
 	</view-include>
@@ -23,7 +41,12 @@
 	</view-include>
 
 	<view-include view="FormRowView">
-		<c-button id="submit" text="Войти" social="true"></c-button>
+		<c-button id="submit" text="Войти" social="true" inline="true"></c-button>
 	</view-include>
+
+
+	<view-row fill>
+		<view-column></view-column>
+	</view-row>
 
 </app-view>

@@ -1,8 +1,16 @@
 
 
+c-info-box {
+	max-height: 1px;
+}
+
+
 c-info-box .info-box {
 	background-color: rgba(255, 255, 255, 0.4);
 	display: block;
 	border-radius: 20px;
 	color: black;
+	padding: 20px;
+	margin: 20px;
+	position: relative;
 }
