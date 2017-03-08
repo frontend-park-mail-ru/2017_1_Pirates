@@ -6,10 +6,18 @@ window.Framework.Route = class Route extends HTMLElement {
 		super();
 	}
 
+	get id() {
+		return this.getAttribute('id');
+	}
+
+	get path() {
+		return this.getAttribute('path');
+	}
+
 	complies(hash) {
 		const argExp = /<(\w|\d|=)+>/;
 
-		let declared = this.getAttribute('path').slice(1).split('__');
+		let declared = this.path.slice(1).split('__');
 		let requested = hash.slice(1).split('__');
 		let args = {};
 
@@ -30,7 +38,28 @@ window.Framework.Route = class Route extends HTMLElement {
 	}
 
 	fire(args) {
-		Route.showActivity(this.activity, this.methodName, args);
+		Route.showActivity(this.activity, this.methodName, args || {});
+	}
+
+	navigate(args) {
+		args = args || {};
+		const argExp = /<(\w|\d|=)+>/;
+		const declared = this.path.slice(1).split('__');
+		let final = [];
+
+		declared.forEach((part) => {
+			if (final.length !== 0) final.push('__');
+
+			if (argExp.test(part)) {
+				const arg = part.slice(1, -1).split('=');
+				final.push(args[arg[0]] || arg[1] || '');
+				return;
+			}
+
+			final.push(part);
+		});
+
+		window.location.hash = '#' + final.join('');
 	}
 
 	static showActivity(activity, methodName, args) {

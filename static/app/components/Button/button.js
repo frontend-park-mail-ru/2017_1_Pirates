@@ -13,9 +13,22 @@ window.addEventListener('CreateComponents', () => {
 		}
 
 		setup() {
+			/*console.log('setup');
 			const button = this.view.querySelector('.btn');
 			button.addEventListener('mouseout', () => {
+				console.log('mouseout');
 				button.blur();
+			});*/
+
+			/*
+			Ugly workaround for mouseout not firing sometimes
+			 */
+			const button = this.view.querySelector('.btn');
+
+			document.addEventListener('mousemove', (event) => {
+				if (event.target !== button) {
+					//button.blur();
+				}
 			});
 		}
 
@@ -34,7 +47,7 @@ window.addEventListener('CreateComponents', () => {
 
 		onSocialChange(condition) {
 			if (condition) {
-				const btn = this.view.querySelector('button');
+				const btn = this.view.querySelector('.btn');
 				const classes = btn.getAttribute('class');
 				btn.setAttribute('class', classes + ' btn-social');
 			}
@@ -42,9 +55,13 @@ window.addEventListener('CreateComponents', () => {
 			return condition;
 		}
 
-		onInvertColorsChange(value) {
-			if (value) {
+		onInlineChange(value) {
+			console.log('inline change: ', value);
 
+			if (value) {
+				this.view.parentNode.style.display = 'inline-block';
+			} else {
+				this.view.parentNode.style.display = 'block';
 			}
 
 			return value;

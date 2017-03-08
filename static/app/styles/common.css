@@ -1,12 +1,30 @@
 
 
-* {
+body, input, button {
 	font-family: sans-serif;
 	font-weight: 100;
 	font-size: 1em;
 }
 
 
-component-view.with-padding > :first-child, component-view.with-padding > :last-child {
-	height: 20px;
+/*component-view.with-padding > :first-child, component-view.with-padding > :last-child {
+	height: 10px;
+}*/
+
+
+c-loading#loading {
+	position: relative;
+	margin: 0 auto;
+}
+
+
+component-view.with-padding {
+	min-height: 60px;
+}
+
+
+.loading-container {
+	min-height: 70px;
+	display: block;
+	margin-top: 20px;
 }

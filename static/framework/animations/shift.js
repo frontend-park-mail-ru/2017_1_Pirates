@@ -7,6 +7,11 @@ window.Animation.Shift = class extends window.Framework.Animation {
 
 		// duration попадает сюда из аттрибута enterDuration или leaveDuration тэга app-activity
 		this.duration = duration || 0.4;
+		this.selector = `
+				app-view > view-row,
+				app-view > form > view-include > view-row,
+				app-view > view-include > view-row
+		`;
 	}
 
 	// Применить анимацию (и запустить её)
@@ -38,7 +43,7 @@ window.Animation.Shift = class extends window.Framework.Animation {
 
 		// CSS3 анимация
 
-		let rows = [...this.view.parentNode.querySelectorAll('app-view > view-row')];
+		let rows = [...this.view.parentNode.querySelectorAll(this.selector)];
 		let step = 0.1;
 		let cur = 0.02;
 		let lastRow = null;
@@ -82,7 +87,7 @@ window.Animation.Shift = class extends window.Framework.Animation {
 
 	// Убрать анимацию (когда отработала)
 	remove() {
-		let rows = [...this.view.parentNode.querySelectorAll('app-view > view-row')];
+		let rows = [...this.view.parentNode.querySelectorAll(this.selector)];
 
 		rows.forEach(row => {
 			row.style.transition = 'none';

@@ -10,6 +10,12 @@ window.addEventListener('CreateComponents', () => {
 			window.setTimeout(() => {
 				this.setup();
 			}, 100);
+
+			window.setInterval(() => {
+				if (!this.visible) {
+					this.view.style.display = 'none';
+				}
+			}, 1000);
 		}
 
 
@@ -35,7 +41,11 @@ window.addEventListener('CreateComponents', () => {
 
 		onSetVisible(visible) {
 			if (visible) {
-				this.view.querySelector('div').style.opacity = 1;
+				this.view.style.display = 'block';
+
+				window.setTimeout(() => {
+					this.view.querySelector('div').style.opacity = 1;
+				}, 100);
 			} else {
 				this.view.querySelector('div').style.opacity = 0;
 			}

@@ -60,4 +60,15 @@ window.Framework.Activity = class Activity {
 
 	onSetupListeners() {
 	}
+
+
+	bind(componentSelector, eventType, handlerName) {
+		window.setTimeout(() => {
+			[...this.view.queryComponentAll(componentSelector)].forEach((component) => {
+				component.view.addEventListener(eventType, (event) => {
+					this[handlerName](event);
+				});
+			});
+		}, 100);
+	}
 };

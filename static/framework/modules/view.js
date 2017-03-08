@@ -101,8 +101,12 @@ window.Framework.View = class View extends HTMLElement {
 
 			const content = this.innerHTML;
 			this.innerHTML = base.innerHTML;
-			this.querySelector('view-yield').outerHTML = content;
 			this.removeAttribute('inherits');
+
+			const yields = this.querySelector('view-yield');
+			if (yields) {
+				yields.outerHTML = content;
+			}
 		}
 
 		window.Framework.View.renderTree(this);
@@ -116,8 +120,21 @@ window.Framework.ViewInclude = class ViewInclude extends HTMLElement {
 	}
 
 	render() {
-		const includes = window.Framework.views[this.getAttribute('view')];
-		this.outerHTML = includes.innerHTML;
+		if (this.hasAttribute('rendered')) {
+			return;
+		}
+
+		const includes = window.Framework.views[this.getAttribute('view')].cloneNode(true);
+		const parameter = includes.querySelector('view-parameter');
+
+		if (parameter) {
+			parameter.outerHTML = this.innerHTML;
+		}
+
+		this.innerHTML = includes.innerHTML;
+		this.setAttribute('rendered', true);
+
+		window.Framework.View.renderTree(this);
 	}
 };
 

@@ -5,6 +5,7 @@ window.Component = {};
 window.Animation = {};
 window.Validator = {};
 window.Network = {};
+window.Route = {};
 window.Framework = {};
 window.Framework.ComponentStub = {};
 window.Framework.views = {};
