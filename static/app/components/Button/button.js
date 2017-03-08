@@ -13,9 +13,22 @@ window.addEventListener('CreateComponents', () => {
 		}
 
 		setup() {
+			/*console.log('setup');
 			const button = this.view.querySelector('.btn');
 			button.addEventListener('mouseout', () => {
+				console.log('mouseout');
 				button.blur();
+			});*/
+
+			/*
+			Ugly workaround for mouseout not firing sometimes
+			 */
+			const button = this.view.querySelector('.btn');
+
+			document.addEventListener('mousemove', (event) => {
+				if (event.target !== button) {
+					//button.blur();
+				}
 			});
 		}
 
