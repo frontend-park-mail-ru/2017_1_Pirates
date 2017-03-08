@@ -26,6 +26,7 @@
 	font-weight: normal;
 	-webkit-font-smoothing: antialiased;
 }
+
 .icon-YouTube:before {
 	content: "\e000";
 }

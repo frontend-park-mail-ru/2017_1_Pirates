@@ -83,6 +83,17 @@ c-button .btn-fa {
 	background-color: #ff8f26;
 }
 
+@font-face {
+	font-family: 'Icons';
+	src:url('/fonts/icons/Grands-icon-font/fonts/Grands.eot');
+	src:url('/fonts/icons/Grands-icon-font/fonts/Grands.eot?#iefix') format('embedded-opentype'),
+	url('/fonts/icons/Grands-icon-font/fonts/Grands.svg#Grands') format('svg'),
+	url('/fonts/icons/Grands-icon-font/fonts/Grands.woff') format('woff'),
+	url('/fonts/icons/Grands-icon-font/fonts/Grands.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
 c-button .btn-social > span > span {
 	/*position: relative;*/
 	/*text-align: left;*/
@@ -94,6 +105,11 @@ c-button .btn-social > span > span {
 }
 
 c-button .btn-social>span>:first-child {
+	font-family: 'Icons';
+	font-style: normal;
+	speak: none;
+	font-weight: normal;
+	-webkit-font-smoothing: antialiased;
 	position: relative;
 	display: inline-block;
 	/*left: 0;*/
@@ -108,10 +124,16 @@ c-button .btn-social>span>:first-child {
 }
 
 c-button .btn-social>span>:first-child:after {
-	content: 'f';
+	font-size: 1.3em;
+	content: '\e021';
 }
 
 c-button .btn-social>span>:last-child {
+	font-family: 'Icons';
+	font-style: normal;
+	speak: none;
+	font-weight: normal;
+	-webkit-font-smoothing: antialiased;
 	position: relative;
 	display: inline-block;
 	/*left: 0;*/
@@ -126,6 +148,7 @@ c-button .btn-social>span>:last-child {
 }
 
 c-button .btn-social>span>:last-child:after {
-	content: 'vk';
+	content: '\e003';
+	font-size: 1.3em;
 }
 
