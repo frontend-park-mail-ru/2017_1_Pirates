@@ -2,37 +2,18 @@
 
 	<component-properties>
 
-		<component-property
-				name="social"
-				default="false"
-				handler="onSocialChange"
-				type="Boolean"
-		></component-property>
+		<component-property name="social" default="false" handler="onSocialChange" type="Boolean">
+		</component-property>
 
-		<component-property
-				name="text"
-				default=""
-				maps=".btn-txt@textContent"
-		></component-property>
+		<component-property name="vk" default="false" handler="onVKChange" type="Boolean">
+		</component-property>
 
-		<component-property
-				name="link"
-				handler="onLinkChange"
-				default=""
-		></component-property>
+		<component-property name="text" default="" maps=".btn-txt@textContent"></component-property>
 
-		<component-property
-				name="inline"
-				handler="onInlineChange"
-				default="false"
-				type="Boolean"
-		></component-property>
+		<component-property name="inline" handler="onInlineChange" default="false" type="Boolean">
+		</component-property>
 
-		<component-property
-				name="type"
-				default="button"
-				maps=".btn@attribute.type"
-		></component-property>
+		<component-property name="type" default="button" maps=".btn@attribute.type"></component-property>
 
 	</component-properties>
 

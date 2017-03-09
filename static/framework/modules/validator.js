@@ -39,7 +39,7 @@ window.Framework.NetworkValidator = class NetworkValidator extends window.Framew
 	validate(value) {
 		this.networkMethod({ value: value }, (status, responses) => {
 			responses.forEach((response) => {
-				this.chain.setInvalid(response.state, response.desc);
+				this.chain.setInvalid(response.status, response.msg);
 			});
 		});
 	}

@@ -41,3 +41,9 @@ component-view.with-padding {
 .right-link {
 	text-align: right;
 }
+
+
+
+c-button#vk-login .btn-txt {
+	font-size: 0.9em;
+}

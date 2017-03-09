@@ -12,6 +12,8 @@ c-button .btn {
 	width: 100%;
 	font-size: 1em;
 	user-select: none;
+	min-width: 120px;
+	white-space: nowrap;
 
 	background-color: #ff8f26;
 	transition: padding 0.2s cubic-bezier(.5,-0.86,.47,1.73),
@@ -22,7 +24,7 @@ c-button .btn {
 	position: relative;
 }
 
-.btn > span {
+c-button .btn > span {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -73,6 +75,33 @@ c-button.btn-gray .btn:hover, c-button.btn-gray .btn:focus {
 	}
 	100% {
 		background-color: rgb(10, 10, 10);
+	}
+}
+
+
+c-button.btn-blue .btn {
+	background-color: #517398;
+	color: white;
+}
+
+
+c-button.btn-blue .btn:hover, c-button.btn-blue .btn:focus {
+	animation: blue-btn-hover-color 0.25s linear;
+}
+
+
+@keyframes blue-btn-hover-color {
+	0% {
+		background-color: #517398;
+	}
+	10% {
+		background-color: #517398;
+	}
+	40% {
+		background-color: #6b98c8;
+	}
+	100% {
+		background-color: #517398;
 	}
 }
 
@@ -134,7 +163,7 @@ c-button .btn-social > span > span {
 	/*text-overflow: ellipsis;*/
 }
 
-c-button .btn-social>span>:first-child {
+c-button .btn-social>span>:first-child, c-button.btn-blue .btn>span>:first-child {
 	font-family: 'Icons';
 	font-style: normal;
 	speak: none;
@@ -142,15 +171,28 @@ c-button .btn-social>span>:first-child {
 	-webkit-font-smoothing: antialiased;
 	position: relative;
 	display: inline-block;
-	/*left: 0;*/
-	/*top: -3px;*/
-	/*bottom: 0;*/
 	width: 40px;
-	/*line-height: 40px;*/
-	/*font-size: 1.6em;*/
 	text-align: left;
-	/*border-right: 1px solid;*/
-	/*margin-right: 5px;*/
+}
+
+
+c-button .btn>span>:first-child, c-button .btn>span>:last-child {
+	max-width: 25px;
+}
+
+c-button .btn>span>:first-child:after, c-button .btn>span>:last-child:after {
+	font-size: 1.3em;
+	content: '\00a0';
+}
+
+c-button.btn-blue .btn>span>:first-child:after {
+	font-size: 1.3em;
+	content: '\e003';
+}
+
+c-button.btn-blue .btn>span>:last-child:after {
+	font-size: 1.3em;
+	/*content: '\00a0\00a0\00a0\00a0';*/
 }
 
 c-button .btn-social>span>:first-child:after {

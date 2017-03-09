@@ -55,6 +55,10 @@ window.addEventListener('CreateComponents', () => {
 			return condition;
 		}
 
+		onVKChange(value) {
+			return value;
+		}
+
 		onInlineChange(value) {
 			if (value) {
 				this.view.parentNode.style.display = 'inline-block';
