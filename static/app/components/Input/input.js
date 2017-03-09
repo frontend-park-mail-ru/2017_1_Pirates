@@ -14,7 +14,18 @@ window.addEventListener('CreateComponents', () => {
 		}
 
 		onTextChange(value) {
-			console.log(value);
+			return value;
+		}
+
+		onPasswordChange(value) {
+			const input = this.view.querySelector('input');
+
+			if (value) {
+				input.setAttribute('type', 'password');
+			} else {
+				input.setAttribute('type', 'text');
+			}
+
 			return value;
 		}
 	};

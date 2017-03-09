@@ -21,7 +21,7 @@ window.Activity.MainActivity = class extends window.Framework.Activity {
 		if (window.currentUser) {
 			window.Route.MultiPlayerRoute.navigate();
 		} else {
-			window.Route.SignUpRoute.navigate();
+			window.Route.LoginRoute.navigate();
 		}
 	};
 
@@ -30,7 +30,7 @@ window.Activity.MainActivity = class extends window.Framework.Activity {
 		if (window.currentUser) {
 			// ToDo: User profile
 		} else {
-			window.Route.SignUpRoute.navigate();
+			window.Route.LoginRoute.navigate();
 		}
 	}
 
