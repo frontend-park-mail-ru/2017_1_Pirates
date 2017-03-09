@@ -1,0 +1,45 @@
+<component-info id="Button" tag="button">
+
+	<component-properties>
+
+		<component-property name="social" default="false" handler="onSocialChange" type="Boolean">
+		</component-property>
+
+		<component-property name="vk" default="false" handler="onVKChange" type="Boolean">
+		</component-property>
+
+		<component-property name="text" default="" maps=".btn-txt@textContent"></component-property>
+
+		<component-property name="inline" handler="onInlineChange" default="false" type="Boolean">
+		</component-property>
+
+		<component-property name="type" default="button" maps=".btn@attribute.type"></component-property>
+
+		<component-property name="enabled" handler="onEnabledChange" default="true" type="Boolean">
+		</component-property>
+
+	</component-properties>
+
+	<component-view class="with-padding">
+		<view-row width="3"></view-row>
+
+		<view-row width="3">
+			<view-column width="0.1"></view-column>
+
+			<view-column>
+				<div class="btn">
+					<span>
+						<span class=""></span>
+						<span class="btn-txt"></span>
+						<span class=""></span>
+					</span>
+				</div>
+			</view-column>
+
+			<view-column width="0.1"></view-column>
+		</view-row>
+
+		<view-row width="3"></view-row>
+	</component-view>
+
+</component-info>

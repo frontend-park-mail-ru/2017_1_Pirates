@@ -1,0 +1,77 @@
+
+
+c-link .link-container {
+	justify-content: center;
+}
+
+.left-link c-link .link-container {
+	justify-content: flex-start;
+}
+
+.right-link c-link .link-container {
+	justify-content: flex-end;
+}
+
+
+@font-face {
+	font-family: 'FontAwesome';
+	src:url('/lib/font-awesome/fonts/fontawesome-webfont.eot');
+	src:url('/lib/font-awesome/fonts/fontawesome-webfont.eot?#iefix') format('embedded-opentype'),
+	url('/lib/font-awesome/fonts/fontawesome-webfont.svg#FontAwesome') format('svg'),
+	url('/lib/font-awesome/fonts/fontawesome-webfont.woff') format('woff'),
+	url('/lib/font-awesome/fonts/fontawesome-webfont.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+c-link .link-inner-container {
+	color: #ff8f26;
+	transition: 0.2s color, 0.2s opacity;
+	display: inline-flex;
+	align-items: center;
+}
+
+c-link .link-inner-container:hover {
+	color: #fec38c;
+}
+
+
+c-link .link-txt {
+	display: inline-flex;
+	cursor: pointer;
+}
+
+
+c-link .back-icon:after {
+	font-family: 'FontAwesome';
+	content: '\F104';
+	font-size: 2.5em;
+	cursor: pointer;
+	padding: 10px;
+	position: relative;
+	top: -1px;
+}
+
+
+c-link .user-icon:after {
+	font-family: 'FontAwesome';
+	content: '\F007';
+	font-size: 1.3em;
+	cursor: pointer;
+	padding: 10px;
+	position: relative;
+	top: 0;
+}
+
+
+c-link .scores-icon:after {
+	font-family: 'FontAwesome';
+	content: '\F0CB';
+	font-size: 1.3em;
+	cursor: pointer;
+	padding: 10px;
+	position: relative;
+	top: 1px;
+}
+

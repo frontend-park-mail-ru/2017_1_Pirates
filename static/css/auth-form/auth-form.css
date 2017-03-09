@@ -1,9 +1,0 @@
-.auth-form {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-}
-
-.auth-form:last-child .input button {
-	margin-left: 100px;
-}

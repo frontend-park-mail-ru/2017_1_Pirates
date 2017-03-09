@@ -1,0 +1,72 @@
+
+
+body, input, button {
+	font-family: sans-serif;
+	font-weight: 100;
+	font-size: 1em;
+}
+
+
+/*component-view.with-padding > :first-child, component-view.with-padding > :last-child {
+	height: 10px;
+}*/
+
+
+c-loading#loading {
+	position: relative;
+	margin: 0 auto;
+}
+
+
+component-view.with-padding {
+	min-height: 60px;
+}
+
+
+.loading-container {
+	min-height: 70px;
+	display: block;
+	margin-top: 20px;
+}
+
+
+
+/*.left-link, .right-link {
+	padding: 30px 80px;
+	color: white;
+}*/
+.top-link, .bottom-link {
+	padding-left: 80px;
+	padding-right: 80px;
+}
+.top-link {
+	padding-top: 30px;
+}
+.bottom-link {
+	padding-bottom: 30px;
+}
+.left-link {
+	text-align: left;
+}
+.right-link {
+	text-align: right;
+}
+
+
+
+c-button#vk-login .btn-txt {
+	font-size: 0.9em;
+}
+
+
+.grand-or {
+	font-size: 2.0em;
+	color: white;
+	opacity: 0.3;
+	padding-bottom: 40px;
+}
+
+
+.smaller-or {
+	font-size: 1.5em;
+}

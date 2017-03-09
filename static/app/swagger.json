@@ -1,0 +1,402 @@
+{
+  "swagger": "2.0",
+  "host": "motion-project.herokuapp.com",
+
+  "info": {
+	"version": "1.0.0",
+	"title": "Project MOTION"
+  },
+
+  "schemes": [
+	"https"
+  ],
+
+
+  "definitions": {
+
+	"UserAuthorizationRequest": {
+	  "type": "object",
+	  "properties": {
+		"login_or_email": {
+		  "type": "string"
+		},
+		"password": {
+		  "type": "string"
+		}
+	  }
+	},
+
+	"UserCreationRequest": {
+	  "type": "object",
+	  "properties": {
+		"login": {
+		  "type": "string"
+		},
+		"email": {
+		  "type": "string"
+		},
+		"password": {
+		  "type": "string"
+		}
+	  }
+	},
+
+	"GenericResponseObject": {
+	  "type": "object",
+	  "properties": {
+		"status": {
+		  "type": "integer"
+		},
+		"error": {
+		  "type": "string"
+		}
+	  }
+	},
+
+	"UserInfoResponseObject": {
+	  "type": "object",
+	  "properties": {
+		"status": {
+		  "type": "integer"
+		},
+		"error": {
+		  "type": "string"
+		},
+		"login": {
+		  "type": "string"
+		},
+		"email": {
+		  "type": "string"
+		},
+		"createdAt": {
+		  "type": "integer"
+		},
+		"updatedAt": {
+		  "type": "integer"
+		}
+	  }
+	},
+
+	"ValidatorStatus": {
+	  "type": "object",
+	  "properties": {
+		"state": {
+		  "type": "string"
+		},
+		"desc": {
+		  "type": "string"
+		}
+	  }
+	},
+
+	"ValidatorStatusCollection": {
+	  "type": "array",
+	  "items": {
+		"$ref": "#/definitions/ValidatorStatus"
+	  }
+	},
+
+	"ValidatorRequest": {
+	  "type": "object",
+	  "properties": {
+		"value": {
+		  "type": "string"
+		}
+	  }
+	}
+
+  },
+
+
+  "responses": {
+
+	"GenericResponse": {
+	  "description": "Generic response",
+	  "schema": {
+		"$ref": "#/definitions/GenericResponseObject"
+	  }
+	},
+
+	"ValidatorResponse": {
+	  "description": "General validator response",
+	  "schema": {
+		"$ref": "#/definitions/ValidatorStatusCollection"
+	  }
+	},
+
+	"LoginResponse": {
+	  "description": "Login response",
+	  "schema": {
+		"$ref": "#/definitions/GenericResponseObject"
+	  }
+	},
+
+	"LogoutResponse": {
+	  "description": "Logout response",
+	  "schema": {
+		"$ref": "#/definitions/GenericResponseObject"
+	  }
+	},
+
+	"UserCreationResponse": {
+	  "description": "User creation response",
+	  "schema": {
+		"$ref": "#/definitions/GenericResponseObject"
+	  }
+	},
+
+	"UserDeletionResponse": {
+	  "description": "User deletion response",
+	  "schema": {
+		"$ref": "#/definitions/GenericResponseObject"
+	  }
+	},
+
+	"UserInfoResponse": {
+	  "description": "User info response",
+	  "schema": {
+		"$ref": "#/definitions/UserInfoResponseObject"
+	  }
+	}
+
+  },
+
+
+  "paths": {
+
+	"/session/login": {
+	  "post": {
+		"description": "`alias: login`<br>Performs a login request with implied login or username and password.<br>Status code *SUCCESS* means successfull login, and *BAD_LOGIN_OR_PASSWORD* in case of bad login or password.",
+		"parameters": [
+		  {
+			"name": "request",
+			"in": "body",
+			"description": "Request body",
+			"required": true,
+			"schema": {
+			  "$ref": "#/definitions/UserAuthorizationRequest"
+			}
+		  }
+		],
+		"responses": {
+		  "200": {
+			"$ref": "#/responses/LoginResponse"
+		  }
+		}
+	  }
+	},
+
+	"/session/logout": {
+	  "post": {
+		"description": "`alias: logout`<br>Performs a logout request and returns status *SUCCESS* in all cases.",
+		"responses": {
+		  "200": {
+			"$ref": "#/responses/LogoutResponse"
+		  }
+		}
+	  }
+	},
+
+	"/session/current": {
+	  "get": {
+		"description": "`alias: current`<br>Returns status *SUCCESS* and current user info if any user is logged in. Returns status *SESSION_INVALID* if user is not logged in.",
+		"responses": {
+		  "200": {
+			"$ref": "#/responses/UserInfoResponse"
+		  }
+		}
+	  }
+	},
+
+	"/user/create": {
+	  "post": {
+		"description": "`alias: userCreate`<br>Creates a new user. Can return status *SUCCESS* if the user was created successfully, *USER_ALREADY_EXISTS* if such a user already exists or *SESSION_INVALID* if another user is binded with current session (nobody can sign up while being logged in).",
+		"parameters": [
+		  {
+			"name": "request",
+			"in": "body",
+			"description": "Request body",
+			"required": true,
+			"schema": {
+			  "$ref": "#/definitions/UserCreationRequest"
+			}
+		  }
+		],
+		"responses": {
+		  "200": {
+			"$ref": "#/responses/UserCreationResponse"
+		  }
+		}
+	  }
+	},
+
+	"/user/delete": {
+	  "post": {
+		"description": "`alias: userDelete`<br>Deletes current user. Returns status *SUCCESS* in case of success and *SESSION_INVALID* if current user is not logged in.",
+		"responses": {
+		  "200": {
+			"$ref": "#/responses/UserDeletionResponse"
+		  }
+		}
+	  }
+	},
+
+	"/user/changeLogin": {
+	  "post": {
+		"description": "`alias: changeLogin`<br>Changes login of current user. Returns *SUCCESS* if value is a valid login and can be changed, *BAD_VALIDATOR* if login is invalid.",
+		"parameters": [
+		  {
+			"name": "request",
+			"in": "body",
+			"description": "Request body",
+			"required": true,
+			"schema": {
+			  "$ref": "#/definitions/ValidatorRequest"
+			}
+		  }
+		],
+		"responses": {
+		  "200": {
+			"$ref": "#/responses/GenericResponse"
+		  }
+		}
+	  }
+	},
+
+	"/user/changeEmail": {
+	  "post": {
+		"description": "`alias: changeEmail`<br>Changes email of current user. Returns *SUCCESS* if value is a valid email and can be changed, *BAD_VALIDATOR* if email is invalid.",
+		"parameters": [
+		  {
+			"name": "request",
+			"in": "body",
+			"description": "Request body",
+			"required": true,
+			"schema": {
+			  "$ref": "#/definitions/ValidatorRequest"
+			}
+		  }
+		],
+		"responses": {
+		  "200": {
+			"$ref": "#/responses/GenericResponse"
+		  }
+		}
+	  }
+	},
+
+	"/user/changePassword": {
+	  "post": {
+		"description": "`alias: changePassword`<br>Changes password of current user. Returns *SUCCESS* if value is a valid password and can be changed, *BAD_VALIDATOR* if password is invalid.",
+		"parameters": [
+		  {
+			"name": "request",
+			"in": "body",
+			"description": "Request body",
+			"required": true,
+			"schema": {
+			  "$ref": "#/definitions/ValidatorRequest"
+			}
+		  }
+		],
+		"responses": {
+		  "200": {
+			"$ref": "#/responses/GenericResponse"
+		  }
+		}
+	  }
+	},
+
+	"/user/getById": {
+	  "post": {
+		"description": "`alias: getUserById`<br>Returns status *SUCCESS* and user info if such user exists, status *USER_NOT_FOUND* if no such user found.",
+		"parameters": [
+		  {
+			"name": "request",
+			"in": "body",
+			"description": "Request body",
+			"required": true,
+			"schema": {
+			  "$ref": "#/definitions/ValidatorRequest"
+			}
+		  }
+		],
+		"responses": {
+		  "200": {
+			"$ref": "#/responses/UserInfoResponse"
+		  }
+		}
+	  }
+	},
+
+
+	"/validator/email": {
+	  "post": {
+		"description": "`alias: validateEmail`<br>Errors if such email exists or no valid email submitted.",
+		"parameters": [
+		  {
+			"name": "request",
+			"in": "body",
+			"description": "Request body",
+			"required": true,
+			"schema": {
+			  "$ref": "#/definitions/ValidatorRequest"
+			}
+		  }
+		],
+		"responses": {
+		  "200": {
+			"$ref": "#/responses/ValidatorResponse"
+		  }
+		}
+	  }
+	},
+
+
+	"/validator/login": {
+	  "post": {
+		"description": "`alias: validateLogin`<br>Errors if such login exists or no valid login submitted.",
+		"parameters": [
+		  {
+			"name": "request",
+			"in": "body",
+			"description": "Request body",
+			"required": true,
+			"schema": {
+			  "$ref": "#/definitions/ValidatorRequest"
+			}
+		  }
+		],
+		"responses": {
+		  "200": {
+			"$ref": "#/responses/ValidatorResponse"
+		  }
+		}
+	  }
+	},
+
+
+	"/validator/password": {
+	  "post": {
+		"description": "`alias: validatePassword`<br>Errors if such password is too short or too long, warns if password is too simple.",
+		"parameters": [
+		  {
+			"name": "request",
+			"in": "body",
+			"description": "Request body",
+			"required": true,
+			"schema": {
+			  "$ref": "#/definitions/ValidatorRequest"
+			}
+		  }
+		],
+		"responses": {
+		  "200": {
+			"$ref": "#/responses/ValidatorResponse"
+		  }
+		}
+	  }
+	}
+
+  }
+}

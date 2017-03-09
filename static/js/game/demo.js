@@ -1,14 +1,14 @@
 'use strict';
 
-const canvas = document.getElementById('renderCanvas');
-const engine = new BABYLON.Engine(canvas, true);
-const scene = new BABYLON.Scene(engine);
-const camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -10), scene);
-
-camera.setTarget(BABYLON.Vector3.Zero());
-camera.attachControl(canvas, true);
-
-const ship = BABYLON.SceneLoader.ImportMesh('', '/models/', 'starship.obj', scene, (newMeshes) => {});
+// const canvas = document.getElementById('renderCanvas');
+// const engine = new BABYLON.Engine(canvas, true);
+// const scene = new BABYLON.Scene(engine);
+// const camera = new BABYLON.FreeCamera("camera1", new BABYLON.Vector3(0, 5, -10), scene);
+//
+// camera.setTarget(BABYLON.Vector3.Zero());
+// camera.attachControl(canvas, true);
+//
+// const ship = BABYLON.SceneLoader.ImportMesh('', '/models/', 'starship.obj', scene, (newMeshes) => {});
 
 /*const metal = new BABYLON.PBRMaterial('metal', scene);
 metal.reflectionTexture = new BABYLON.CubeTexture('/static/models/starship.png', scene, 512);
@@ -24,13 +24,13 @@ http://www.html5gamedevs.com/topic/4530-create-a-mesh-from-a-list-of-vertices-an
 
 */
 
-const light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 1, 0), scene);
-light.intensity = 0.7;
-
-const fpsLabel = document.getElementById('fps');
-
-
-engine.runRenderLoop(() => {
-	scene.render();
-	fpsLabel.innerHTML = `FPS: <b>${engine.getFps().toFixed()}</b>`;
-});
+// const light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 1, 0), scene);
+// light.intensity = 0.7;
+//
+// const fpsLabel = document.getElementById('fps');
+//
+//
+// engine.runRenderLoop(() => {
+// 	scene.render();
+// 	fpsLabel.innerHTML = `FPS: <b>${engine.getFps().toFixed()}</b>`;
+// });
