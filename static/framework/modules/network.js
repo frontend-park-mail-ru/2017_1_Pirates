@@ -50,10 +50,11 @@ window.Framework.BackendTag = class extends HTMLElement {
 
 			const xhr = new XMLHttpRequest();
 			const loading = window.Framework.currentActivity.view.queryComponent('loading.network');
+			const random = Math.floor(Math.random() * 100000);
 
 			xhr.open(method.toUpperCase(),
 				`${((this.swagger.schemes || [])[0] +
-				'://') || 'http://'}${this.swagger.host || ''}${path}`, true);
+				'://') || 'http://'}${this.swagger.host || ''}${path}?${random}`, true);
 
 			xhr.withCredentials = true;
 			xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');

@@ -22,17 +22,22 @@ window.Activity.MainActivity = class extends window.Framework.Activity {
 
 
 	onEnter(args) {
+		const userLink = this.view.queryComponent('#user');
+		userLink.visible = false;
+
 		window.setTimeout(() => {
 			window.Network.current({}, (status, response) => {
 				if (response.status === window.ErrorCodes.SUCCESS) {
 					window.currentUser = response;
-					// ToDo: Trigger text change
+					userLink.text = response.login;
+					userLink.visible = true;
 					return;
 				}
 
 				if (response.status === window.ErrorCodes.SESSION_INVALID) {
 					window.currentUser = null;
-					// ToDo: Trigger unauthorized text
+					userLink.text = 'Вы не авторизованы';
+					userLink.visible = true;
 				}
 			});
 		}, 1000);

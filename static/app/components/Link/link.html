@@ -2,17 +2,28 @@
 
 	<component-properties>
 
-		<component-property
-				name="text"
-				default=""
-				maps=".link-txt@textContent"
-		></component-property>
+		<component-property name="text" default="" maps=".link-txt@textContent">
+		</component-property>
+		<component-property name="iconVisible" default="false" type="Boolean" handler="onIconVisibleChange">
+		</component-property>
+		<component-property name="iconClass" default="back" handler="onIconClassChange">
+		</component-property>
+		<component-property name="back" default="false" type="Boolean">
+		</component-property>
+		<component-property name="visible" default="true" type="Boolean" handler="onVisibleChange">
+		</component-property>
+		<component-property name="align" default="left" handler="onAlignChange">
+		</component-property>
 
 	</component-properties>
 
 	<component-view class="with-padding">
 		<view-row class="link-container">
-			<span class="link-txt"></span>
+			<span class="link-inner-container">
+				<span class="possible-icon-left icon"></span>
+				<span class="link-txt"></span>
+				<span class="possible-icon-right"></span>
+			</span>
 		</view-row>
 	</component-view>
 

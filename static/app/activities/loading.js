@@ -44,6 +44,11 @@ window.Activity.LoadingActivity = class extends window.Framework.Activity {
 
 
 	onEnter(args) {
+		[...document.querySelectorAll('.loader-hides')].forEach((element) => {
+			element.style.visibility = 'hidden';
+			element.style.opacity = 0;
+		});
+
 		window.setTimeout(() => {
 			this.view.queryComponent('loading').visible = false;
 			window.Route.MainRoute.navigate();
