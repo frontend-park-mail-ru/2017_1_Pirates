@@ -59,26 +59,26 @@ window.Framework.Component = class Component {
 
 	static toTyped(property, value) {
 		switch (property.type) {
-
+			/* eslint-disable indent */
 			case 'Boolean': {
 				if (typeof value === 'boolean') return value;
 				return value == 'true';
-			} break;
+			}
 
 			case 'Integer': {
 				if (typeof value === 'number') return Math.floor(value);
 				return parseInt(value);
-			} break;
+			}
 
 			case 'Float': {
 				if (typeof value === 'number') return value;
 				return parseFloat(value);
-			} break;
+			}
 
 			default: {
 				return value;
-			} break;
-
+			}
+			/* eslint-enable indent */
 		}
 	}
 
@@ -264,7 +264,7 @@ window.Framework.Component = class Component {
 			${componentTag.id};`;
 
 		return eval(classProtoConstructor);
-	};
+	}
 };
 
 
@@ -311,7 +311,7 @@ window.Framework.ComponentTag = class ComponentTag extends HTMLElement {
 	}
 
 	get viewId() {
-		return `${this.getAttribute('id')}__ComponentView`
+		return `${this.getAttribute('id')}__ComponentView`;
 	}
 
 	get properties() {

@@ -17,7 +17,8 @@ c-input input {
 				left 0.2s cubic-bezier(.5,-0.86,.47,1.73),
 				width 0.2s cubic-bezier(.5,-0.86,.47,1.73),
 				font-size 0.2s cubic-bezier(.5,-0.86,.47,1.73),
-				box-shadow 0.2s linear;
+				box-shadow 0.2s linear,
+				border-color 0.2s linear;
 
 }
 
@@ -29,4 +30,39 @@ c-input input:focus {
 	width: 108%;
 	font-size: 1.1em;
 	box-shadow: #ff8f26 0 0 20px 4px;
+}
+
+
+c-input input.alert {
+	animation: input-alert 0.4s cubic-bezier(.5,-0.86,.47,1.73);
+}
+
+
+c-input component-view.erroneous input {
+	border: 2px solid #c44d4d;
+}
+
+
+@keyframes input-alert {
+	0% {
+		transform: translate(0, 0);
+	}
+	10% {
+		transform: translate(-15px, 0);
+	}
+	30% {
+		transform: translate(15px, 0);
+	}
+	50% {
+		transform: translate(-10px, 0);
+	}
+	70% {
+		transform: translate(10px, 0);
+	}
+	80% {
+		transform: translate(0, 0);
+	}
+	100% {
+		transform: translate(0, 0);
+	}
 }

@@ -19,6 +19,27 @@ window.addEventListener('CreateComponents', () => {
 		}
 
 
+		alert() {
+			const input = this.view.querySelector('input');
+			input.className = 'alert';
+
+			window.setTimeout(() => {
+				input.className = '';
+			}, 500);
+		}
+
+
+		onErroneousChange(value) {
+			if (value) {
+				this.view.classList.add('erroneous');
+			} else {
+				this.view.classList.remove('erroneous');
+			}
+
+			return value;
+		}
+
+
 		onTextChange(value) {
 			if (this.userValidators) {
 				this.userValidators.validate(value);

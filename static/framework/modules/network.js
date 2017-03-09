@@ -41,9 +41,8 @@ window.Framework.BackendTag = class extends HTMLElement {
 		xhr.send();
 	}
 
-	__checkArgs__(pathInfo, args) {
-
-	}
+	/*__checkArgs__(pathInfo, args) {
+	}*/
 
 	__createHandler__(current, handlerName, path, method) {
 		current[handlerName] = (args, callback) => {

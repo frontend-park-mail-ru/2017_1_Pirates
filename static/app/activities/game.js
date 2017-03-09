@@ -6,22 +6,22 @@ window.Activity.GameActivity = class extends window.Framework.Activity {
 	constructor() {
 		super();
 		//this.bind('button', 'click', 'onButtonClick');
-	};
+	}
 
 
-	onEnter(args) {
-	};
+	onEnter() {
+	}
 
 
-	onSingle(args) {
+	onSingle() {
 		const scores = this.view.queryComponent('#scores');
 		scores.visible = false;
-	};
+	}
 
 
-	onMulti(args) {
+	onMulti() {
 		const scores = this.view.queryComponent('#scores');
 		scores.visible = false;
-	};
+	}
 
 };

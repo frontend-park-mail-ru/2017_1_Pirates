@@ -9,24 +9,24 @@ window.Activity.MainActivity = class extends window.Framework.Activity {
 		this.bind('#singlePlayer', 'click', 'onSingleClick');
 		this.bind('#multiPlayer', 'click', 'onMultiClick');
 		this.bind('#user', 'click', 'onUserClick');
-	};
+	}
 
 
-	onSingleClick(event) {
+	onSingleClick() {
 		window.Route.SinglePlayerRoute.navigate();
-	};
+	}
 
 
-	onMultiClick(event) {
+	onMultiClick() {
 		if (window.currentUser) {
 			window.Route.MultiPlayerRoute.navigate();
 		} else {
 			window.Route.LoginRoute.navigate();
 		}
-	};
+	}
 
 
-	onUserClick(event) {
+	onUserClick() {
 		if (window.currentUser) {
 			// ToDo: User profile
 		} else {
@@ -35,7 +35,7 @@ window.Activity.MainActivity = class extends window.Framework.Activity {
 	}
 
 
-	onEnter(args) {
+	onEnter() {
 		const back = this.view.queryComponent('#back');
 		back.visible = false;
 
@@ -58,6 +58,6 @@ window.Activity.MainActivity = class extends window.Framework.Activity {
 				}
 			});
 		}, 1000);
-	};
+	}
 
 };

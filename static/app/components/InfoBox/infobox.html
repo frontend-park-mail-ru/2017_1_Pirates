@@ -2,23 +2,19 @@
 
 	<component-properties>
 
-		<component-property
-				name="inputId"
-				default=""
-				handler="onInputIdChange"
-		></component-property>
+		<component-property name="visible" default="true" handler="onVisibleChange" type="Boolean">
+		</component-property>
 
-		<component-property
-				name="placeholder"
-				default=""
-				maps="input@placeholder"
-		></component-property>
+		<component-property name="text" default="" handler="onTextChange"></component-property>
 
 	</component-properties>
 
 	<component-view>
 		<div class="info-box">
-			Hey!<br>you got some errors i think<br><br><br><br><br>Fix please!
+			<ul class="texts"></ul>
+			<ul class="oks"></ul>
+			<ul class="warnings"></ul>
+			<ul class="errors"></ul>
 		</div>
 	</component-view>
 
