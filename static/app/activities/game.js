@@ -14,10 +14,14 @@ window.Activity.GameActivity = class extends window.Framework.Activity {
 
 
 	onSingle(args) {
+		const scores = this.view.queryComponent('#scores');
+		scores.visible = false;
 	};
 
 
 	onMulti(args) {
+		const scores = this.view.queryComponent('#scores');
+		scores.visible = false;
 	};
 
 };

@@ -8,6 +8,7 @@ window.Activity.MainActivity = class extends window.Framework.Activity {
 
 		this.bind('#singlePlayer', 'click', 'onSingleClick');
 		this.bind('#multiPlayer', 'click', 'onMultiClick');
+		this.bind('#user', 'click', 'onUserClick');
 	};
 
 
@@ -17,11 +18,27 @@ window.Activity.MainActivity = class extends window.Framework.Activity {
 
 
 	onMultiClick(event) {
-		window.Route.MultiPlayerRoute.navigate();
+		if (window.currentUser) {
+			window.Route.MultiPlayerRoute.navigate();
+		} else {
+			window.Route.SignUpRoute.navigate();
+		}
 	};
 
 
+	onUserClick(event) {
+		if (window.currentUser) {
+			// ToDo: User profile
+		} else {
+			window.Route.SignUpRoute.navigate();
+		}
+	}
+
+
 	onEnter(args) {
+		const back = this.view.queryComponent('#back');
+		back.visible = false;
+
 		const userLink = this.view.queryComponent('#user');
 		userLink.visible = false;
 
