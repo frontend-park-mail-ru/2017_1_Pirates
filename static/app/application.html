@@ -75,6 +75,7 @@
 	<link rel="import" href="/app/views/game.html">
 	<link rel="import" href="/app/views/login.html">
 	<link rel="import" href="/app/views/signup.html">
+	<link rel="import" href="/app/views/scores.html">
 	<!-- End Views -->
 
 	<!-- Activities -->
@@ -83,6 +84,7 @@
 	<script src="/app/activities/game.js"></script>
 	<script src="/app/activities/login.js"></script>
 	<script src="/app/activities/signup.js"></script>
+	<script src="/app/activities/scores.js"></script>
 	<!-- End Activities -->
 
 	<!-- Background -->
@@ -113,6 +115,9 @@
 			<app-activity id="SignUpActivity" view="SignUpView" animation-enter="Shift"
 						  animation-leave="Shift">
 			</app-activity>
+			<app-activity id="ScoresActivity" view="ScoresView" animation-enter="Shift"
+						  animation-leave="Shift">
+			</app-activity>
 		</app-activities>
 
 		<app-routing>
@@ -122,6 +127,7 @@
 			<app-route id="MultiPlayerRoute" activity="GameActivity#onMulti" path="#multiplayer"></app-route>
 			<app-route id="LoginRoute" activity="LoginActivity" path="#login"></app-route>
 			<app-route id="SignUpRoute" activity="SignUpActivity" path="#signup"></app-route>
+			<app-route id="ScoresRoute" activity="ScoresActivity" path="#scores"></app-route>
 		</app-routing>
 	</app-inf>
 

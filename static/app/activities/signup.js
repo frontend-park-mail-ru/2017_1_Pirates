@@ -75,6 +75,12 @@ window.Activity.SignUpActivity = class extends window.Framework.Activity {
 		const errors = this.view.queryComponent('#errors');
 		let valid = true;
 
+		this.view.queryComponentAll('input').forEach((input) => {
+			if (input.text.length === 0) {
+				input.alert();
+			}
+		});
+
 		if (!submit.enabled) {
 			return;
 		}

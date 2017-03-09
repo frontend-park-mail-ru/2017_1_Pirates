@@ -9,6 +9,12 @@ window.Activity.MainActivity = class extends window.Framework.Activity {
 		this.bind('#singlePlayer', 'click', 'onSingleClick');
 		this.bind('#multiPlayer', 'click', 'onMultiClick');
 		this.bind('#user', 'click', 'onUserClick');
+		this.bind('#scores', 'click', 'onScoresClick');
+	}
+
+
+	onScoresClick() {
+		window.Route.ScoresRoute.navigate();
 	}
 
 
