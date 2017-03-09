@@ -8,7 +8,7 @@ window.Activity.LoadingActivity = class extends window.Framework.Activity {
 		this.setupBackground();
 
 		//this.bind('button', 'click', 'onButtonClick');
-	};
+	}
 
 
 	/*onButtonClick(event) {
@@ -43,7 +43,7 @@ window.Activity.LoadingActivity = class extends window.Framework.Activity {
 	}
 
 
-	onEnter(args) {
+	onEnter() {
 		[...document.querySelectorAll('.loader-hides')].forEach((element) => {
 			element.style.visibility = 'hidden';
 			element.style.opacity = 0;
@@ -53,6 +53,6 @@ window.Activity.LoadingActivity = class extends window.Framework.Activity {
 			this.view.queryComponent('loading').visible = false;
 			window.Route.MainRoute.navigate();
 		}, 2000);
-	};
+	}
 
 };

@@ -24,6 +24,10 @@ c-button .btn {
 	position: relative;
 }
 
+c-button .disabled .btn {
+	background-color: #aaaaaa;
+}
+
 c-button .btn > span {
 	display: flex;
 	flex-direction: row;

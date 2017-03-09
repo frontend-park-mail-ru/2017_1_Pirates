@@ -52,7 +52,7 @@ window.Framework.Activity = class Activity {
 		}
 	}
 
-	onEnter(args) {
+	onEnter() {
 	}
 
 	onLeave() {

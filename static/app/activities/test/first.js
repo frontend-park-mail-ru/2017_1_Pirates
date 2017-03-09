@@ -6,7 +6,7 @@ window.Activity.FirstActivity = class extends window.Framework.Activity {
 	constructor() {
 		super();
 		this.setupBackground();
-	};
+	}
 
 
 	setupBackground() {
@@ -36,7 +36,7 @@ window.Activity.FirstActivity = class extends window.Framework.Activity {
 	}
 
 
-	onEnter(args) {
+	onEnter() {
 		this.view.queryComponentAll('test-button.my-button').forEach((button) => {
 			button.text = 'kek';
 		});
@@ -52,10 +52,10 @@ window.Activity.FirstActivity = class extends window.Framework.Activity {
 		data.children.btn.text = 'It Works!';
 
 		edit.data = data;
-	};
+	}
 
 	sayHi(args) {
 		alert(`Hello, Mr. ${args.name} of age ${args.age}!`);
-	};
+	}
 
 };

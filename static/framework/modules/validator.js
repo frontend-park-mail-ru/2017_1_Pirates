@@ -106,7 +106,7 @@ window.Framework.ValidatorChain = class ValidatorChain {
 			return false;
 		}
 
-		if (strict || true) {
+		if (strict) {
 			return (this.__warnings__.length == 0) && (this.__errors__.length == 0);
 		}
 

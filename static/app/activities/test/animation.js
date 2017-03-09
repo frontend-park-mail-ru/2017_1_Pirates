@@ -5,10 +5,10 @@ window.Activity.AnimationActivity = class extends window.Framework.Activity {
 
 	constructor() {
 		super();
-	};
+	}
 
-	onEnter(args) {
+	onEnter() {
 		// alert('My activity works!');
-	};
+	}
 
 };
