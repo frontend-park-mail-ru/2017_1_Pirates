@@ -27,6 +27,7 @@ c-info-box ul {
 
 c-info-box li {
 	margin: 10px;
+	min-height: 1.3em;
 }
 
 
@@ -39,7 +40,6 @@ c-info-box .errors li:before {
 	font-family: 'FontAwesome';
 	content: '\f00d';
 	font-size: 1.2em;
-	cursor: pointer;
 	padding: 10px;
 	position: relative;
 	top: 1px;
@@ -54,7 +54,6 @@ c-info-box .warnings li:before {
 	font-family: 'FontAwesome';
 	content: '\f071';
 	font-size: 0.9em;
-	cursor: pointer;
 	padding: 10px;
 	position: relative;
 	top: 1px;
@@ -69,7 +68,6 @@ c-info-box .oks li:before {
 	font-family: 'FontAwesome';
 	content: '\f00c';
 	font-size: 0.9em;
-	cursor: pointer;
 	padding: 10px;
 	position: relative;
 	top: 1px;

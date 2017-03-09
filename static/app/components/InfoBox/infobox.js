@@ -23,20 +23,11 @@ window.addEventListener('CreateComponents', () => {
 				});
 			};
 
-			window.setTimeout(() => {
 
-			});
-
-			this.visible = false;
-
-			window.setTimeout(() => {
-				updateArray('texts');
-				updateArray('oks');
-				updateArray('warnings');
-				updateArray('errors');
-
-				this.visible = true;
-			}, 300);
+			updateArray('texts');
+			updateArray('oks');
+			updateArray('warnings');
+			updateArray('errors');
 		}
 
 
@@ -74,7 +65,7 @@ window.addEventListener('CreateComponents', () => {
 
 
 		onVisibleChange(value) {
-			if (value) {
+			if (this.visible) {
 				this.view.style.opacity = 1;
 			} else {
 				this.view.style.opacity = 0;

@@ -39,6 +39,9 @@ window.Activity.MainActivity = class extends window.Framework.Activity {
 		const back = this.view.queryComponent('#back');
 		back.visible = false;
 
+		const scores = this.view.queryComponent('#scores');
+		scores.visible = true;
+
 		const userLink = this.view.queryComponent('#user');
 		userLink.visible = false;
 
@@ -58,6 +61,12 @@ window.Activity.MainActivity = class extends window.Framework.Activity {
 				}
 			});
 		}, 1000);
+	}
+
+
+	onLeave() {
+		const scores = this.view.queryComponent('#scores');
+		scores.visible = false;
 	}
 
 };

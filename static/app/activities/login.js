@@ -59,8 +59,7 @@ window.Activity.LoginActivity = class extends window.Framework.Activity {
 		const scores = this.view.queryComponent('#scores');
 		const errors = this.view.queryComponent('#errors');
 
-		errors.text = 'Пожалуйста, подождите...';
-		scores.visible = false;
+		errors.text = 'Для продолжения необходимо авторизоваться.';
 	}
 
 	onLeave() {
@@ -73,8 +72,6 @@ window.Activity.LoginActivity = class extends window.Framework.Activity {
 
 		password.text = '';
 		password.erroneous = false;
-
-		errors.visible = false;
 	}
 
 };
