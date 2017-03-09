@@ -4,7 +4,7 @@
 
   "info": {
 	"version": "1.0.0",
-	"title": "TestApplication"
+	"title": "Project MOTION"
   },
 
   "schemes": [
@@ -166,7 +166,7 @@
 
 	"/session/login": {
 	  "post": {
-		"description": "`alias: login`<br>Performs a login request with implied login or username and password.<br>Status code -1 means successfull login, and 603 in case of bad login or password.",
+		"description": "`alias: login`<br>Performs a login request with implied login or username and password.<br>Status code *SUCCESS* means successfull login, and *BAD_LOGIN_OR_PASSWORD* in case of bad login or password.",
 		"parameters": [
 		  {
 			"name": "request",
@@ -188,7 +188,7 @@
 
 	"/session/logout": {
 	  "post": {
-		"description": "`alias: logout`<br>Performs a logout request and returns status -1 in all cases.",
+		"description": "`alias: logout`<br>Performs a logout request and returns status *SUCCESS* in all cases.",
 		"responses": {
 		  "200": {
 			"$ref": "#/responses/LogoutResponse"
@@ -199,7 +199,7 @@
 
 	"/session/current": {
 	  "get": {
-		"description": "`alias: current`<br>Returns status -1 and current user info if any user is logged in. Returns status 604 if user is not logged in.",
+		"description": "`alias: current`<br>Returns status *SUCCESS* and current user info if any user is logged in. Returns status *SESSION_INVALID* if user is not logged in.",
 		"responses": {
 		  "200": {
 			"$ref": "#/responses/UserInfoResponse"
@@ -210,7 +210,7 @@
 
 	"/user/create": {
 	  "post": {
-		"description": "`alias: userCreate`<br>Creates a new user. Can return status -1 if the user was created successfully, 601 if such a user already exists or 604 if another user is binded with current session (nobody can sign up while being logged in).",
+		"description": "`alias: userCreate`<br>Creates a new user. Can return status *SUCCESS* if the user was created successfully, *USER_ALREADY_EXISTS* if such a user already exists or *SESSION_INVALID* if another user is binded with current session (nobody can sign up while being logged in).",
 		"parameters": [
 		  {
 			"name": "request",
@@ -232,7 +232,7 @@
 
 	"/user/delete": {
 	  "post": {
-		"description": "`alias: userDelete`<br>Deletes current user. Returns status -1 in case of success and 604 if current user is not logged in.",
+		"description": "`alias: userDelete`<br>Deletes current user. Returns status *SUCCESS* in case of success and *SESSION_INVALID* if current user is not logged in.",
 		"responses": {
 		  "200": {
 			"$ref": "#/responses/UserDeletionResponse"
@@ -243,7 +243,7 @@
 
 	"/user/changeLogin": {
 	  "post": {
-		"description": "`alias: changeLogin`<br>Changes login of current user. Returns -1 if value is a valid login and can be changed, 605 if login is invalid.",
+		"description": "`alias: changeLogin`<br>Changes login of current user. Returns *SUCCESS* if value is a valid login and can be changed, *BAD_VALIDATOR* if login is invalid.",
 		"parameters": [
 		  {
 			"name": "request",
@@ -265,7 +265,7 @@
 
 	"/user/changeEmail": {
 	  "post": {
-		"description": "`alias: changeEmail`<br>Changes email of current user. Returns -1 if value is a valid email and can be changed, 605 if email is invalid.",
+		"description": "`alias: changeEmail`<br>Changes email of current user. Returns *SUCCESS* if value is a valid email and can be changed, *BAD_VALIDATOR* if email is invalid.",
 		"parameters": [
 		  {
 			"name": "request",
@@ -287,7 +287,7 @@
 
 	"/user/changePassword": {
 	  "post": {
-		"description": "`alias: changePassword`<br>Changes password of current user. Returns -1 if value is a valid password and can be changed, 605 if password is invalid.",
+		"description": "`alias: changePassword`<br>Changes password of current user. Returns *SUCCESS* if value is a valid password and can be changed, *BAD_VALIDATOR* if password is invalid.",
 		"parameters": [
 		  {
 			"name": "request",
@@ -309,7 +309,7 @@
 
 	"/user/getById": {
 	  "post": {
-		"description": "`alias: getUserById`<br>Returns status -1 and user info if such user exists, status 602 if no such user found.",
+		"description": "`alias: getUserById`<br>Returns status *SUCCESS* and user info if such user exists, status *USER_NOT_FOUND* if no such user found.",
 		"parameters": [
 		  {
 			"name": "request",

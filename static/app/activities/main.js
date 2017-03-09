@@ -5,20 +5,42 @@ window.Activity.MainActivity = class extends window.Framework.Activity {
 
 	constructor() {
 		super();
-		//this.bind('button', 'click', 'onButtonClick');
+
+		this.bind('#singlePlayer', 'click', 'onSingleClick');
+		this.bind('#multiPlayer', 'click', 'onMultiClick');
 	};
 
 
-	/*onButtonClick(event) {
-	 window.Route.MainRoute.navigate();
-	}*/
+	onSingleClick(event) {
+		window.Route.SinglePlayerRoute.navigate();
+	};
+
+
+	onMultiClick(event) {
+		window.Route.MultiPlayerRoute.navigate();
+	};
 
 
 	onEnter(args) {
-		/*window.setInterval(() => {
-			const loading = this.view.queryComponent('#loading');
-			loading.visible = !loading.visible;
-		}, 3000);*/
+		const userLink = this.view.queryComponent('#user');
+		userLink.visible = false;
+
+		window.setTimeout(() => {
+			window.Network.current({}, (status, response) => {
+				if (response.status === window.ErrorCodes.SUCCESS) {
+					window.currentUser = response;
+					userLink.text = response.login;
+					userLink.visible = true;
+					return;
+				}
+
+				if (response.status === window.ErrorCodes.SESSION_INVALID) {
+					window.currentUser = null;
+					userLink.text = 'Вы не авторизованы';
+					userLink.visible = true;
+				}
+			});
+		}, 1000);
 	};
 
 };

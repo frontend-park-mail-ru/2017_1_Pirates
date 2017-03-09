@@ -23,6 +23,7 @@
 	"babylonjs": "latest",
 	"swagger-ui-express": "latest",
 	"body-parser": "latest",
-	"webcomponents.js": "git://github.com/webcomponents/webcomponentsjs.git"
+	"webcomponents.js": "git://github.com/webcomponents/webcomponentsjs.git",
+	"font-awesome": "latest"
   }
 }

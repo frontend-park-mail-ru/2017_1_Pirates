@@ -36,8 +36,6 @@ window.Framework.BackendTag = class extends HTMLElement {
 
 				window.dispatchEvent(new Event('SwaggerSpecLoad'));
 			}
-
-			this.__swagger__ = null;
 		};
 
 		xhr.send();
@@ -49,19 +47,40 @@ window.Framework.BackendTag = class extends HTMLElement {
 
 	__createHandler__(current, handlerName, path, method) {
 		current[handlerName] = (args, callback) => {
-			const xhr = new XMLHttpRequest();
 
-			xhr.open(method.toUpperCase(), `${this.swagger.host || ''}${path}`, true);
+			const xhr = new XMLHttpRequest();
+			const loading = window.Framework.currentActivity.view.queryComponent('loading.network');
+			const random = Math.floor(Math.random() * 100000);
+
+			xhr.open(method.toUpperCase(),
+				`${((this.swagger.schemes || [])[0] +
+				'://') || 'http://'}${this.swagger.host || ''}${path}?${random}`, true);
+
 			xhr.withCredentials = true;
 			xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 
 			xhr.onreadystatechange = () => {
-				if (xhr.readyState === XMLHttpRequest.DONE && callback) {
-					callback(xhr.status, JSON.parse(xhr.responseText));
+				if (xhr.readyState === XMLHttpRequest.DONE) {
+					window.Framework.currentRequests--;
+
+					if (window.Framework.currentRequests < 0) {
+						window.Framework.currentRequests = 0;
+					}
+
+					if (loading && window.Framework.currentRequests === 0) {
+						loading.visible = false;
+					}
+
+					if (callback) {
+						callback(xhr.status, JSON.parse(xhr.responseText));
+					}
 				}
 			};
 
 			xhr.send(JSON.stringify(args));
+			if (loading) loading.visible = true;
+			window.Framework.currentRequests++;
+
 		};
 
 		const pathInfo = this.swagger.paths[path][method];

@@ -46,6 +46,10 @@
 	<link rel="import" href="/app/components/InfoBox/infobox.html">
 	<link rel="stylesheet" href="/app/components/InfoBox/infobox.css">
 	<script src="/app/components/InfoBox/infobox.js"></script>
+
+	<link rel="import" href="/app/components/Link/link.html">
+	<link rel="stylesheet" href="/app/components/Link/link.css">
+	<script src="/app/components/Link/link.js"></script>
 	<!-- End Components -->
 
 	<!-- Animations -->
@@ -57,16 +61,22 @@
 	<script src="/app/validators/test.js"></script>
 	<!-- End Validators -->
 
+	<!-- Utils -->
+	<script src="/app/utils/errorcodes.js"></script>
+	<!-- End Utils -->
+
 	<!-- Views -->
 	<link rel="import" href="/app/views/blocks/_form-row.html">
 	<link rel="import" href="/app/views/base.html">
 	<link rel="import" href="/app/views/loading.html">
 	<link rel="import" href="/app/views/main.html">
+	<link rel="import" href="/app/views/game.html">
 	<!-- End Views -->
 
 	<!-- Activities -->
 	<script src="/app/activities/loading.js"></script>
 	<script src="/app/activities/main.js"></script>
+	<script src="/app/activities/game.js"></script>
 	<!-- End Activities -->
 
 	<!-- Background -->
@@ -87,11 +97,16 @@
 			<app-activity id="MainActivity" view="MainView" animation-enter="Shift"
 						  animation-leave="Shift">
 			</app-activity>
+			<app-activity id="GameActivity" view="GameView" animation-enter="Shift"
+						  animation-leave="Shift">
+			</app-activity>
 		</app-activities>
 
 		<app-routing>
 			<app-route id="RootRoute" activity="LoadingActivity" path="#"></app-route>
 			<app-route id="MainRoute" activity="MainActivity" path="#main"></app-route>
+			<app-route id="SinglePlayerRoute" activity="GameActivity#onSingle" path="#singleplayer"></app-route>
+			<app-route id="MultiPlayerRoute" activity="GameActivity#onMulti" path="#multiplayer"></app-route>
 		</app-routing>
 	</app-inf>
 
