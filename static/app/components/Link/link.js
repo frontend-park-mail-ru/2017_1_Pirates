@@ -39,9 +39,11 @@ window.addEventListener('CreateComponents', () => {
 			const content = this.view.querySelector('.link-inner-container');
 
 			if (value) {
-				content.style.opacity = 1;
+				content.style.display = 'inherit';
+				//content.style.opacity = 1;
 			} else {
-				content.style.opacity = 0;
+				content.style.display = 'none';
+				//content.style.opacity = 0;
 			}
 
 			return value;

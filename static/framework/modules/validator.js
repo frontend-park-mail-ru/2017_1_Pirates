@@ -13,6 +13,7 @@ window.Framework.Validator = class Validator {
 		*/
 
 		this.chain.setInvalid('warning', `Value "${value}" may be invalid, unimplemented validator.`);
+		this.chain.setFired();
 	}
 };
 
@@ -41,6 +42,8 @@ window.Framework.NetworkValidator = class NetworkValidator extends window.Framew
 			responses.forEach((response) => {
 				this.chain.setInvalid(response.status, response.msg);
 			});
+
+			this.chain.setFired();
 		});
 	}
 };
@@ -86,8 +89,6 @@ window.Framework.ValidatorChain = class ValidatorChain {
 	}
 
 	setInvalid(state, desc) {
-		this.__firedCount__++;
-
 		if (state == 'ok') {
 			this.__oks__.push(desc);
 		} else if (state == 'warning') {
@@ -95,6 +96,10 @@ window.Framework.ValidatorChain = class ValidatorChain {
 		} else {
 			this.__errors__.push(desc);
 		}
+	}
+
+	setFired() {
+		this.__firedCount__++;
 
 		if (this.__firedCount__ == this.__validators__.length && this.onStateChange) {
 			this.onStateChange(this);

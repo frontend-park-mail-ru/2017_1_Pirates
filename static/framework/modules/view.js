@@ -171,6 +171,12 @@ window.Framework.ViewRow = class ViewRow extends HTMLElement {
 			return;
 		}
 
+		if (this.hasAttribute('fill-smaller')) {
+			this.style.overflow = 'auto';
+			this.style.flex = 0.5;
+			return;
+		}
+
 		const maxWidth = this.getAttribute('width') || 12;
 		const children = [...this.children].filter((el) => {
 			return el.tagName === 'VIEW-COLUMN';

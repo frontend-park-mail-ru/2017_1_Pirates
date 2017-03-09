@@ -23,7 +23,6 @@ window.addEventListener('CreateComponents', () => {
 				});
 			};
 
-
 			updateArray('texts');
 			updateArray('oks');
 			updateArray('warnings');
@@ -32,8 +31,20 @@ window.addEventListener('CreateComponents', () => {
 
 
 		addStatusMessage(status, text) {
+			this.addStatusMessages(status, [text]);
+		}
+
+
+		addStatusMessages(status, messages) {
 			const array = this[`${status}s`];
-			array.push(text);
+
+			messages.forEach((message) => {
+				if (message && !this.__has__[message]) {
+					array.push(message);
+					this.__has__[message] = true;
+				}
+			});
+
 			this.update();
 		}
 
@@ -43,6 +54,14 @@ window.addEventListener('CreateComponents', () => {
 			this.oks = [];
 			this.warnings = [];
 			this.errors = [];
+			this.__has__ = {}
+		}
+
+
+		get empty() {
+			const empty = (this.texts.length === 0) || (this.texts[0] === null);
+			return empty && (this.oks.length === 0) && (this.warnings.length === 0) &&
+				(this.errors.length === 0);
 		}
 
 
@@ -65,7 +84,7 @@ window.addEventListener('CreateComponents', () => {
 
 
 		onVisibleChange(value) {
-			if (this.visible) {
+			if (value) {
 				this.view.style.opacity = 1;
 			} else {
 				this.view.style.opacity = 0;
