@@ -91,6 +91,7 @@ const ready = () => {
 	customElements.define('app-activity', window.Framework.ActivityTag);
 	customElements.define('app-route', window.Framework.Route);
 	customElements.define('app-backend', window.Framework.BackendTag);
+	customElements.define('app-locale', window.Framework.LocaleTag);
 	customElements.define('view-include', window.Framework.ViewInclude);
 	customElements.define('view-row', window.Framework.ViewRow);
 	customElements.define('view-column', window.Framework.ViewColumn);

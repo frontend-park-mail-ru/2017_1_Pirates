@@ -7,7 +7,13 @@ window.Activity.LoginActivity = class extends window.Framework.Activity {
 		super();
 
 		this.bind('#submit', 'click', 'onSubmitClick');
+		this.bind('#signup', 'click', 'onSignUpClick');
 		this.bind('input', 'keydown', 'onInputKeydown');
+	}
+
+
+	onSignUpClick() {
+		window.Route.SignUpRoute.navigate();
 	}
 
 
@@ -40,8 +46,11 @@ window.Activity.LoginActivity = class extends window.Framework.Activity {
 			if (response.status === window.ErrorCodes.BAD_LOGIN_OR_PASSWORD) {
 				email.erroneous = true;
 				password.erroneous = true;
+
 				errors.text = null;
 				errors.addStatusMessage('error', 'Неправильный логин или пароль!');
+				errors.visible = true;
+
 				email.alert();
 			}
 
@@ -56,11 +65,10 @@ window.Activity.LoginActivity = class extends window.Framework.Activity {
 
 
 	onEnter() {
-		const scores = this.view.queryComponent('#scores');
 		const errors = this.view.queryComponent('#errors');
 
-		errors.text = 'Пожалуйста, подождите...';
-		scores.visible = false;
+		errors.text = 'Для продолжения необходимо войти или создать аккаунт.';
+		errors.visible = false;
 	}
 
 	onLeave() {
@@ -73,8 +81,6 @@ window.Activity.LoginActivity = class extends window.Framework.Activity {
 
 		password.text = '';
 		password.erroneous = false;
-
-		errors.visible = false;
 	}
 
 };

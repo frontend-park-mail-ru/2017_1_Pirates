@@ -167,11 +167,11 @@ window.Framework.Component = class Component {
 			};
 
 			element.addEventListener('change', validateProperty);
-			element.addEventListener('keyup', (event) => {
+			/*element.addEventListener('keyup', (event) => {
 				window.setTimeout(() => {
 					validateProperty(event);
-				}, 1000);
-			});
+				}, 200);
+			});*/
 
 		});
 	}

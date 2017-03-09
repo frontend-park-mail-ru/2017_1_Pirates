@@ -31,9 +31,19 @@ component-view.with-padding {
 
 
 
-.left-link, .right-link {
+/*.left-link, .right-link {
 	padding: 30px 80px;
 	color: white;
+}*/
+.top-link, .bottom-link {
+	padding-left: 80px;
+	padding-right: 80px;
+}
+.top-link {
+	padding-top: 30px;
+}
+.bottom-link {
+	padding-bottom: 30px;
 }
 .left-link {
 	text-align: left;
@@ -46,4 +56,17 @@ component-view.with-padding {
 
 c-button#vk-login .btn-txt {
 	font-size: 0.9em;
+}
+
+
+.grand-or {
+	font-size: 2.0em;
+	color: white;
+	opacity: 0.3;
+	padding-bottom: 40px;
+}
+
+
+.smaller-or {
+	font-size: 1.5em;
 }

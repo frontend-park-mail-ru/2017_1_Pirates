@@ -7,6 +7,12 @@ window.addEventListener('CreateComponents', () => {
 		constructor() {
 			super();
 			this.userValidators = null;
+
+			window.setTimeout(() => {
+				this.view.querySelector('input').addEventListener('keydown', () => {
+					this.view.dispatchEvent(new CustomEvent('onKeyDown', { detail: this}));
+				});
+			}, 200);
 		}
 
 
@@ -40,11 +46,23 @@ window.addEventListener('CreateComponents', () => {
 		}
 
 
+		onCorrectChange(value) {
+			if (value) {
+				this.view.classList.add('correct');
+			} else {
+				this.view.classList.remove('correct');
+			}
+
+			return value;
+		}
+
+
 		onTextChange(value) {
 			if (this.userValidators) {
 				this.userValidators.validate(value);
 			}
 
+			this.view.dispatchEvent(new CustomEvent('onChange', { detail: { sender: this, value: value }}));
 			return value;
 		}
 

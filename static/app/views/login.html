@@ -1,27 +1,10 @@
 <app-view id="LoginView" inherits="BaseView">
 
-	<!--<view-row width="8">
-		<view-column width="0.5" filler></view-column>
-
-		<view-column width="1.5">
-			<c-info-box id="errors" class="expands"></c-info-box>
-		</view-column>
-
-		<view-column width="2.5">
-		</view-column>
-
-		<view-column width="1.5">
-			<c-info-box id="info" class="expands"></c-info-box>
-		</view-column>
-
-		<view-column width="0.5" filler></view-column>
-	</view-row>-->
 	<view-row collapses>
 		<view-column filler></view-column>
 		<view-column></view-column>
 		<view-column width="6">
-			<c-info-box id="errors" class="always-expands" text="Для продолжения необходимо авторизоваться."
-						visible="false">
+			<c-info-box id="errors" class="always-expands" visible="false">
 			</c-info-box>
 		</view-column>
 		<view-column></view-column>
@@ -29,6 +12,19 @@
 	</view-row>
 
 	<form>
+		<view-include view="FormWideRowView">
+			<view-row>
+				<view-column>
+					<div class="grand-or">ВОЙДИТЕ</div>
+				</view-column>
+				<view-column width="0.1"></view-column>
+
+				<view-column>
+					<div class="grand-or smaller-or">ИЛИ СОЗДАЙТЕ АККАУНТ</div>
+				</view-column>
+			</view-row>
+		</view-include>
+
 		<view-include view="FormWideRowView">
 			<view-row>
 				<view-column>
@@ -46,7 +42,10 @@
 					</c-input>
 				</view-column>
 				<view-column width="0.1"></view-column>
-				<view-column></view-column>
+
+				<view-column>
+					<c-button id="signup" text="Создать аккаунт" inline="false"></c-button>
+				</view-column>
 			</view-row>
 		</view-include>
 
@@ -59,7 +58,7 @@
 				<view-column width="0.1"></view-column>
 
 				<view-column>
-					<c-button id="vk-login" text="Войти через VK" vk="true" class="btn-blue" inline="true">
+					<c-button id="vk-login" text="Авторизация через VK" vk="true" class="btn-blue" inline="false">
 					</c-button>
 				</view-column>
 			</view-row>

@@ -43,6 +43,11 @@ c-input component-view.erroneous input {
 }
 
 
+c-input component-view.correct input {
+	border: 2px solid #80ce78;
+}
+
+
 @keyframes input-alert {
 	0% {
 		transform: translate(0, 0);

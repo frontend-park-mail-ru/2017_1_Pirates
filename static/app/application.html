@@ -19,6 +19,7 @@
 	<script src="/framework/modules/animation.js"></script>
 	<script src="/framework/modules/validator.js"></script>
 	<script src="/framework/modules/network.js"></script>
+	<script src="/framework/modules/locale.js"></script>
 	<script src="/framework/framework.js"></script>
 	<!-- End Main Framework -->
 
@@ -58,7 +59,7 @@
 	<!-- End Animations -->
 
 	<!-- Validators -->
-	<script src="/app/validators/test.js"></script>
+	<script src="/app/validators/validators.js"></script>
 	<!-- End Validators -->
 
 	<!-- Utils -->
@@ -73,6 +74,7 @@
 	<link rel="import" href="/app/views/main.html">
 	<link rel="import" href="/app/views/game.html">
 	<link rel="import" href="/app/views/login.html">
+	<link rel="import" href="/app/views/signup.html">
 	<!-- End Views -->
 
 	<!-- Activities -->
@@ -80,6 +82,7 @@
 	<script src="/app/activities/main.js"></script>
 	<script src="/app/activities/game.js"></script>
 	<script src="/app/activities/login.js"></script>
+	<script src="/app/activities/signup.js"></script>
 	<!-- End Activities -->
 
 	<!-- Background -->
@@ -92,6 +95,7 @@
 
 	<app-inf>
 		<app-backend url="*" swagger="/app/swagger.json"></app-backend>
+		<app-locale url="/app/locale/ru-ru.json"></app-locale>
 
 		<app-activities>
 			<app-activity id="LoadingActivity" view="LoadingView" animation-enter="Opacity"
@@ -106,6 +110,9 @@
 			<app-activity id="LoginActivity" view="LoginView" animation-enter="Shift"
 						  animation-leave="Shift">
 			</app-activity>
+			<app-activity id="SignUpActivity" view="SignUpView" animation-enter="Shift"
+						  animation-leave="Shift">
+			</app-activity>
 		</app-activities>
 
 		<app-routing>
@@ -114,6 +121,7 @@
 			<app-route id="SinglePlayerRoute" activity="GameActivity#onSingle" path="#singleplayer"></app-route>
 			<app-route id="MultiPlayerRoute" activity="GameActivity#onMulti" path="#multiplayer"></app-route>
 			<app-route id="LoginRoute" activity="LoginActivity" path="#login"></app-route>
+			<app-route id="SignUpRoute" activity="SignUpActivity" path="#signup"></app-route>
 		</app-routing>
 	</app-inf>
 
