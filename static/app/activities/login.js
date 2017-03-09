@@ -6,13 +6,34 @@ window.Activity.LoginActivity = class extends window.Framework.Activity {
 	constructor() {
 		super();
 
-		//this.bind('#password', 'validate', 'onPasswordValidate');
 		this.bind('#submit', 'click', 'onSubmitClick');
+		this.bind('input', 'keydown', 'onInputKeydown');
 	};
 
 
+	onInputKeydown(event) {
+		const email = this.view.queryComponent('#email');
+		const password = this.view.queryComponent('#password');
+
+		email.erroneous = false;
+		password.erroneous = false;
+	}
+
+
 	onSubmitClick(event) {
-		//const submit = this.view.q
+		const email = this.view.queryComponent('#email');
+		const password = this.view.queryComponent('#password');
+
+		window.Network.login({
+			login_or_email: email.text,
+			password: password.text
+		}, (httpStatus, response) => {
+			if (response.status === window.ErrorCodes.BAD_LOGIN_OR_PASSWORD) {
+				email.erroneous = true;
+				password.erroneous = true;
+				email.alert();
+			}
+		});
 	}
 
 
