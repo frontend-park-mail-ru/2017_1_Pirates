@@ -35,6 +35,10 @@ c-button .btn > span {
 	align-items: center;
 }
 
+c-button .btn  {
+	min-height: 34px;
+}
+
 c-button .btn:hover, c-button .btn:focus {
 	outline: none;
 	padding: 8px;
