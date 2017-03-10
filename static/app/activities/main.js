@@ -10,6 +10,12 @@ window.Activity.MainActivity = class extends window.Framework.Activity {
 		this.bind('#multiPlayer', 'click', 'onMultiClick');
 		this.bind('#user', 'click', 'onUserClick');
 		this.bind('#scores', 'click', 'onScoresClick');
+		this.bind('#help', 'click', 'onHelpClick');
+	}
+
+
+	onHelpClick() {
+		window.Route.HelpRoute.navigate();
 	}
 
 

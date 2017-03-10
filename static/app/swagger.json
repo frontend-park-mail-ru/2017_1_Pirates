@@ -89,6 +89,25 @@
 	  }
 	},
 
+	"ScoreRecord": {
+	  "type": "object",
+	  "properties": {
+		"login": {
+		  "type": "string"
+		},
+		"score": {
+		  "type": "integer"
+		}
+	  }
+	},
+
+	"ScoreResponseObject": {
+	  "type": "array",
+	  "items": {
+		"$ref": "#/definitions/ScoreRecord"
+	  }
+	},
+
 	"ValidatorStatusCollection": {
 	  "type": "array",
 	  "items": {
@@ -156,6 +175,13 @@
 	  "description": "User info response",
 	  "schema": {
 		"$ref": "#/definitions/UserInfoResponseObject"
+	  }
+	},
+
+	"ScoreResponse": {
+	  "description": "Scores response",
+	  "schema": {
+		"$ref": "#/definitions/ScoreResponseObject"
 	  }
 	}
 
@@ -324,6 +350,18 @@
 		"responses": {
 		  "200": {
 			"$ref": "#/responses/UserInfoResponse"
+		  }
+		}
+	  }
+	},
+
+
+	"/game/scores": {
+	  "post": {
+		"description": "`alias: scores`<br>Returns list of top players.",
+		"responses": {
+		  "200": {
+			"$ref": "#/responses/ScoreResponse"
 		  }
 		}
 	  }

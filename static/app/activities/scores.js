@@ -9,6 +9,11 @@ window.Activity.ScoresActivity = class extends window.Framework.Activity {
 
 
 	onEnter() {
+		const table = this.view.queryComponent('#score');
+
+		window.Network.scores({}, (status, response) => {
+			table.list = response;
+		});
 	}
 
 };
