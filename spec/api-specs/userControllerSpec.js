@@ -5,11 +5,25 @@ describe('User controller', function () {
 	const baseUrl = 'https://motion-project.herokuapp.com/user';
 	const fetch = require('node-fetch');
 	const myHeaders = {
-		"Content-type":"application/json; charset=utf8"
+		"Content-type":"application/json; charset=utf8",
+		"X-Test-Environment-Key":"qcOluDht4uNCJwlIJdTEcxzytdLp4qTp3LLYwxJM"
 	};
 
 
 	describe('User creation',function () {
+
+		beforeEach(function (done) {
+			fetch('https://motion-project.herokuapp.com/test/start', {
+				method: 'POST',
+				mode: 'CORS',
+				headers: myHeaders
+			})
+				.then(response=>{
+					expect(response.status).toBe(200);
+					done(true);
+				})
+
+		});
 
 		it('should not response 500, even on request without body', function (done) {
 			fetch(baseUrl + '/create', {
@@ -49,21 +63,28 @@ describe('User controller', function () {
 
 
 		it('should response http status 200 and 605 code on trying create exists user', function (done) {
-			const body = JSON.stringify({
-				login: "test",
-				email: "test@test.ru",
-				password: "password"
-			});
-
 			fetch(baseUrl + '/create', {
 				method: 'POST',
 				mode: 'CORS',
 				headers: myHeaders,
-				body: body
+				body: JSON.stringify({login: "test", email: "test@test.ru", password: "password"})
 			})
 				.then(response => {
 					const status = response.status;
 					expect(status).toBe(200);
+					return response.json();
+				})
+				.then(body => {
+					expect(body.status).toBe(-1);
+					return fetch(baseUrl + '/create', {
+								method: 'POST',
+								mode: 'CORS',
+								headers: myHeaders,
+								body: JSON.stringify({login: "test", email: "test@test.ru", password: "password"})
+							})
+				})
+				.then(response => {
+					expect(response.status).toBe(200);
 					return response.json();
 				})
 				.then(body => {
@@ -152,23 +173,26 @@ describe('User controller', function () {
 
 
 		const myHeaders = {
-			"Content-type":"application/json; charset=utf8"
+			"Content-type":"application/json; charset=utf8",
+			"X-Test-Environment-Key":"qcOluDht4uNCJwlIJdTEcxzytdLp4qTp3LLYwxJM"
 		};
 
 
 		beforeEach(function (done) {
-			const body = JSON.stringify({
-				login: "test",
-				email: "test@test.ru",
-				password: "password"
-			});
-
-			fetch(baseUrl + '/create', {
+			fetch('https://motion-project.herokuapp.com/test/start', {
 				method: 'POST',
 				mode: 'CORS',
-				headers: myHeaders,
-				body: body
+				headers: myHeaders
 			})
+				.then(response=>{
+					expect(response.status).toBe(200);
+					return fetch(baseUrl + '/create', {
+						method: 'POST',
+						mode: 'CORS',
+						headers: myHeaders,
+						body: JSON.stringify({login: "test", email: "test@test.ru", password: "password"})
+					})
+				})
 				.then(response => {
 					const status = response.status;
 					expect(status).toBe(200);
@@ -300,65 +324,84 @@ describe('User controller', function () {
 
 	});
 
-	describe("User delete", function () {
+	// describe("User delete", function () {
+    //
+	// 	beforeEach(function (done) {
+    //
+	// 		const body = JSON.stringify({
+	// 			login: "test111",
+	// 			email: "test@test111.ru",
+	// 			password: "password"
+	// 		});
+    //
+	// 		fetch('https://motion-project.herokuapp.com/test/start', {
+	// 			method: 'POST',
+	// 			mode: 'CORS',
+	// 			headers: myHeaders
+	// 		})
+	// 			.then(r => {
+	// 				return fetch(baseUrl + '/create', {
+	// 					method: 'POST',
+	// 					mode: 'CORS',
+	// 					headers: myHeaders,
+	// 					body: body
+	// 				})
+	// 					.then(response => {
+	// 						expect(response.status).toBe(200);
+	// 						return fetch('https://motion-project.herokuapp.com/sessions/login', {
+	// 							method: 'POST',
+	// 							mode: 'CORS',
+	// 							headers: myHeaders,
+	// 							body: JSON.stringify({login_or_email: "test111", password: "password"})
+	// 						})
+	// 					})
+	// 					.then(response => {
+	// 						expect(response.status).toBe(200);
+	// 						done(true);
+	// 					})
+	// 			})
+    //
+	// 	});
+    //
+	// 	it('should not response 500, even on request without body', function (done) {
+	// 		fetch(baseUrl + '/delete', {
+	// 			method: 'POST',
+	// 			mode: 'CORS'
+	// 		}).then(response => {
+	// 			let status = response.status;
+	// 			expect(status).not.toBe(500);
+	// 			done(true);
+	// 		})
+	// 	});
+    //
+    //
+    //
+	// 	it('should delete user, response http 200 and -1 code on corrects requests', function (done) {
+	// 		fetch(baseUrl + '/delete', {
+	// 			method: 'POST',
+	// 			mode: 'CORS'
+	// 		})
+	// 			.then(response => {
+	// 				let status = response.status;
+	// 				expect(status).not.toBe(500);
+	// 				return response.json();
+	// 			})
+	// 			.then(body => {
+	// 				expect(body.status).toBe(-1);
+	// 			})
+	// 	})
+	// });
 
-		beforeEach(function (done) {
-
-			const body = JSON.stringify({
-				login: "test111",
-				email: "test@test111.ru",
-				password: "password"
-			});
-
-			fetch(baseUrl + '/create', {
-				method: 'POST',
-				mode: 'CORS',
-				headers: myHeaders,
-				body: body
-			})
-				.then(response => {
-					expect(response.status).toBe(200);
-					return fetch('https://motion-project.herokuapp.com/sessions/login', {
-						method: 'POST',
-						mode: 'CORS',
-						headers: myHeaders,
-						body: JSON.stringify({login_or_email: "test111", password: "password"})
-					})
-				})
-				.then(response => {
-					expect(response.status).toBe(200);
-					done(true);
-				})
-
-		});
-
-		it('should not response 500, even on request without body', function (done) {
-			fetch(baseUrl + '/delete', {
-				method: 'POST',
-				mode: 'CORS'
-			}).then(response => {
-				let status = response.status;
-				expect(status).not.toBe(500);
+	it('test environment', function (done) {
+		fetch('https://motion-project.herokuapp.com/test/start', {
+			method: 'POST',
+			mode: 'CORS',
+			headers: myHeaders
+		})
+			.then(response=>{
+				expect(response.status).toBe(200);
 				done(true);
 			})
-		});
-
-
-
-		it('should delete user, response http 200 and -1 code on corrects requests', function (done) {
-			fetch(baseUrl + '/delete', {
-				method: 'POST',
-				mode: 'CORS'
-			})
-				.then(response => {
-					let status = response.status;
-					expect(status).not.toBe(500);
-					return response.json();
-				})
-				.then(body => {
-					expect(body.status).toBe(-1);
-				})
-		})
 	})
-
 });
+
