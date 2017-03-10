@@ -93,6 +93,21 @@ window.addEventListener('CreateComponents', () => {
 			this.userValidators = null;
 			return validates;
 		}
+
+
+		clear() {
+			const lastValidators = this.userValidators;
+
+			this.userValidators = null;
+			this.text = '';
+			this.userValidators = lastValidators;
+			this.erroneous = false;
+			this.correct = false;
+
+			if (lastValidators) {
+				lastValidators.clear();
+			}
+		}
 	};
 
 });

@@ -5,7 +5,13 @@ window.Activity.GameActivity = class extends window.Framework.Activity {
 
 	constructor() {
 		super();
-		//this.bind('button', 'click', 'onButtonClick');
+
+		this.bind('#back', 'click', 'onBackClick');
+	}
+
+
+	onBackClick() {
+		window.Route.MainRoute.navigate();
 	}
 
 

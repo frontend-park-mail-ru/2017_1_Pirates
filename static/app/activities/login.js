@@ -52,6 +52,14 @@ window.Activity.LoginActivity = class extends window.Framework.Activity {
 				errors.visible = true;
 
 				email.alert();
+			} else if (response.status === window.ErrorCodes.SUCCESS) {
+				if (window.navigatedTo) {
+					const navigated = window.navigatedTo;
+					window.navigatedTo = null;
+					navigated.navigate();
+				} else {
+					window.Route.MainRoute.navigate();
+				}
 			}
 
 			submit.enabled = true;
@@ -59,16 +67,14 @@ window.Activity.LoginActivity = class extends window.Framework.Activity {
 	}
 
 
-	onPasswordValidate() {
-		//event.detail.valid;
-	}
-
-
-	onEnter() {
+	onEnter(args) {
 		const errors = this.view.queryComponent('#errors');
+		const email = this.view.queryComponent('#email');
 
 		errors.text = 'Для продолжения необходимо войти или создать аккаунт.';
 		errors.visible = false;
+
+		email.text = (args || {}).login || '';
 	}
 
 	onLeave() {

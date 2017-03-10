@@ -65,8 +65,34 @@ c-button#vk-login .btn-txt {
 	opacity: 0.3;
 	padding-bottom: 40px;
 }
-
-
+.grand-center {
+	text-align: center;
+}
 .smaller-or {
 	font-size: 1.5em;
 }
+
+.grand-logo-project {
+	padding-bottom: 0;
+	font-weight: 100;
+	font-size: 2vw;
+}
+
+.grand-logo-motion {
+	padding-bottom: 50px;
+	font-weight: 100;
+	font-size: 7vw;
+}
+
+
+.btn-help {
+	padding-left: 60px;
+	padding-right: 60px;
+}
+.btn-help .btn {
+	opacity: 0.8 !important;
+}
+.btn-help .btn:hover {
+	opacity: 1 !important;
+}
+
