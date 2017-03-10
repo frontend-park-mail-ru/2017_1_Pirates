@@ -1,18 +1,24 @@
-// "use strict";
-//
-// describe('GET methods from api', function () {
-//
-// 	const baseUrl = 'https://motion-project.herokuapp.com/sessions';
-// 	const fetch = require('node-fetch');
-//
-// 	it('should response 200', function (done) {
-// 		fetch(baseUrl + '/session/current', {
-// 			method: 'GET',
-// 			mode: 'CORS'
-// 		}).then(response => {
-// 			let status = response.status;
-// 			expect(status).toBe(200);
-// 			done(true)
-// 		})
-// 	})
-// });
+'user strict';
+
+describe('Session controller', function () {
+	const baseUrl = 'https://motion-project.herokuapp.com/session';
+	const fetch = require('node-fetch');
+	const myHeaders = {
+		"Content-type":"application/json; charset=utf8"
+	};
+
+
+
+	describe('Login user', function () {
+		it('should not response 500, even on request without body', function (done) {
+			fetch(baseUrl + '/login', {
+				method: 'POST',
+				mode: 'CORS'
+			}).then(response => {
+				let status = response.status;
+				expect(status).not.toBe(500);
+				done(true)
+			})
+		});
+	})
+})
