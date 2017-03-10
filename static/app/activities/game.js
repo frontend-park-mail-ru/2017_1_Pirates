@@ -15,19 +15,17 @@ window.Activity.GameActivity = class extends window.Framework.Activity {
 	}
 
 
-	onEnter() {
-	}
-
-
 	onSingle() {
 		const scores = this.view.queryComponent('#scores');
 		scores.visible = false;
+		this.view.queryComponent('#back').back = false;
 	}
 
 
 	onMulti() {
 		const scores = this.view.queryComponent('#scores');
 		scores.visible = false;
+		this.view.queryComponent('#back').back = false;
 	}
 
 };

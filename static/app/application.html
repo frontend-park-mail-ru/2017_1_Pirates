@@ -82,6 +82,7 @@
 	<link rel="import" href="/app/views/scores.html">
 	<link rel="import" href="/app/views/logout.html">
 	<link rel="import" href="/app/views/thankyou.html">
+	<link rel="import" href="/app/views/help.html">
 	<!-- End Views -->
 
 	<!-- Activities -->
@@ -93,6 +94,7 @@
 	<script src="/app/activities/scores.js"></script>
 	<script src="/app/activities/logout.js"></script>
 	<script src="/app/activities/thankyou.js"></script>
+	<script src="/app/activities/help.js"></script>
 	<!-- End Activities -->
 
 	<!-- Background -->
@@ -132,6 +134,9 @@
 			<app-activity id="ThankYouActivity" view="ThankYouView" animation-enter="Shift"
 						  animation-leave="Shift">
 			</app-activity>
+			<app-activity id="HelpActivity" view="HelpView" animation-enter="Shift"
+						  animation-leave="Shift">
+			</app-activity>
 		</app-activities>
 
 		<app-routing>
@@ -144,6 +149,7 @@
 			<app-route id="ScoresRoute" activity="ScoresActivity" path="#scores"></app-route>
 			<app-route id="LogoutRoute" activity="LogoutActivity" path="#logout"></app-route>
 			<app-route id="ThankYouRoute" activity="ThankYouActivity" path="#thankyou__<login=>"></app-route>
+			<app-route id="HelpRoute" activity="HelpActivity" path="#help"></app-route>
 		</app-routing>
 	</app-inf>
 

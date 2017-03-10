@@ -6,14 +6,7 @@ window.Activity.LoadingActivity = class extends window.Framework.Activity {
 	constructor() {
 		super();
 		this.setupBackground();
-
-		//this.bind('button', 'click', 'onButtonClick');
 	}
-
-
-	/*onButtonClick(event) {
-		window.Route.MainRoute.navigate();
-	}*/
 
 
 	setupBackground() {
@@ -36,7 +29,7 @@ window.Activity.LoadingActivity = class extends window.Framework.Activity {
 		if (!window.Framework.debugAnimation) {
 			window.setInterval(() => {
 				fire();
-			}, 3 * 1000 + 10);
+			}, 24 * 1000 + 10);
 		}
 
 		fire();

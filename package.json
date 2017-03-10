@@ -25,6 +25,7 @@
 	"body-parser": "latest",
 	"webcomponents.js": "git://github.com/webcomponents/webcomponentsjs.git",
 	"font-awesome": "latest",
-	"eslint": "latest"
+	"eslint": "latest",
+	"jasmine": "latest"
   }
 }

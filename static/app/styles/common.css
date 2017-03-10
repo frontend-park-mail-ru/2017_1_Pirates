@@ -96,3 +96,19 @@ c-button#vk-login .btn-txt {
 	opacity: 1 !important;
 }
 
+
+.game-info {
+	color: white;
+	opacity: 0.7;
+}
+
+.game-info img {
+	width: 480px;
+	height: auto;
+	padding: 30px;
+}
+
+.game-imgs {
+	text-align: center;
+}
+
