@@ -65,7 +65,6 @@ window.Activity.MainActivity = class extends window.Framework.Activity {
 			window.Network.current({}, (status, response) => {
 				if (response.status === window.ErrorCodes.SUCCESS) {
 					window.currentUser = response;
-					console.log(response);
 					userLink.text = `${response.login} (Выход)`;
 					userLink.visible = true;
 					return;
