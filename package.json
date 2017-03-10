@@ -4,7 +4,7 @@
   "description": "Frontend",
   "main": "server.js",
   "scripts": {
-	"test": "./node_modules/.bin/eslint ./static/*.js",
+	"test": "./node_modules/.bin/eslint ./static",
 	"start": "node server.js"
   },
   "repository": {

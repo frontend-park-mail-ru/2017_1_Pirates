@@ -54,7 +54,7 @@ window.addEventListener('CreateComponents', () => {
 			this.oks = [];
 			this.warnings = [];
 			this.errors = [];
-			this.__has__ = {}
+			this.__has__ = {};
 		}
 
 

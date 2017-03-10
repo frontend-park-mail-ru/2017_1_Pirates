@@ -54,6 +54,6 @@ window.addEventListener('CreateComponents', () => {
 
 			return data;
 		}
-	}
+	};
 
 });

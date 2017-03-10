@@ -80,7 +80,6 @@ window.Activity.LoginActivity = class extends window.Framework.Activity {
 	onLeave() {
 		const email = this.view.queryComponent('#email');
 		const password = this.view.queryComponent('#password');
-		const errors = this.view.queryComponent('#errors');
 
 		email.text = '';
 		email.erroneous = false;

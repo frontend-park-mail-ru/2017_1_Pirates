@@ -42,8 +42,7 @@ window.Framework.LocaleTag = class Locale extends HTMLElement {
 			const value = dict[key];
 
 			if (!value) {
-				console.error(`No locale found for this key: ${key}`);
-				return key;
+				throw new Error(`No locale found for this key: ${key}`);
 			}
 
 			return value;
