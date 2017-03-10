@@ -77,6 +77,7 @@
 	<link rel="import" href="/app/views/signup.html">
 	<link rel="import" href="/app/views/scores.html">
 	<link rel="import" href="/app/views/logout.html">
+	<link rel="import" href="/app/views/thankyou.html">
 	<!-- End Views -->
 
 	<!-- Activities -->
@@ -87,6 +88,7 @@
 	<script src="/app/activities/signup.js"></script>
 	<script src="/app/activities/scores.js"></script>
 	<script src="/app/activities/logout.js"></script>
+	<script src="/app/activities/thankyou.js"></script>
 	<!-- End Activities -->
 
 	<!-- Background -->
@@ -123,6 +125,9 @@
 			<app-activity id="LogoutActivity" view="LogoutView" animation-enter="Shift"
 						  animation-leave="Shift">
 			</app-activity>
+			<app-activity id="ThankYouActivity" view="ThankYouView" animation-enter="Shift"
+						  animation-leave="Shift">
+			</app-activity>
 		</app-activities>
 
 		<app-routing>
@@ -130,10 +135,11 @@
 			<app-route id="MainRoute" activity="MainActivity" path="#main"></app-route>
 			<app-route id="SinglePlayerRoute" activity="GameActivity#onSingle" path="#singleplayer"></app-route>
 			<app-route id="MultiPlayerRoute" activity="GameActivity#onMulti" path="#multiplayer"></app-route>
-			<app-route id="LoginRoute" activity="LoginActivity" path="#login"></app-route>
+			<app-route id="LoginRoute" activity="LoginActivity" path="#login__<login=>"></app-route>
 			<app-route id="SignUpRoute" activity="SignUpActivity" path="#signup"></app-route>
 			<app-route id="ScoresRoute" activity="ScoresActivity" path="#scores"></app-route>
 			<app-route id="LogoutRoute" activity="LogoutActivity" path="#logout"></app-route>
+			<app-route id="ThankYouRoute" activity="ThankYouActivity" path="#thankyou__<login=>"></app-route>
 		</app-routing>
 	</app-inf>
 

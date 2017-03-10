@@ -27,12 +27,15 @@ window.Activity.MainActivity = class extends window.Framework.Activity {
 		if (window.currentUser) {
 			window.Route.MultiPlayerRoute.navigate();
 		} else {
+			window.navigatedTo = window.Route.MultiPlayerRoute;
 			window.Route.LoginRoute.navigate();
 		}
 	}
 
 
 	onUserClick() {
+		window.navigatedTo = null;
+
 		if (window.currentUser) {
 			// ToDo: User profile
 			window.Route.LogoutRoute.navigate();

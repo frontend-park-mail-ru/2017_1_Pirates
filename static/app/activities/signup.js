@@ -123,7 +123,7 @@ window.Activity.SignUpActivity = class extends window.Framework.Activity {
 				errors.addStatusMessage('error',
 					'Ошибка. Такой пользователь уже существует...');
 			} else if (response.status === window.ErrorCodes.SUCCESS) {
-				alert('Success!');
+				window.Route.ThankYouRoute.navigate({ login: login.text });
 			} else {
 				errors.text = null;
 				errors.addStatusMessage('error',
@@ -135,28 +135,19 @@ window.Activity.SignUpActivity = class extends window.Framework.Activity {
 	}
 
 
-	onPasswordValidate() {
-		//event.detail.valid;
-	}
-
-
 	onEnter() {
-		// const scores = this.view.queryComponent('#scores');
-		// const errors = this.view.queryComponent('#errors');
-        //
-		// errors.text = 'Для продолжения необходимо авторизоваться.';
 	}
 
 	onLeave() {
-		// const email = this.view.queryComponent('#email');
-		// const password = this.view.queryComponent('#password');
-		// const errors = this.view.queryComponent('#errors');
-        //
-		// email.text = '';
-		// email.erroneous = false;
-        //
-		// password.text = '';
-		// password.erroneous = false;
+		window.setTimeout(() => {
+			const errors = this.view.queryComponent('#errors');
+			errors.text = '';
+			errors.display = 'none';
+
+			this.view.queryComponentAll('input').forEach((input) => {
+				input.clear();
+			});
+		}, 2000);
 	}
 
 };
