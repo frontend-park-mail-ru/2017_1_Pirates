@@ -4,28 +4,29 @@
   "description": "Frontend",
   "main": "server.js",
   "scripts": {
-	"test": "./node_modules/.bin/eslint ./static/*.js",
-	"start": "node server.js"
+    "test": "./node_modules/.bin/eslint ./static/*.js",
+    "start": "node server.js"
   },
   "repository": {
-	"type": "git",
-	"url": "git+https://github.com/frontend-park-mail-ru/2017_1_Pirates.git"
+    "type": "git",
+    "url": "git+https://github.com/frontend-park-mail-ru/2017_1_Pirates.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-	"url": "https://github.com/frontend-park-mail-ru/2017_1_Pirates/issues"
+    "url": "https://github.com/frontend-park-mail-ru/2017_1_Pirates/issues"
   },
   "homepage": "https://github.com/frontend-park-mail-ru/2017_1_Pirates#readme",
   "dependencies": {
-	"express": "^4.14.1",
-	"babylonjs": "latest",
-	"swagger-ui-express": "latest",
-	"body-parser": "latest",
-	"webcomponents.js": "git://github.com/webcomponents/webcomponentsjs.git",
-	"font-awesome": "latest",
-	"eslint": "latest",
-	"jasmine": "latest"
+    "babylonjs": "latest",
+    "body-parser": "latest",
+    "eslint": "latest",
+    "express": "^4.14.1",
+    "font-awesome": "latest",
+    "jasmine": "latest",
+    "node-fetch": "^1.6.3",
+    "swagger-ui-express": "latest",
+    "webcomponents.js": "git://github.com/webcomponents/webcomponentsjs.git"
   }
 }
