@@ -10,28 +10,34 @@ window.addEventListener('CreateComponents', () => {
 		}
 
 
-		onDataChange(data) {
-
-			const fakeData = {'lol':1488, 'kek':1941, 'cheburek':11};
+		onListChange(data) {
+			if (typeof data !== 'object') {
+				return data;
+			}
 
 			const table = this.view.querySelector('.table');
 
-			Object.keys(fakeData).forEach(user => {
+			data.forEach((record) => {
 				let row = document.createElement('view-row');
 				row.setAttribute('width', '4');
-				row.appendChild(document.createElement('view-column'));
 
 				let col = document.createElement('view-column');
-				col.setAttribute('width', '1');
-				col.textContent = user;
+				col.style.display = 'none';
 				row.appendChild(col);
 
 				col = document.createElement('view-column');
-				col.setAttribute('width', '1');
-				col.textContent = fakeData[user];
+				col.setAttribute('width', '2');
+				col.textContent = record.user;
 				row.appendChild(col);
 
-				row.appendChild(document.createElement('view-column'));
+				col = document.createElement('view-column');
+				col.setAttribute('width', '2');
+				col.textContent = record.score;
+				row.appendChild(col);
+
+				col = document.createElement('view-column');
+				col.style.display = 'none';
+				row.appendChild(col);
 
 				table.appendChild(row);
 			});
