@@ -149,28 +149,146 @@ describe('User controller', function () {
 
 
 	describe("User changing", function () {
+
+
+		const myHeaders = {
+			"Content-type":"application/json; charset=utf8"
+		};
+
+
 		it('should not response 500, even on request without body', function (done) {
-			fetch(baseUrl + '/changeEmail', {
-				method: 'POST',
-				mode: 'CORS'
-			})
+			fetch(baseUrl + '/changeEmail', { method: 'POST', mode: 'CORS'})
 				.then(response => {
 				let status = response.status;
 				expect(status).not.toBe(500);
-				return fetch(baseUrl + '/changeLogin');
+				return fetch(baseUrl + '/changeLogin', { method: 'POST', mode: 'CORS'});
 			})
 				.then(response => {
 					let status = response.status;
 					expect(status).not.toBe(500);
-					return fetch(baseUrl + '/changePassword');
+					return fetch(baseUrl + '/changePassword', { method: 'POST', mode: 'CORS'});
 				})
 				.then(response => {
 					let status = response.status;
 					expect(status).not.toBe(500);
 					done(true);
 				})
+		})
+
+		it('should change user data, response http 200 and -1 code on correct requests', function (done) {
+			fetch(baseUrl + '/changeLogin', {
+				method: 'POST',
+				mode: 'CORS',
+				headers: myHeaders,
+				body: JSON.stringify({login :'11test'})
+			})
+				//login
+				.then(response => {
+					let status = response.status;
+					expect(status).toBe(200);
+					return response.json();
+				})
+				.then(body => {
+					expect(body.status).toBe(-1);
+					return fetch(baseUrl + '/changeEmail', {
+						method: 'POST',
+						mode: 'CORS',
+						headers: myHeaders,
+						body: JSON.stringify({email:'testEmail@email.ru'})
+					});
+				})
+				//email
+				.then(response => {
+					let status = response.status;
+					expect(status).toBe(200);
+					return response.json();
+				})
+				.then(body => {
+					expect(body.status).toBe(-1);
+					return fetch(baseUrl + '/changePassword', {
+						method: 'POST',
+						mode: 'CORS',
+						headers: myHeaders,
+						body: JSON.stringify({password:'password1234'})
+					});
+				})
+				//password
+				.then(response => {
+					let status = response.status;
+					expect(status).toBe(200);
+					return response.json();
+				})
+				.then(body => {
+					expect(body.status).toBe(-1);
+					done(true);
+				})
+
 		});
 
+		it('should response http code 200 and 605 on not correct requests', function (done) {
+			fetch(baseUrl + '/changeLogin', {
+				method: 'POST',
+				mode: 'CORS',
+				headers: myHeaders,
+				body: JSON.stringify({login :'12'})
+			})
+				//login
+				.then(response => {
+					let status = response.status;
+					expect(status).toBe(200);
+					return response.json();
+				})
+				.then(body => {
+					expect(body.status).toBe(605);
+					return fetch(baseUrl + '/changeEmail', {
+						method: 'POST',
+						mode: 'CORS',
+						headers: myHeaders,
+						body: JSON.stringify({email:'testEmailemail.ru'})
+					});
+				})
+				//email
+				.then(response => {
+					let status = response.status;
+					expect(status).toBe(200);
+					return response.json();
+				})
+				.then(body => {
+					expect(body.status).toBe(605);
+					return fetch(baseUrl + '/changePassword', {
+						method: 'POST',
+						mode: 'CORS',
+						headers: myHeaders,
+						body: JSON.stringify({password:'34'})
+					});
+				})
+				//password
+				.then(response => {
+					let status = response.status;
+					expect(status).toBe(200);
+					return response.json();
+				})
+				.then(body => {
+					expect(body.status).toBe(605);
+					done(true);
+				})
+		})
+
+	});
+
+	describe("User delete", function () {
+		it('should not response 500, even on request without body', function (done) {
+			fetch(baseUrl + '/delete', {
+				method: 'POST',
+				mode: 'CORS'
+			}).then(response => {
+				let status = response.status;
+				expect(status).not.toBe(500);
+				done(true)
+			})
+		});
+
+		it('should nor')
 	})
 
 });
