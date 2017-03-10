@@ -1,3 +1,15 @@
-/**
- * Created by Vileven on 10.03.17.
- */
+'use strict';
+
+
+window.addEventListener('CreateComponents', () => {
+
+	window.Component.TableScore = class extends window.Framework.ComponentStub.TableScore {
+
+		constructor() {
+			super();
+		}
+
+
+	}
+
+});

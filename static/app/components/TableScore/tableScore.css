@@ -1,0 +1,20 @@
+.table {
+	color: white;
+	text-align: center;
+}
+
+.table view-row > view-column:nth-child(2) {
+	border-right: 1px #ff8f26 solid;
+}
+
+.table view-row > view-column:nth-child(3) {
+	border-left: 1px #ff8f26 solid;
+}
+
+.header-row {
+	color: #ff8f26;
+}
+
+.header-row>:nth-child(2), .header-row>:nth-child(3) {
+	border-bottom: 2px #ff8f26 solid;
+}
