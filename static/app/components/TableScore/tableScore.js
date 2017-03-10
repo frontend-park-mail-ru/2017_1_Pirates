@@ -27,7 +27,7 @@ window.addEventListener('CreateComponents', () => {
 
 				col = document.createElement('view-column');
 				col.setAttribute('width', '2');
-				col.textContent = record.user;
+				col.textContent = record.login;
 				row.appendChild(col);
 
 				col = document.createElement('view-column');

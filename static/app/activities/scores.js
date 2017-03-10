@@ -11,20 +11,9 @@ window.Activity.ScoresActivity = class extends window.Framework.Activity {
 	onEnter() {
 		const table = this.view.queryComponent('#score');
 
-		table.list = [
-			{
-				user: "lol",
-				score: 13
-			},
-			{
-				user: "kek",
-				score: 14
-			},
-			{
-				user: "cheburek",
-				score: 1488
-			},
-		]
+		window.Network.scores({}, (status, response) => {
+			table.list = response;
+		});
 	}
 
 };
