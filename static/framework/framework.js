@@ -20,7 +20,9 @@ const renderViews = () => {
 
 	Object.keys(window.Framework.views).forEach((id) => {
 		[...window.Framework.views[id].querySelectorAll('view-include')].forEach((include) => {
-			include.render();
+			if (include.render) {
+				include.render();
+			}
 		});
 	});
 };
