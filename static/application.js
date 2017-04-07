@@ -117,19 +117,18 @@ var MotionScene = (function (_super) {
         var _this = _super.call(this, engine) || this;
         _this.loadersCount = 0;
         _this.loadersFired = 0;
+        _this.entities = [];
         engine.enableOfflineSupport = false;
         _this.bulletManager = new BulletManager_1.BulletManager(_this);
         _this.map = new map_1.Map('motion-map', _this);
-        // this.last_position = - this.map.chunkSize.height / 2;
         _this.last_position = 0;
-        console.log("last", _this.last_position);
-        JSWorks.EventManager.subscribe(_this, _this, EventType_1.EventType.JOYSTICK_MOVE, function (event, emitter) {
+        JSWorks.EventManager.subscribe(_this, _this, EventType_1.EventType.JOYSTICK_MOVE, function (event) {
             _this.currentInput.joystickMoved(event.data.x, event.data.y);
         });
-        JSWorks.EventManager.subscribe(_this, _this, EventType_1.EventType.JOYSTICK_PRESS, function (event, emitter) {
+        JSWorks.EventManager.subscribe(_this, _this, EventType_1.EventType.JOYSTICK_PRESS, function (event) {
             _this.currentInput.joystickPressed();
         });
-        JSWorks.EventManager.subscribe(_this, _this, EventType_1.EventType.RENDER, function (event, emiter) {
+        JSWorks.EventManager.subscribe(_this, _this, EventType_1.EventType.RENDER, function (event) {
             _this.onMapEnds();
         });
         return _this;
@@ -180,16 +179,11 @@ var MotionScene = (function (_super) {
         this.initShadersLoader();
         this.player = new entity_1.Entity('player', this);
         this.currentInput = this.player;
+        this.entities.push(this.player);
         this.skydome = new skydome_1.Skydome('skydome', this);
         this.skydome.position.z = 100;
         this.map.loadChunks();
-        // this.map.initRandomChunk();
         this.map.initStartChunks();
-        // this.last_position = - this.map.chunkSize.height / 2;
-        // const ground = BABYLON.Mesh.CreateGround('ground', 5000, 5000, 250, this);
-        // ground.position.y = -10;
-        // ground.material = new BABYLON.StandardMaterial('ground', this);
-        // ground.material.wireframe = true;
         this.loader.load();
         this.meshesLoader.load();
         this.shadersLoader.load();

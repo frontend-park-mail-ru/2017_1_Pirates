@@ -27,32 +27,33 @@ export class MotionScene extends (<INewable> BABYLON.Scene) {
     private loader;
     public currentInput: IControllable;
     public bulletManager: BulletManager;
+    public entities: Entity[] = [];
 
 
     private last_position: number;
 
+
     constructor(engine) {
         super(engine);
+
         engine.enableOfflineSupport = false;
         this.bulletManager = new BulletManager(this);
         this.map = new Map('motion-map', this);
-        // this.last_position = - this.map.chunkSize.height / 2;
+
         this.last_position = 0;
-        console.log("last", this.last_position);
 
-        JSWorks.EventManager.subscribe(this, this, EventType.JOYSTICK_MOVE,
-            (event, emitter) => {
-                this.currentInput.joystickMoved(event.data.x, event.data.y);
-            });
-        JSWorks.EventManager.subscribe(this, this, EventType.JOYSTICK_PRESS,
-            (event, emitter) => {
-                this.currentInput.joystickPressed();
-            });
 
-        JSWorks.EventManager.subscribe(this, this, EventType.RENDER,
-            (event, emiter) => {
-                this.onMapEnds();
-            });
+        JSWorks.EventManager.subscribe(this, this, EventType.JOYSTICK_MOVE, (event) => {
+			this.currentInput.joystickMoved(event.data.x, event.data.y);
+		});
+
+        JSWorks.EventManager.subscribe(this, this, EventType.JOYSTICK_PRESS, (event) => {
+			this.currentInput.joystickPressed();
+		});
+
+        JSWorks.EventManager.subscribe(this, this, EventType.RENDER, (event) => {
+			this.onMapEnds();
+		});
     }
 
 
@@ -69,10 +70,9 @@ export class MotionScene extends (<INewable> BABYLON.Scene) {
             return task.loadedMeshes[0];
         };
 
-        JSWorks.EventManager.subscribe(this, this.meshesLoader, EventType.LOAD_SUCCESS,
-            () => {
-                this.onLoaderSuccess();
-            })
+        JSWorks.EventManager.subscribe(this, this.meshesLoader, EventType.LOAD_SUCCESS, () => {
+			this.onLoaderSuccess();
+		});
     }
 
 
@@ -89,10 +89,9 @@ export class MotionScene extends (<INewable> BABYLON.Scene) {
             return task.text;
         };
 
-        JSWorks.EventManager.subscribe(this, this.shadersLoader, EventType.LOAD_SUCCESS,
-            () => {
-                this.onLoaderSuccess();
-            })
+        JSWorks.EventManager.subscribe(this, this.shadersLoader, EventType.LOAD_SUCCESS, () => {
+			this.onLoaderSuccess();
+		});
     }
 
 
@@ -117,18 +116,13 @@ export class MotionScene extends (<INewable> BABYLON.Scene) {
 
         this.player = new Entity('player', this);
         this.currentInput = this.player;
+        this.entities.push(this.player);
 
         this.skydome = new Skydome('skydome', this);
         (<any> this.skydome).position.z = 100;
 
         this.map.loadChunks();
-        // this.map.initRandomChunk();
         this.map.initStartChunks();
-        // this.last_position = - this.map.chunkSize.height / 2;
-        // const ground = BABYLON.Mesh.CreateGround('ground', 5000, 5000, 250, this);
-        // ground.position.y = -10;
-        // ground.material = new BABYLON.StandardMaterial('ground', this);
-        // ground.material.wireframe = true;
 
         this.loader.load();
         this.meshesLoader.load();
@@ -182,6 +176,7 @@ export class MotionScene extends (<INewable> BABYLON.Scene) {
             (<any> this).emitEvent({type: EventType.MAP_ENDS, data: {visibleArea: potentialArea, shipPosition: shipPosition}});
         }
     }
+
 
     public getPlayer(): Entity {
         return this.player;
