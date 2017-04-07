@@ -4,7 +4,6 @@
   "description": "Frontend",
   "main": "server.js",
   "scripts": {
-	"test": "./node_modules/.bin/eslint ./static",
 	"start": "tsc && node ./node_modules/webpack/bin/webpack.js && node ./server.js"
   },
   "repository": {
