@@ -4,7 +4,7 @@
   "description": "Frontend",
   "main": "server.js",
   "scripts": {
-	"start": "node ./node_modules/typescript/bin/tsc && node ./node_modules/webpack/bin/webpack.js && node ./server.js"
+	"start": "node ./node_modules/webpack/bin/webpack.js && node ./server.js"
   },
   "repository": {
 	"type": "git",
