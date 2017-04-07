@@ -4,7 +4,7 @@
   "description": "Frontend",
   "main": "server.js",
   "scripts": {
-	"start": "tsc && node ./node_modules/webpack/bin/webpack.js && node ./server.js"
+	"start": "node ./node_modules/typescript/bin/tsc && node ./node_modules/webpack/bin/webpack.js && node ./server.js"
   },
   "repository": {
 	"type": "git",
@@ -19,7 +19,7 @@
   "homepage": "https://github.com/frontend-park-mail-ru/2017_1_Pirates#readme",
   "dependencies": {
 	"express": "^4.14.1",
-	"babylonjs": "latest",
+	"babylonjs": "2.5",
 	"swagger-ui-express": "latest",
 	"body-parser": "latest",
 	"webcomponents.js": "git://github.com/webcomponents/webcomponentsjs.git",
