@@ -8,10 +8,16 @@ const bodyParser = require('body-parser');
 const app = express();
 const swaggerDocument = require('./static/app/swagger.json');
 
+
 app.use('/', express.static(__dirname + '/static'));
+app.use('/game', express.static(__dirname + '/static'));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));  // Swagger
 app.use('/lib/webcomponentsjs', express.static(__dirname + '/node_modules/webcomponents.js'));
 app.use('/lib/font-awesome', express.static(__dirname + '/node_modules/font-awesome'));
+
+app.use('/babylonjs', express.static(`${__dirname}/node_modules/babylonjs`));
+app.use('/jsworks', express.static(`${__dirname}/node_modules/jsworks/dist`));
+
 
 app.get('/', (req,res) => {
 	res.sendFile(__dirname + '/static/app/application.html');

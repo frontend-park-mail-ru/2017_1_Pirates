@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
 	"test": "./node_modules/.bin/eslint ./static",
-	"start": "node server.js"
+	"start": "tsc && node ./node_modules/webpack/bin/webpack.js && node ./server.js"
   },
   "repository": {
 	"type": "git",
@@ -26,6 +26,21 @@
 	"webcomponents.js": "git://github.com/webcomponents/webcomponentsjs.git",
 	"font-awesome": "latest",
 	"eslint": "latest",
-	"jasmine": "latest"
+	"jasmine": "latest",
+
+	"typescript": "latest",
+	"webpack": "latest",
+	"awesome-typescript-loader": "latest",
+	"source-map-loader": "latest",
+	"testem": "latest",
+	"sass-loader": "latest",
+	"node-sass": "latest",
+	"style-loader": "latest",
+	"html-loader": "latest",
+	"extract-loader": "latest",
+	"file-loader": "latest",
+	"css-loader": "latest",
+	"extract-text-webpack-plugin": "latest",
+	"jsworks": "git://github.com/8coon/next.git"
   }
 }

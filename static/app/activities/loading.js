@@ -5,7 +5,7 @@ window.Activity.LoadingActivity = class extends window.Framework.Activity {
 
 	constructor() {
 		super();
-		this.setupBackground();
+		// this.setupBackground();
 	}
 
 

@@ -102,6 +102,33 @@
 	<link rel="stylesheet" href="/app/styles/common.css">
 	<!-- End Background -->
 
+	<style>
+		html, body {
+			overflow: hidden;
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+		}
+
+		#render-canvas {
+			width: 100%;
+			height: 100%;
+			left: 0;
+			top: 0;
+			touch-action: none;
+			z-index: -1;
+			overflow: hidden;
+			position: fixed;
+		}
+	</style>
+
+	<script src="/babylonjs/babylon.js"></script>
+	<script src="/game/babylon.objFileLoader.min.js"></script>
+	<script src="/jsworks/jsworks.js"></script>
+
+	<script src="/application.js"></script>
+
 </head>
 <body>
 
@@ -155,7 +182,8 @@
 
 	<app-content></app-content>
 
-	<div id="background"></div>
+	<canvas id="render-canvas"></canvas>
+	<!-- <div id="background"></div> -->
 
 </body>
 </html>
