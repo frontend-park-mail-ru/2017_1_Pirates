@@ -69,7 +69,7 @@ export class BulletManager {
 			bullet.position = bullet.position.add(bullet.__direction);
             bullet.__flew++;
 
-            if (bullet.__flew > 15) {
+            if (bullet.__flew > 35) {
 				bullet.getScene().removeMesh(bullet.__light);
 				bullet.__light.dispose(true);
 
@@ -88,7 +88,7 @@ export class BulletManager {
 					abs,
 				);
 
-				if (dist < 5) {
+				if (dist < 4) {
 					entity.explode();
 				}
 			});

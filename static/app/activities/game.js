@@ -20,7 +20,8 @@ window.Activity.GameActivity = class extends window.Framework.Activity {
 		scores.visible = false;
 		this.view.queryComponent('#back').back = false;
 
-		JSWorks._in_game_ = true;
+		JSWorks._game.scene.newGame();
+		JSWorks._game.scene.inMenu = false;
 	}
 
 
@@ -32,7 +33,8 @@ window.Activity.GameActivity = class extends window.Framework.Activity {
 
 
 	onLeave() {
-		JSWorks._in_game_ = false;
+		JSWorks._game.scene.loose();
+		JSWorks._game.scene.inMenu = true;
 	}
 
 };

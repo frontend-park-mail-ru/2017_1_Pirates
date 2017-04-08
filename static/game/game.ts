@@ -65,7 +65,7 @@ class Game {
 		// this.pointerLocked = true;
 		// this.canvas.requestPointerLock();
 
-		if (JSWorks._in_game_) {
+		if (!JSWorks._game.scene.inMenu) {
 			(<any> this.scene).emitEvent({type: EventType.JOYSTICK_PRESS});
 		}
     }
@@ -103,7 +103,7 @@ class Game {
 
     public onKeyDown(event) {
         if (event.keyCode === "L".charCodeAt(0)) {
-        	if (JSWorks._in_game_) {
+        	if (!JSWorks._game.scene.inMenu) {
 				this.togglePointerLock();
 			}
         }
@@ -172,14 +172,24 @@ class Game {
 JSWorks.__router_disabled__ = true;
 
 
+
 window.addEventListener('load', () => {
+	const game = new Game(
+		<HTMLCanvasElement> document.getElementById('render-canvas'),
+		false,
+		//{ width: 320, height: 240 }
+	);
+
+	JSWorks._game = game;
+
 	window.setTimeout(() => {
-		const game = new Game(
+		/* const game = new Game(
 			<HTMLCanvasElement> document.getElementById('render-canvas'),
 			false,
 			//{ width: 320, height: 240 }
 		);
 
+		JSWorks._game = game; */
 		game.run();
 	}, 1000);
 });

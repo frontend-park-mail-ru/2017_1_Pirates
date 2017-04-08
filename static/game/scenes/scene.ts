@@ -36,6 +36,7 @@ export class MotionScene extends (<INewable> BABYLON.Scene) {
 
     public playerAbs;
     public time = 0;
+    public inMenu: boolean = true;
 
 
     constructor(engine) {
@@ -119,20 +120,24 @@ export class MotionScene extends (<INewable> BABYLON.Scene) {
         this.initMeshesLoader();
         this.initShadersLoader();
 
-        this.player = new Entity('player', this);
-        this.currentInput = this.player;
-        this.entities.push(this.player);
+        this.postInit();
 
         this.skydome = new Skydome('skydome', this);
         (<any> this.skydome).position.z = 100;
-
-        // this.map.loadChunks();
-        // this.map.initStartChunks();
 
         this.loader.load();
         this.meshesLoader.load();
         this.shadersLoader.load();
     }
+
+
+    public postInit() {
+    	this.entities = [];
+
+		this.player = new Entity('player', this);
+		this.currentInput = this.player;
+		this.entities.push(this.player);
+	}
 
 
     public static getRandomCoord(scater: number = 30): number {
@@ -164,7 +169,7 @@ export class MotionScene extends (<INewable> BABYLON.Scene) {
 		this.playerAbs = (<any> this.currentInput).getAbsolutePosition();
 
 		this.entities.forEach((entity: any, index: number) => {
-			if (entity.exploding === 100) {
+			if (entity.exploding >= 100) {
 				if (!entity.__lived) {
 					return;
 				}
@@ -203,6 +208,22 @@ export class MotionScene extends (<INewable> BABYLON.Scene) {
 	}
 
 
+	public newGame() {
+		(<any> this.currentInput).exploding = -1;
+		(<any> this.currentInput).health = 50;
+		(<any> this.currentInput).ship.isVisible = true;
+		(<any> this.currentInput).target.isVisible = true;
+		(<any> this.currentInput).explosion.isVisible = false;
+		(<any> this.currentInput).explosion.scaling = new BABYLON.Vector3(1, 1, 1);
+	}
+
+
+	public loose() {
+		(<any> this.currentInput).health = 0;
+		(<any> this.currentInput).explode();
+	}
+
+
     public run() {
         (<any> this).setActiveCameraByName(this.player.camera.name);
         this.player.camera.attachControl((<any> this).getEngine().getRenderingCanvas(), true);
@@ -219,7 +240,12 @@ export class MotionScene extends (<INewable> BABYLON.Scene) {
         (<any> this).getEngine().runRenderLoop(() => {
 			this.time = (new Date()).getMilliseconds();
 
-            (<any> this).emitEvent({type: EventType.RENDER});
+			(<any> this).emitEvent({type: EventType.RENDER});
+
+			if (this.inMenu) {
+				(<any> this.currentInput).health = 100;
+			}
+
             (<any> this).render();
         });
     }

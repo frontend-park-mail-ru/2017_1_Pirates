@@ -26,7 +26,7 @@ export class SimpleEnemy extends Entity {
 
 		(<any> this).ship.rotation.y = Math.PI;
 
-		this.target.material.emissiveColor = new BABYLON.Color3(1, 0, 0);
+		this.target.material.emissiveColor = new BABYLON.Color3(1, 0.8, 0.8);
 		this.target.position = new BABYLON.Vector3(0, 0, -5);
 	}
 
@@ -68,7 +68,7 @@ export class SimpleEnemy extends Entity {
 		if (dst < 20000) {
 			this.firedCount++;
 
-			if (this.firedCount > 10) {
+			if (this.firedCount > 20) {
 				this.firedCount = 0;
 				this.joystickPressed();
 			}

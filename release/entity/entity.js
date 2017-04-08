@@ -22,8 +22,10 @@ var Entity = (function (_super) {
         _this.angleX = 0;
         _this.angleY = 0;
         _this.exploding = -1;
-        _this.health = 10;
+        _this.health = 50;
+        _this.first = false;
         _this.bulletSpeed = _this.speed * 10;
+        _this.first = first;
         JSWorks.EventManager.subscribe(_this, scene, EventType_1.EventType.RENDER, function (event, emitter) { _this.onRender(event, emitter); });
         if (!first) {
             _this.onMeshesLoaded(event, undefined);
@@ -48,22 +50,24 @@ var Entity = (function (_super) {
         this.ship.setEnabled(true);
         this.ship.material = new BABYLON.StandardMaterial('ship', this.getScene());
         this.ship.material.emissiveColor = new BABYLON.Color3(107 / 255, 118 / 255, 186 / 255);
-        this.camera = new BABYLON.TargetCamera(scene_1.MotionScene.descendantName(this.name, 'ship'), new BABYLON.Vector3(0, 0, 0), this.getScene());
-        this.camera.parent = this;
-        this.camera.setTarget(BABYLON.Vector3.Zero());
-        this.camera.position = new BABYLON.Vector3(0, 1, -5);
-        this.camera.noRotationConstraint = true;
+        if (this.first) {
+            this.camera = new BABYLON.TargetCamera(scene_1.MotionScene.descendantName(this.name, 'ship'), new BABYLON.Vector3(0, 0, 0), this.getScene());
+            this.camera.parent = this;
+            this.camera.setTarget(BABYLON.Vector3.Zero());
+            this.camera.position = new BABYLON.Vector3(0, 1, -5);
+            this.camera.noRotationConstraint = true;
+        }
         this.joystick = new BABYLON.Mesh.CreateBox(scene_1.MotionScene.descendantName(this.name, 'ship'), 0.1, this.getScene());
         this.joystick.parent = this;
         this.joystick.position = new BABYLON.Vector3(0, 0, 5);
         this.joystick.isVisible = false;
         this.target = new BABYLON.Mesh.CreateBox(scene_1.MotionScene.descendantName(this.name, 'ship'), 0.2, this.getScene());
         this.target.material = new BABYLON.StandardMaterial('target', this.getScene());
-        this.target.material.emissiveColor = new BABYLON.Color3(0, 1, 0);
+        this.target.material.emissiveColor = new BABYLON.Color3(0.8, 1, 0.8);
         this.target.material.emissiveIntensity = 10;
-        this.target.material.alpha = 0.1;
+        this.target.material.alpha = 0.2;
         this.target.parent = this.shipHolderX;
-        this.target.position = new BABYLON.Vector3(0, 0, 5);
+        this.target.position = new BABYLON.Vector3(0, 1, 5);
         this.target.isVisible = true;
         this.light = new BABYLON.HemisphericLight(scene_1.MotionScene.descendantName(this.name, 'light'), new BABYLON.Vector3(0, 5, 1), this.getScene());
         this.light.parent = this;
@@ -126,8 +130,8 @@ var Entity = (function (_super) {
         this.calculateMovement(1);
         if (this.exploding >= 0) {
             this.exploding++;
-            this.explosion.scaling.scaleInPlace(1 + this.exploding * 0.003);
-            this.explosion.material.alpha = (100 - this.exploding) * 0.008;
+            this.explosion.scaling.scaleInPlace(1.01);
+            this.explosion.material.alpha = (100 - this.exploding) * 0.01;
             if (this.exploding > 100) {
                 this.exploding = 100;
             }
@@ -170,6 +174,7 @@ var Entity = (function (_super) {
         this.getScene().removeMesh(this.target);
         this.getScene().removeMesh(this.joystick);
         this.getScene().removeMesh(this.light);
+        this.getScene().removeMesh(this.explosion);
         this.getScene().removeMesh(this);
         this.shipHolderZ.dispose(true);
         this.shipHolderX.dispose(true);
@@ -178,6 +183,7 @@ var Entity = (function (_super) {
         this.target.dispose(true);
         this.joystick.dispose(true);
         this.light.dispose(true);
+        this.explosion.dispose(true);
         this.dispose(true);
     };
     Entity.prototype.explode = function () {
@@ -189,6 +195,7 @@ var Entity = (function (_super) {
             this.exploding = 0;
             this.ship.isVisible = false;
             this.explosion.isVisible = true;
+            this.target.isVisible = false;
             return;
         }
     };

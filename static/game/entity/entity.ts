@@ -27,13 +27,15 @@ export class Entity extends (<INewable> BABYLON.Mesh) implements IControllable {
     private angleY: number = 0;
     protected direction: any;
     protected exploding: number = -1;
-    protected health: number = 10;
+    protected health: number = 50;
+    protected first: boolean = false;
 
 
     constructor(name: string, scene: MotionScene, first: boolean = true) {
         super(name, scene);
 
         this.bulletSpeed = this.speed * 10;
+        this.first = first;
 
 		JSWorks.EventManager.subscribe(this, scene, EventType.RENDER,
 			(event, emitter) => { this.onRender(event, emitter); });
@@ -78,15 +80,17 @@ export class Entity extends (<INewable> BABYLON.Mesh) implements IControllable {
         this.ship.material.emissiveColor = new BABYLON.Color3(107 / 255, 118 / 255, 186 / 255);
 
 
-        this.camera = new BABYLON.TargetCamera(
-            MotionScene.descendantName((<any> this).name, 'ship'),
-            new BABYLON.Vector3(0, 0, 0),
-            (<any> this).getScene()
-        );
-        this.camera.parent = this;
-        this.camera.setTarget(BABYLON.Vector3.Zero());
-        this.camera.position = new BABYLON.Vector3(0, 1, -5);
-        this.camera.noRotationConstraint = true;
+		if (this.first) {
+			this.camera = new BABYLON.TargetCamera(
+				MotionScene.descendantName((<any> this).name, 'ship'),
+				new BABYLON.Vector3(0, 0, 0),
+				(<any> this).getScene()
+			);
+			this.camera.parent = this;
+			this.camera.setTarget(BABYLON.Vector3.Zero());
+			this.camera.position = new BABYLON.Vector3(0, 1, -5);
+			this.camera.noRotationConstraint = true;
+		}
 
         this.joystick = new BABYLON.Mesh.CreateBox(
             MotionScene.descendantName((<any> this).name, 'ship'),
@@ -103,12 +107,12 @@ export class Entity extends (<INewable> BABYLON.Mesh) implements IControllable {
             (<any> this).getScene()
         );
 		this.target.material = new BABYLON.StandardMaterial('target', (<any> this).getScene());
-		this.target.material.emissiveColor = new BABYLON.Color3(0, 1, 0);
+		this.target.material.emissiveColor = new BABYLON.Color3(0.8, 1, 0.8);
 		this.target.material.emissiveIntensity = 10;
-		this.target.material.alpha = 0.1;
+		this.target.material.alpha = 0.2;
 
         this.target.parent = this.shipHolderX;
-        this.target.position = new BABYLON.Vector3(0, 0, 5);
+        this.target.position = new BABYLON.Vector3(0, 1, 5);
 		this.target.isVisible = true;
 
         this.light = new BABYLON.HemisphericLight(
@@ -223,8 +227,8 @@ export class Entity extends (<INewable> BABYLON.Mesh) implements IControllable {
         if (this.exploding >= 0) {
         	this.exploding++;
 
-        	this.explosion.scaling.scaleInPlace(1 + this.exploding * 0.003);
-        	this.explosion.material.alpha = (100 - this.exploding) * 0.008;
+        	this.explosion.scaling.scaleInPlace(1.01);
+        	this.explosion.material.alpha = (100 - this.exploding) * 0.01;
 
         	if (this.exploding > 100) {
         		this.exploding = 100;
@@ -281,6 +285,7 @@ export class Entity extends (<INewable> BABYLON.Mesh) implements IControllable {
 		(<any> this).getScene().removeMesh(this.target);
 		(<any> this).getScene().removeMesh(this.joystick);
 		(<any> this).getScene().removeMesh(this.light);
+		(<any> this).getScene().removeMesh(this.explosion);
 		(<any> this).getScene().removeMesh(this);
 
 		this.shipHolderZ.dispose(true);
@@ -290,6 +295,7 @@ export class Entity extends (<INewable> BABYLON.Mesh) implements IControllable {
 		this.target.dispose(true);
 		this.joystick.dispose(true);
 		this.light.dispose(true);
+		this.explosion.dispose(true);
 		(<any> this).dispose(true);
 	}
 
@@ -306,6 +312,7 @@ export class Entity extends (<INewable> BABYLON.Mesh) implements IControllable {
 
 			this.ship.isVisible = false;
 			this.explosion.isVisible = true;
+			this.target.isVisible = false;
 			return;
 		}
 	}

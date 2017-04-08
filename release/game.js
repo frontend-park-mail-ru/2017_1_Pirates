@@ -38,7 +38,7 @@ var Game = (function () {
     Game.prototype.onClick = function (event) {
         // this.pointerLocked = true;
         // this.canvas.requestPointerLock();
-        if (JSWorks._in_game_) {
+        if (!JSWorks._game.scene.inMenu) {
             this.scene.emitEvent({ type: EventType_1.EventType.JOYSTICK_PRESS });
         }
     };
@@ -65,7 +65,7 @@ var Game = (function () {
     };
     Game.prototype.onKeyDown = function (event) {
         if (event.keyCode === "L".charCodeAt(0)) {
-            if (JSWorks._in_game_) {
+            if (!JSWorks._game.scene.inMenu) {
                 this.togglePointerLock();
             }
         }
@@ -119,8 +119,16 @@ var Game = (function () {
 }());
 JSWorks.__router_disabled__ = true;
 window.addEventListener('load', function () {
+    var game = new Game(document.getElementById('render-canvas'), false);
+    JSWorks._game = game;
     window.setTimeout(function () {
-        var game = new Game(document.getElementById('render-canvas'), false);
+        /* const game = new Game(
+            <HTMLCanvasElement> document.getElementById('render-canvas'),
+            false,
+            //{ width: 320, height: 240 }
+        );
+
+        JSWorks._game = game; */
         game.run();
     }, 1000);
 });

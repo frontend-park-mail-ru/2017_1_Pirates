@@ -121,6 +121,7 @@ var MotionScene = (function (_super) {
         _this.lastEnemy = 0;
         _this.ticks = -1;
         _this.time = 0;
+        _this.inMenu = true;
         engine.enableOfflineSupport = false;
         _this.bulletManager = new BulletManager_1.BulletManager(_this);
         // this.map = new Map('motion-map', this);
@@ -180,16 +181,18 @@ var MotionScene = (function (_super) {
         this.loader = new BABYLON.AssetsManager(this);
         this.initMeshesLoader();
         this.initShadersLoader();
-        this.player = new entity_1.Entity('player', this);
-        this.currentInput = this.player;
-        this.entities.push(this.player);
+        this.postInit();
         this.skydome = new skydome_1.Skydome('skydome', this);
         this.skydome.position.z = 100;
-        // this.map.loadChunks();
-        // this.map.initStartChunks();
         this.loader.load();
         this.meshesLoader.load();
         this.shadersLoader.load();
+    };
+    MotionScene.prototype.postInit = function () {
+        this.entities = [];
+        this.player = new entity_1.Entity('player', this);
+        this.currentInput = this.player;
+        this.entities.push(this.player);
     };
     MotionScene.getRandomCoord = function (scater) {
         if (scater === void 0) { scater = 30; }
@@ -209,7 +212,7 @@ var MotionScene = (function (_super) {
         }
         this.playerAbs = this.currentInput.getAbsolutePosition();
         this.entities.forEach(function (entity, index) {
-            if (entity.exploding === 100) {
+            if (entity.exploding >= 100) {
                 if (!entity.__lived) {
                     return;
                 }
@@ -237,6 +240,18 @@ var MotionScene = (function (_super) {
         this.ticks++;
         _super.prototype.render.call(this);
     };
+    MotionScene.prototype.newGame = function () {
+        this.currentInput.exploding = -1;
+        this.currentInput.health = 50;
+        this.currentInput.ship.isVisible = true;
+        this.currentInput.target.isVisible = true;
+        this.currentInput.explosion.isVisible = false;
+        this.currentInput.explosion.scaling = new BABYLON.Vector3(1, 1, 1);
+    };
+    MotionScene.prototype.loose = function () {
+        this.currentInput.health = 0;
+        this.currentInput.explode();
+    };
     MotionScene.prototype.run = function () {
         var _this = this;
         this.setActiveCameraByName(this.player.camera.name);
@@ -251,6 +266,9 @@ var MotionScene = (function (_super) {
         this.getEngine().runRenderLoop(function () {
             _this.time = (new Date()).getMilliseconds();
             _this.emitEvent({ type: EventType_1.EventType.RENDER });
+            if (_this.inMenu) {
+                _this.currentInput.health = 100;
+            }
             _this.render();
         });
     };
@@ -315,8 +333,10 @@ var Entity = (function (_super) {
         _this.angleX = 0;
         _this.angleY = 0;
         _this.exploding = -1;
-        _this.health = 10;
+        _this.health = 50;
+        _this.first = false;
         _this.bulletSpeed = _this.speed * 10;
+        _this.first = first;
         JSWorks.EventManager.subscribe(_this, scene, EventType_1.EventType.RENDER, function (event, emitter) { _this.onRender(event, emitter); });
         if (!first) {
             _this.onMeshesLoaded(event, undefined);
@@ -341,22 +361,24 @@ var Entity = (function (_super) {
         this.ship.setEnabled(true);
         this.ship.material = new BABYLON.StandardMaterial('ship', this.getScene());
         this.ship.material.emissiveColor = new BABYLON.Color3(107 / 255, 118 / 255, 186 / 255);
-        this.camera = new BABYLON.TargetCamera(scene_1.MotionScene.descendantName(this.name, 'ship'), new BABYLON.Vector3(0, 0, 0), this.getScene());
-        this.camera.parent = this;
-        this.camera.setTarget(BABYLON.Vector3.Zero());
-        this.camera.position = new BABYLON.Vector3(0, 1, -5);
-        this.camera.noRotationConstraint = true;
+        if (this.first) {
+            this.camera = new BABYLON.TargetCamera(scene_1.MotionScene.descendantName(this.name, 'ship'), new BABYLON.Vector3(0, 0, 0), this.getScene());
+            this.camera.parent = this;
+            this.camera.setTarget(BABYLON.Vector3.Zero());
+            this.camera.position = new BABYLON.Vector3(0, 1, -5);
+            this.camera.noRotationConstraint = true;
+        }
         this.joystick = new BABYLON.Mesh.CreateBox(scene_1.MotionScene.descendantName(this.name, 'ship'), 0.1, this.getScene());
         this.joystick.parent = this;
         this.joystick.position = new BABYLON.Vector3(0, 0, 5);
         this.joystick.isVisible = false;
         this.target = new BABYLON.Mesh.CreateBox(scene_1.MotionScene.descendantName(this.name, 'ship'), 0.2, this.getScene());
         this.target.material = new BABYLON.StandardMaterial('target', this.getScene());
-        this.target.material.emissiveColor = new BABYLON.Color3(0, 1, 0);
+        this.target.material.emissiveColor = new BABYLON.Color3(0.8, 1, 0.8);
         this.target.material.emissiveIntensity = 10;
-        this.target.material.alpha = 0.1;
+        this.target.material.alpha = 0.2;
         this.target.parent = this.shipHolderX;
-        this.target.position = new BABYLON.Vector3(0, 0, 5);
+        this.target.position = new BABYLON.Vector3(0, 1, 5);
         this.target.isVisible = true;
         this.light = new BABYLON.HemisphericLight(scene_1.MotionScene.descendantName(this.name, 'light'), new BABYLON.Vector3(0, 5, 1), this.getScene());
         this.light.parent = this;
@@ -419,8 +441,8 @@ var Entity = (function (_super) {
         this.calculateMovement(1);
         if (this.exploding >= 0) {
             this.exploding++;
-            this.explosion.scaling.scaleInPlace(1 + this.exploding * 0.003);
-            this.explosion.material.alpha = (100 - this.exploding) * 0.008;
+            this.explosion.scaling.scaleInPlace(1.01);
+            this.explosion.material.alpha = (100 - this.exploding) * 0.01;
             if (this.exploding > 100) {
                 this.exploding = 100;
             }
@@ -463,6 +485,7 @@ var Entity = (function (_super) {
         this.getScene().removeMesh(this.target);
         this.getScene().removeMesh(this.joystick);
         this.getScene().removeMesh(this.light);
+        this.getScene().removeMesh(this.explosion);
         this.getScene().removeMesh(this);
         this.shipHolderZ.dispose(true);
         this.shipHolderX.dispose(true);
@@ -471,6 +494,7 @@ var Entity = (function (_super) {
         this.target.dispose(true);
         this.joystick.dispose(true);
         this.light.dispose(true);
+        this.explosion.dispose(true);
         this.dispose(true);
     };
     Entity.prototype.explode = function () {
@@ -482,6 +506,7 @@ var Entity = (function (_super) {
             this.exploding = 0;
             this.ship.isVisible = false;
             this.explosion.isVisible = true;
+            this.target.isVisible = false;
             return;
         }
     };
@@ -615,7 +640,7 @@ var BulletManager = (function () {
         this.bullets.forEach(function (bullet, index) {
             bullet.position = bullet.position.add(bullet.__direction);
             bullet.__flew++;
-            if (bullet.__flew > 15) {
+            if (bullet.__flew > 35) {
                 bullet.getScene().removeMesh(bullet.__light);
                 bullet.__light.dispose(true);
                 bullet.getScene().removeMesh(bullet);
@@ -626,7 +651,7 @@ var BulletManager = (function () {
             var abs = bullet.getAbsolutePosition();
             _this.getScene().entities.forEach(function (entity) {
                 var dist = BABYLON.Vector3.DistanceSquared(entity.getAbsolutePosition(), abs);
-                if (dist < 5) {
+                if (dist < 4) {
                     entity.explode();
                 }
             });
@@ -673,7 +698,7 @@ var SimpleEnemy = (function (_super) {
         _super.prototype.onMeshesLoaded.call(this, event, emitter);
         this.light.setEnabled(false);
         this.ship.rotation.y = Math.PI;
-        this.target.material.emissiveColor = new BABYLON.Color3(1, 0, 0);
+        this.target.material.emissiveColor = new BABYLON.Color3(1, 0.8, 0.8);
         this.target.position = new BABYLON.Vector3(0, 0, -5);
     };
     SimpleEnemy.prototype.limitTarget = function (vector, distX, distY) {
@@ -703,7 +728,7 @@ var SimpleEnemy = (function (_super) {
         var dst = BABYLON.Vector3.DistanceSquared(playerAbs, thisAbs);
         if (dst < 20000) {
             this.firedCount++;
-            if (this.firedCount > 10) {
+            if (this.firedCount > 20) {
                 this.firedCount = 0;
                 this.joystickPressed();
             }
@@ -774,7 +799,7 @@ var Game = (function () {
     Game.prototype.onClick = function (event) {
         // this.pointerLocked = true;
         // this.canvas.requestPointerLock();
-        if (JSWorks._in_game_) {
+        if (!JSWorks._game.scene.inMenu) {
             this.scene.emitEvent({ type: EventType_1.EventType.JOYSTICK_PRESS });
         }
     };
@@ -801,7 +826,7 @@ var Game = (function () {
     };
     Game.prototype.onKeyDown = function (event) {
         if (event.keyCode === "L".charCodeAt(0)) {
-            if (JSWorks._in_game_) {
+            if (!JSWorks._game.scene.inMenu) {
                 this.togglePointerLock();
             }
         }
@@ -855,8 +880,16 @@ var Game = (function () {
 }());
 JSWorks.__router_disabled__ = true;
 window.addEventListener('load', function () {
+    var game = new Game(document.getElementById('render-canvas'), false);
+    JSWorks._game = game;
     window.setTimeout(function () {
-        var game = new Game(document.getElementById('render-canvas'), false);
+        /* const game = new Game(
+            <HTMLCanvasElement> document.getElementById('render-canvas'),
+            false,
+            //{ width: 320, height: 240 }
+        );
+
+        JSWorks._game = game; */
         game.run();
     }, 1000);
 });

@@ -43,7 +43,7 @@ var BulletManager = (function () {
         this.bullets.forEach(function (bullet, index) {
             bullet.position = bullet.position.add(bullet.__direction);
             bullet.__flew++;
-            if (bullet.__flew > 15) {
+            if (bullet.__flew > 35) {
                 bullet.getScene().removeMesh(bullet.__light);
                 bullet.__light.dispose(true);
                 bullet.getScene().removeMesh(bullet);
@@ -54,7 +54,7 @@ var BulletManager = (function () {
             var abs = bullet.getAbsolutePosition();
             _this.getScene().entities.forEach(function (entity) {
                 var dist = BABYLON.Vector3.DistanceSquared(entity.getAbsolutePosition(), abs);
-                if (dist < 5) {
+                if (dist < 4) {
                     entity.explode();
                 }
             });

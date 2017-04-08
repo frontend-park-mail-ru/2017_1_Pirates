@@ -26,6 +26,7 @@ var MotionScene = (function (_super) {
         _this.lastEnemy = 0;
         _this.ticks = -1;
         _this.time = 0;
+        _this.inMenu = true;
         engine.enableOfflineSupport = false;
         _this.bulletManager = new BulletManager_1.BulletManager(_this);
         // this.map = new Map('motion-map', this);
@@ -85,16 +86,18 @@ var MotionScene = (function (_super) {
         this.loader = new BABYLON.AssetsManager(this);
         this.initMeshesLoader();
         this.initShadersLoader();
-        this.player = new entity_1.Entity('player', this);
-        this.currentInput = this.player;
-        this.entities.push(this.player);
+        this.postInit();
         this.skydome = new skydome_1.Skydome('skydome', this);
         this.skydome.position.z = 100;
-        // this.map.loadChunks();
-        // this.map.initStartChunks();
         this.loader.load();
         this.meshesLoader.load();
         this.shadersLoader.load();
+    };
+    MotionScene.prototype.postInit = function () {
+        this.entities = [];
+        this.player = new entity_1.Entity('player', this);
+        this.currentInput = this.player;
+        this.entities.push(this.player);
     };
     MotionScene.getRandomCoord = function (scater) {
         if (scater === void 0) { scater = 30; }
@@ -114,7 +117,7 @@ var MotionScene = (function (_super) {
         }
         this.playerAbs = this.currentInput.getAbsolutePosition();
         this.entities.forEach(function (entity, index) {
-            if (entity.exploding === 100) {
+            if (entity.exploding >= 100) {
                 if (!entity.__lived) {
                     return;
                 }
@@ -142,6 +145,18 @@ var MotionScene = (function (_super) {
         this.ticks++;
         _super.prototype.render.call(this);
     };
+    MotionScene.prototype.newGame = function () {
+        this.currentInput.exploding = -1;
+        this.currentInput.health = 50;
+        this.currentInput.ship.isVisible = true;
+        this.currentInput.target.isVisible = true;
+        this.currentInput.explosion.isVisible = false;
+        this.currentInput.explosion.scaling = new BABYLON.Vector3(1, 1, 1);
+    };
+    MotionScene.prototype.loose = function () {
+        this.currentInput.health = 0;
+        this.currentInput.explode();
+    };
     MotionScene.prototype.run = function () {
         var _this = this;
         this.setActiveCameraByName(this.player.camera.name);
@@ -156,6 +171,9 @@ var MotionScene = (function (_super) {
         this.getEngine().runRenderLoop(function () {
             _this.time = (new Date()).getMilliseconds();
             _this.emitEvent({ type: EventType_1.EventType.RENDER });
+            if (_this.inMenu) {
+                _this.currentInput.health = 100;
+            }
             _this.render();
         });
     };
