@@ -18,23 +18,35 @@ export class Entity extends (<INewable> BABYLON.Mesh) implements IControllable {
     public light: any;
     public joystick: any;
     public target: any;
+    public explosion: any;
 
-    public speed: number = 1.0;
+    public speed: number = 0.3;
+    public bulletSpeed: number = 0.1;
 
     private angleX: number = 0;
     private angleY: number = 0;
-    private direction: any;
+    protected direction: any;
+    protected exploding: number = -1;
+    protected health: number = 10;
 
 
-    constructor(name: string, scene: MotionScene) {
+    constructor(name: string, scene: MotionScene, first: boolean = true) {
         super(name, scene);
+
+        this.bulletSpeed = this.speed * 10;
+
+		JSWorks.EventManager.subscribe(this, scene, EventType.RENDER,
+			(event, emitter) => { this.onRender(event, emitter); });
+
+        if (!first) {
+			this.onMeshesLoaded(event, undefined);
+        	return;
+		}
 
         scene.meshesLoader.queue(this.modelName, '/game/assets/models/', 'spaceship.obj');
 
         JSWorks.EventManager.subscribe(this, scene, EventType.MESHES_LOAD,
             (event, emitter) => { this.onMeshesLoaded(event, emitter); });
-        JSWorks.EventManager.subscribe(this, scene, EventType.RENDER,
-            (event, emitter) => { this.onRender(event, emitter); });
     }
 
 
@@ -87,12 +99,17 @@ export class Entity extends (<INewable> BABYLON.Mesh) implements IControllable {
 
         this.target = new BABYLON.Mesh.CreateBox(
             MotionScene.descendantName((<any> this).name, 'ship'),
-            0.1,
+            0.2,
             (<any> this).getScene()
         );
+		this.target.material = new BABYLON.StandardMaterial('target', (<any> this).getScene());
+		this.target.material.emissiveColor = new BABYLON.Color3(0, 1, 0);
+		this.target.material.emissiveIntensity = 10;
+		this.target.material.alpha = 0.1;
+
         this.target.parent = this.shipHolderX;
         this.target.position = new BABYLON.Vector3(0, 0, 5);
-		this.target.isVisible = false;
+		this.target.isVisible = true;
 
         this.light = new BABYLON.HemisphericLight(
             MotionScene.descendantName((<any> this).name, 'light'),
@@ -102,16 +119,29 @@ export class Entity extends (<INewable> BABYLON.Mesh) implements IControllable {
         this.light.parent = this;
         // this.light.diffuse = new BABYLON.Color3(135 / 255, 69 / 255, 203 / 255);
 		this.light.diffuse = new BABYLON.Color3(69 / 255, 110 / 255, 203 / 255);
-        this.light.intensity = 0.8;
+        this.light.intensity = 0.3;
+
+        this.explosion = new BABYLON.Mesh.CreateSphere(
+        	'explosion',
+			100,
+			30,
+			(<any> this).getScene(),
+		);
+        this.explosion.material = new BABYLON.StandardMaterial('expl', (<any> this).getScene());
+		this.explosion.material.emissiveColor = new BABYLON.Color3(1, 1, 1);
+
+        this.explosion.scaling = new BABYLON.Vector3(1, 1, 1);
+        this.explosion.parent = this.ship;
+        this.explosion.isVisible = false;
     }
 
 
-    public static slowMo(prev: number, value: number, power: number = 50) {
+    public slowMo(prev: number, value: number, power: number = 50) {
         return (power * prev + value) / (power + 1);
     }
 
 
-    private static getTranslationMatrix(node, mul?, scaling?, position?, rotation?) {
+    protected static getTranslationMatrix(node, mul?, scaling?, position?, rotation?) {
         return BABYLON.Matrix.Compose(
             scaling || (node || {}).scaling || new BABYLON.Vector3(1, 1, 1),
             BABYLON.Quaternion.RotationYawPitchRoll(
@@ -124,7 +154,7 @@ export class Entity extends (<INewable> BABYLON.Mesh) implements IControllable {
     }
 
 
-    private calculateMovement(modifier: number = 1) {
+    protected calculateMovement(modifier: number = 1) {
         const xMatrix = Entity.getTranslationMatrix(this.shipHolderX);
         const zMatrix = Entity.getTranslationMatrix(this.shipHolderZ);
 
@@ -138,12 +168,13 @@ export class Entity extends (<INewable> BABYLON.Mesh) implements IControllable {
 			BABYLON.Vector3.Zero(),
 		);
 
-        this.direction = new BABYLON.Vector3(0, 0, modifier * this.speed);
+        this.direction = new BABYLON.Vector3(0, 0, 1);
         // direction.addInPlace(new BABYLON.Vector3(0, this.joystick.position.y / 4 * 0.5, 0));
 
 		this.direction = BABYLON.Vector3.TransformCoordinates(this.direction, tMatrix);
         this.direction = BABYLON.Vector3.TransformCoordinates(this.direction, xMatrix);
         this.direction = BABYLON.Vector3.TransformCoordinates(this.direction, zMatrix);
+        this.direction = this.direction.normalize().scale(modifier * this.speed);
 
         (<any> this).position.x += this.direction.x;// * this.speed;
         (<any> this).position.y += this.direction.y;// * this.speed;
@@ -160,12 +191,12 @@ export class Entity extends (<INewable> BABYLON.Mesh) implements IControllable {
 
 
     public onRender(event, emitter) {
-		this.ship.isVisible = JSWorks._in_game_ === true;
+		// this.ship.isVisible = JSWorks._in_game_ === true;
 
 		this.angleY = Entity.acos(-(this.joystick.position.y / this.joystick.position.z));
         this.angleX = Entity.acos( (this.joystick.position.x / this.joystick.position.z) * 1.3);
 
-        this.shipHolderX.rotation.x = Entity.slowMo(
+        /* this.shipHolderX.rotation.x = Entity.slowMo(
             this.shipHolderX.rotation.x,  Math.PI / 2 - this.angleY);
         this.shipHolderZ.rotation.z = Entity.slowMo(
             this.shipHolderZ.rotation.z, -Math.PI / 2 + this.angleX);
@@ -173,13 +204,39 @@ export class Entity extends (<INewable> BABYLON.Mesh) implements IControllable {
         let rot = this.shipHolderX.rotation.x;
         rot = rot - rot * Math.abs(Math.sin(this.shipHolderZ.rotation.z));
 
-        (<any> this).rotation.x = Entity.slowMo((<any> this).rotation.x, rot);
+        (<any> this).rotation.x = Entity.slowMo((<any> this).rotation.x, rot);*/
+
+		this.shipHolderX.rotation.x = this.slowMo(
+			this.shipHolderX.rotation.x,  Math.PI / 2 - this.angleY);
+		this.shipHolderX.rotation.y = this.slowMo(
+			this.shipHolderX.rotation.y,  Math.PI / 2 - this.angleX);
+		this.shipHolderX.rotation.z = this.slowMo(
+			this.shipHolderX.rotation.z, (-Math.PI / 2 + this.angleX) * 2, 25);
+
+		let rot = this.shipHolderX.rotation.x;
+		rot = rot - rot * Math.abs(Math.sin(this.shipHolderZ.rotation.z));
+
+		(<any> this).rotation.x = this.slowMo((<any> this).rotation.x, rot);
 
         this.calculateMovement(1);
+
+        if (this.exploding >= 0) {
+        	this.exploding++;
+
+        	this.explosion.scaling.scaleInPlace(1 + this.exploding * 0.003);
+        	this.explosion.material.alpha = (100 - this.exploding) * 0.008;
+
+        	if (this.exploding > 100) {
+        		this.exploding = 100;
+			}
+		}
     }
 
 
-    public static limitTarget(vector, distX, distY) {
+    public emitEvent(event) {};
+
+
+    protected limitTarget(vector, distX, distY) {
         if (vector.x < -distX) vector.x = -distX;
         if (vector.y < -distY) vector.y = -distY;
         if (vector.x >  distX) vector.x =  distX;
@@ -188,25 +245,70 @@ export class Entity extends (<INewable> BABYLON.Mesh) implements IControllable {
 
 
     public joystickMoved(x: number, y: number) {
-        this.joystick.position.x +=  x * 0.01;
-        this.joystick.position.y += -y * 0.01;
+    	if (this.exploding >= 0) {
+    		return;
+		}
 
-        Entity.limitTarget(this.joystick.position, 4, 4);
+        this.joystick.position.x +=  x * 0.005;
+        this.joystick.position.y += -y * 0.012;
+
+        this.limitTarget(this.joystick.position, 4, 4);
     }
 
 
     public joystickPressed() {
+		if (this.exploding >= 0) {
+			return;
+		}
+
         (<any> this).getScene().bulletManager.fire(
             this.ship.getAbsolutePosition(),
             this.direction,
-            this.speed + 10,
-            100,
+            this.bulletSpeed,
         );
     }
 
     public getCurrentPosition() {
         return this.ship.getAbsolutePosition();
     }
+
+
+    public remove() {
+		(<any> this).getScene().removeMesh(this.shipHolderZ);
+		(<any> this).getScene().removeMesh(this.shipHolderX);
+		(<any> this).getScene().removeMesh(this.ship);
+		(<any> this).getScene().removeMesh(this.camera);
+		(<any> this).getScene().removeMesh(this.target);
+		(<any> this).getScene().removeMesh(this.joystick);
+		(<any> this).getScene().removeMesh(this.light);
+		(<any> this).getScene().removeMesh(this);
+
+		this.shipHolderZ.dispose(true);
+		this.shipHolderX.dispose(true);
+		this.ship.dispose(true);
+		this.camera.dispose(true);
+		this.target.dispose(true);
+		this.joystick.dispose(true);
+		this.light.dispose(true);
+		(<any> this).dispose(true);
+	}
+
+
+	public explode() {
+    	this.health--;
+
+    	if (this.health > 0) {
+    		return;
+		}
+
+		if (this.exploding === -1) {
+			this.exploding = 0;
+
+			this.ship.isVisible = false;
+			this.explosion.isVisible = true;
+			return;
+		}
+	}
 
 
 }

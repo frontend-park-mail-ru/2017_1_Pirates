@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -105,12 +105,12 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var entity_1 = __webpack_require__(4);
+var entity_1 = __webpack_require__(2);
 var EventType_1 = __webpack_require__(0);
-var BulletManager_1 = __webpack_require__(3);
-var Loader_1 = __webpack_require__(2);
-var skydome_1 = __webpack_require__(8);
-var map_1 = __webpack_require__(7);
+var BulletManager_1 = __webpack_require__(4);
+var Loader_1 = __webpack_require__(3);
+var skydome_1 = __webpack_require__(7);
+var SimpleEnemy_1 = __webpack_require__(5);
 var MotionScene = (function (_super) {
     __extends(MotionScene, _super);
     function MotionScene(engine) {
@@ -118,9 +118,12 @@ var MotionScene = (function (_super) {
         _this.loadersCount = 0;
         _this.loadersFired = 0;
         _this.entities = [];
+        _this.lastEnemy = 0;
+        _this.ticks = -1;
+        _this.time = 0;
         engine.enableOfflineSupport = false;
         _this.bulletManager = new BulletManager_1.BulletManager(_this);
-        _this.map = new map_1.Map('motion-map', _this);
+        // this.map = new Map('motion-map', this);
         _this.last_position = 0;
         JSWorks.EventManager.subscribe(_this, _this, EventType_1.EventType.JOYSTICK_MOVE, function (event) {
             _this.currentInput.joystickMoved(event.data.x, event.data.y);
@@ -129,7 +132,7 @@ var MotionScene = (function (_super) {
             _this.currentInput.joystickPressed();
         });
         JSWorks.EventManager.subscribe(_this, _this, EventType_1.EventType.RENDER, function (event) {
-            _this.onMapEnds();
+            // this.onMapEnds();
         });
         return _this;
     }
@@ -182,11 +185,57 @@ var MotionScene = (function (_super) {
         this.entities.push(this.player);
         this.skydome = new skydome_1.Skydome('skydome', this);
         this.skydome.position.z = 100;
-        this.map.loadChunks();
-        this.map.initStartChunks();
+        // this.map.loadChunks();
+        // this.map.initStartChunks();
         this.loader.load();
         this.meshesLoader.load();
         this.shadersLoader.load();
+    };
+    MotionScene.getRandomCoord = function (scater) {
+        if (scater === void 0) { scater = 30; }
+        return (Math.random() * 2 - 1) * scater;
+    };
+    MotionScene.prototype.initRandomEnemy = function () {
+        var enemy = new SimpleEnemy_1.SimpleEnemy("enemy_" + this.lastEnemy, this);
+        enemy.__lived = 0;
+        var playerPos = this.currentInput.getAbsolutePosition();
+        enemy.position = new BABYLON.Vector3(playerPos.x + MotionScene.getRandomCoord(), playerPos.y + MotionScene.getRandomCoord(), playerPos.z + MotionScene.getRandomCoord() + 200);
+        this.entities.push(enemy);
+    };
+    MotionScene.prototype.render = function () {
+        var _this = this;
+        if (Math.random() < 0.02) {
+            this.initRandomEnemy();
+        }
+        this.playerAbs = this.currentInput.getAbsolutePosition();
+        this.entities.forEach(function (entity, index) {
+            if (entity.exploding === 100) {
+                if (!entity.__lived) {
+                    return;
+                }
+                entity.remove();
+                _this.entities.splice(index, 1);
+                return;
+            }
+            if (!entity.__lived) {
+                return;
+            }
+            entity.__lived++;
+            if (entity.__lived > 10) {
+                entity.remove();
+                _this.entities.splice(index, 1);
+                return;
+            }
+        });
+        if (this.ticks > 50) {
+            this.ticks = -1;
+        }
+        if (this.ticks < 0) {
+            // document.title = `Meshes: ${(<any> this).meshes.length}`;
+            document.title = "Bullets: " + this.bulletManager.bullets.length;
+        }
+        this.ticks++;
+        _super.prototype.render.call(this);
     };
     MotionScene.prototype.run = function () {
         var _this = this;
@@ -200,6 +249,7 @@ var MotionScene = (function (_super) {
             mesh.renderingGroupId = 1;
         });
         this.getEngine().runRenderLoop(function () {
+            _this.time = (new Date()).getMilliseconds();
             _this.emitEvent({ type: EventType_1.EventType.RENDER });
             _this.render();
         });
@@ -238,6 +288,210 @@ exports.MotionScene = MotionScene;
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var scene_1 = __webpack_require__(1);
+var EventType_1 = __webpack_require__(0);
+var Entity = (function (_super) {
+    __extends(Entity, _super);
+    function Entity(name, scene, first) {
+        if (first === void 0) { first = true; }
+        var _this = _super.call(this, name, scene) || this;
+        _this.speed = 0.3;
+        _this.bulletSpeed = 0.1;
+        _this.angleX = 0;
+        _this.angleY = 0;
+        _this.exploding = -1;
+        _this.health = 10;
+        _this.bulletSpeed = _this.speed * 10;
+        JSWorks.EventManager.subscribe(_this, scene, EventType_1.EventType.RENDER, function (event, emitter) { _this.onRender(event, emitter); });
+        if (!first) {
+            _this.onMeshesLoaded(event, undefined);
+            return _this;
+        }
+        scene.meshesLoader.queue(_this.modelName, '/game/assets/models/', 'spaceship.obj');
+        JSWorks.EventManager.subscribe(_this, scene, EventType_1.EventType.MESHES_LOAD, function (event, emitter) { _this.onMeshesLoaded(event, emitter); });
+        return _this;
+    }
+    Entity.prototype.onMeshesLoaded = function (event, emitter) {
+        this.shipHolderZ = new BABYLON.Mesh.CreateBox(scene_1.MotionScene.descendantName(this.name, 'shipHolder'), 0.1, this.getScene());
+        this.shipHolderZ.parent = this;
+        this.shipHolderZ.isVisible = false;
+        this.shipHolderX = new BABYLON.Mesh.CreateBox(scene_1.MotionScene.descendantName(this.name, 'shipHolder'), 0.1, this.getScene());
+        this.shipHolderX.parent = this.shipHolderZ;
+        this.shipHolderX.isVisible = false;
+        this.ship = this.getScene().meshesLoader.retrieve(this.modelName);
+        this.ship = this.ship.clone(scene_1.MotionScene.descendantName(this.name, 'ship'));
+        this.ship.parent = this.shipHolderX;
+        this.ship.scaling = new BABYLON.Vector3(0.1, 0.1, 0.1);
+        this.ship.rotation = new BABYLON.Vector3(3 * Math.PI / 2, 0, Math.PI);
+        this.ship.setEnabled(true);
+        this.ship.material = new BABYLON.StandardMaterial('ship', this.getScene());
+        this.ship.material.emissiveColor = new BABYLON.Color3(107 / 255, 118 / 255, 186 / 255);
+        this.camera = new BABYLON.TargetCamera(scene_1.MotionScene.descendantName(this.name, 'ship'), new BABYLON.Vector3(0, 0, 0), this.getScene());
+        this.camera.parent = this;
+        this.camera.setTarget(BABYLON.Vector3.Zero());
+        this.camera.position = new BABYLON.Vector3(0, 1, -5);
+        this.camera.noRotationConstraint = true;
+        this.joystick = new BABYLON.Mesh.CreateBox(scene_1.MotionScene.descendantName(this.name, 'ship'), 0.1, this.getScene());
+        this.joystick.parent = this;
+        this.joystick.position = new BABYLON.Vector3(0, 0, 5);
+        this.joystick.isVisible = false;
+        this.target = new BABYLON.Mesh.CreateBox(scene_1.MotionScene.descendantName(this.name, 'ship'), 0.2, this.getScene());
+        this.target.material = new BABYLON.StandardMaterial('target', this.getScene());
+        this.target.material.emissiveColor = new BABYLON.Color3(0, 1, 0);
+        this.target.material.emissiveIntensity = 10;
+        this.target.material.alpha = 0.1;
+        this.target.parent = this.shipHolderX;
+        this.target.position = new BABYLON.Vector3(0, 0, 5);
+        this.target.isVisible = true;
+        this.light = new BABYLON.HemisphericLight(scene_1.MotionScene.descendantName(this.name, 'light'), new BABYLON.Vector3(0, 5, 1), this.getScene());
+        this.light.parent = this;
+        // this.light.diffuse = new BABYLON.Color3(135 / 255, 69 / 255, 203 / 255);
+        this.light.diffuse = new BABYLON.Color3(69 / 255, 110 / 255, 203 / 255);
+        this.light.intensity = 0.3;
+        this.explosion = new BABYLON.Mesh.CreateSphere('explosion', 100, 30, this.getScene());
+        this.explosion.material = new BABYLON.StandardMaterial('expl', this.getScene());
+        this.explosion.material.emissiveColor = new BABYLON.Color3(1, 1, 1);
+        this.explosion.scaling = new BABYLON.Vector3(1, 1, 1);
+        this.explosion.parent = this.ship;
+        this.explosion.isVisible = false;
+    };
+    Entity.prototype.slowMo = function (prev, value, power) {
+        if (power === void 0) { power = 50; }
+        return (power * prev + value) / (power + 1);
+    };
+    Entity.getTranslationMatrix = function (node, mul, scaling, position, rotation) {
+        return BABYLON.Matrix.Compose(scaling || (node || {}).scaling || new BABYLON.Vector3(1, 1, 1), BABYLON.Quaternion.RotationYawPitchRoll(rotation || ((node || {}).rotation || {}).y || 0, rotation || ((node || {}).rotation || {}).x || 0, rotation || ((node || {}).rotation || {}).z || 0), (position || (node || {}).position || BABYLON.Vector3.Zero()).scale(mul || 1));
+    };
+    Entity.prototype.calculateMovement = function (modifier) {
+        if (modifier === void 0) { modifier = 1; }
+        var xMatrix = Entity.getTranslationMatrix(this.shipHolderX);
+        var zMatrix = Entity.getTranslationMatrix(this.shipHolderZ);
+        var tMatrix = BABYLON.Matrix.Compose(new BABYLON.Vector3(1, 1, 1), BABYLON.Quaternion.RotationYawPitchRoll(0, this.rotation.x, 0), BABYLON.Vector3.Zero());
+        this.direction = new BABYLON.Vector3(0, 0, 1);
+        // direction.addInPlace(new BABYLON.Vector3(0, this.joystick.position.y / 4 * 0.5, 0));
+        this.direction = BABYLON.Vector3.TransformCoordinates(this.direction, tMatrix);
+        this.direction = BABYLON.Vector3.TransformCoordinates(this.direction, xMatrix);
+        this.direction = BABYLON.Vector3.TransformCoordinates(this.direction, zMatrix);
+        this.direction = this.direction.normalize().scale(modifier * this.speed);
+        this.position.x += this.direction.x; // * this.speed;
+        this.position.y += this.direction.y; // * this.speed;
+        this.position.z += this.direction.z; // * this.speed;
+    };
+    Entity.acos = function (angle) {
+        angle = (angle < -1) ? -1 : angle;
+        angle = (angle > 1) ? 1 : angle;
+        return Math.acos(angle);
+    };
+    Entity.prototype.onRender = function (event, emitter) {
+        // this.ship.isVisible = JSWorks._in_game_ === true;
+        this.angleY = Entity.acos(-(this.joystick.position.y / this.joystick.position.z));
+        this.angleX = Entity.acos((this.joystick.position.x / this.joystick.position.z) * 1.3);
+        /* this.shipHolderX.rotation.x = Entity.slowMo(
+            this.shipHolderX.rotation.x,  Math.PI / 2 - this.angleY);
+        this.shipHolderZ.rotation.z = Entity.slowMo(
+            this.shipHolderZ.rotation.z, -Math.PI / 2 + this.angleX);
+
+        let rot = this.shipHolderX.rotation.x;
+        rot = rot - rot * Math.abs(Math.sin(this.shipHolderZ.rotation.z));
+
+        (<any> this).rotation.x = Entity.slowMo((<any> this).rotation.x, rot);*/
+        this.shipHolderX.rotation.x = this.slowMo(this.shipHolderX.rotation.x, Math.PI / 2 - this.angleY);
+        this.shipHolderX.rotation.y = this.slowMo(this.shipHolderX.rotation.y, Math.PI / 2 - this.angleX);
+        this.shipHolderX.rotation.z = this.slowMo(this.shipHolderX.rotation.z, (-Math.PI / 2 + this.angleX) * 2, 25);
+        var rot = this.shipHolderX.rotation.x;
+        rot = rot - rot * Math.abs(Math.sin(this.shipHolderZ.rotation.z));
+        this.rotation.x = this.slowMo(this.rotation.x, rot);
+        this.calculateMovement(1);
+        if (this.exploding >= 0) {
+            this.exploding++;
+            this.explosion.scaling.scaleInPlace(1 + this.exploding * 0.003);
+            this.explosion.material.alpha = (100 - this.exploding) * 0.008;
+            if (this.exploding > 100) {
+                this.exploding = 100;
+            }
+        }
+    };
+    Entity.prototype.emitEvent = function (event) { };
+    ;
+    Entity.prototype.limitTarget = function (vector, distX, distY) {
+        if (vector.x < -distX)
+            vector.x = -distX;
+        if (vector.y < -distY)
+            vector.y = -distY;
+        if (vector.x > distX)
+            vector.x = distX;
+        if (vector.y > distY)
+            vector.y = distY;
+    };
+    Entity.prototype.joystickMoved = function (x, y) {
+        if (this.exploding >= 0) {
+            return;
+        }
+        this.joystick.position.x += x * 0.005;
+        this.joystick.position.y += -y * 0.012;
+        this.limitTarget(this.joystick.position, 4, 4);
+    };
+    Entity.prototype.joystickPressed = function () {
+        if (this.exploding >= 0) {
+            return;
+        }
+        this.getScene().bulletManager.fire(this.ship.getAbsolutePosition(), this.direction, this.bulletSpeed);
+    };
+    Entity.prototype.getCurrentPosition = function () {
+        return this.ship.getAbsolutePosition();
+    };
+    Entity.prototype.remove = function () {
+        this.getScene().removeMesh(this.shipHolderZ);
+        this.getScene().removeMesh(this.shipHolderX);
+        this.getScene().removeMesh(this.ship);
+        this.getScene().removeMesh(this.camera);
+        this.getScene().removeMesh(this.target);
+        this.getScene().removeMesh(this.joystick);
+        this.getScene().removeMesh(this.light);
+        this.getScene().removeMesh(this);
+        this.shipHolderZ.dispose(true);
+        this.shipHolderX.dispose(true);
+        this.ship.dispose(true);
+        this.camera.dispose(true);
+        this.target.dispose(true);
+        this.joystick.dispose(true);
+        this.light.dispose(true);
+        this.dispose(true);
+    };
+    Entity.prototype.explode = function () {
+        this.health--;
+        if (this.health > 0) {
+            return;
+        }
+        if (this.exploding === -1) {
+            this.exploding = 0;
+            this.ship.isVisible = false;
+            this.explosion.isVisible = true;
+            return;
+        }
+    };
+    return Entity;
+}(BABYLON.Mesh));
+exports.Entity = Entity;
+
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -312,7 +566,7 @@ exports.Loader = Loader;
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -331,25 +585,55 @@ var BulletManager = (function () {
         return this.scene;
     };
     BulletManager.prototype.fire = function (position, direction, speed, distance) {
+        if (distance === void 0) { distance = 500; }
+        if (this.bullets.length > 160) {
+            return;
+        }
         this.lastBulletId++;
         var bullet = new BABYLON.Mesh.CreateBox("bullet_" + this.lastBulletId, 0.1, this.getScene());
         bullet.__position = position.clone();
-        bullet.__direction = direction.clone();
+        bullet.__direction = direction.normalize().scale(speed);
         bullet.__speed = speed;
         bullet.__distance = distance;
-        bullet.position = bullet.__position.clone();
+        bullet.__flew = 0;
+        bullet.position = bullet.__position.add(direction.scale(speed * 2));
+        bullet.scaling = new BABYLON.Vector3(1.0, 1.0, 100.0);
+        bullet.lookAt(bullet.position.add(bullet.__direction));
+        bullet.material = new BABYLON.StandardMaterial('bullet_mat', this.getScene());
+        bullet.material.emissiveColor = new BABYLON.Color3(1.0, 0.0, 0.0);
+        bullet.material.alpha = 0.7;
+        bullet.__light = new BABYLON.SpotLight('l', new BABYLON.Vector3(0, 0, -0.5), new BABYLON.Vector3(0, 0, 0.5), 0.05, 2, this.getScene());
+        bullet.__light.diffuse = new BABYLON.Color3(1, 0, 0);
+        bullet.__light.specular = new BABYLON.Color3(0.5, 0, 0);
+        bullet.__light.parent = bullet;
         this.bullets.push(bullet);
     };
     BulletManager.prototype.updateBullets = function (event, emitter) {
         var _this = this;
+        var forDeleting = [];
+        var spliced = 0;
         this.bullets.forEach(function (bullet, index) {
-            bullet.position.x += bullet.__direction.x * bullet.__speed;
-            bullet.position.y += bullet.__direction.y * bullet.__speed;
-            bullet.position.z += bullet.__direction.z * bullet.__speed;
-            if (BABYLON.Vector3.Distance(bullet.position, bullet.__position) >= bullet.__distance) {
+            bullet.position = bullet.position.add(bullet.__direction);
+            bullet.__flew++;
+            if (bullet.__flew > 15) {
+                bullet.getScene().removeMesh(bullet.__light);
+                bullet.__light.dispose(true);
                 bullet.getScene().removeMesh(bullet);
-                _this.bullets.splice(index, 1);
+                bullet.dispose(true);
+                forDeleting.push(index);
+                return;
             }
+            var abs = bullet.getAbsolutePosition();
+            _this.getScene().entities.forEach(function (entity) {
+                var dist = BABYLON.Vector3.DistanceSquared(entity.getAbsolutePosition(), abs);
+                if (dist < 5) {
+                    entity.explode();
+                }
+            });
+        });
+        forDeleting.forEach(function (index) {
+            _this.bullets.splice(index - spliced, 1);
+            spliced++;
         });
     };
     return BulletManager;
@@ -358,7 +642,7 @@ exports.BulletManager = BulletManager;
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -374,119 +658,79 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var scene_1 = __webpack_require__(1);
-var EventType_1 = __webpack_require__(0);
-var Entity = (function (_super) {
-    __extends(Entity, _super);
-    function Entity(name, scene) {
-        var _this = _super.call(this, name, scene) || this;
-        _this.speed = 1.0;
-        _this.angleX = 0;
-        _this.angleY = 0;
-        scene.meshesLoader.queue(_this.modelName, '/game/assets/models/', 'spaceship.obj');
-        JSWorks.EventManager.subscribe(_this, scene, EventType_1.EventType.MESHES_LOAD, function (event, emitter) { _this.onMeshesLoaded(event, emitter); });
-        JSWorks.EventManager.subscribe(_this, scene, EventType_1.EventType.RENDER, function (event, emitter) { _this.onRender(event, emitter); });
+var entity_1 = __webpack_require__(2);
+var SimpleEnemy = (function (_super) {
+    __extends(SimpleEnemy, _super);
+    function SimpleEnemy(name, scene) {
+        var _this = _super.call(this, name, scene, false) || this;
+        _this.fired = false;
+        _this.firedCount = 0;
+        _this.speed *= -1 * Math.random() * 0.1;
+        _this.health = 1;
         return _this;
     }
-    Entity.prototype.onMeshesLoaded = function (event, emitter) {
-        this.shipHolderZ = new BABYLON.Mesh.CreateBox(scene_1.MotionScene.descendantName(this.name, 'shipHolder'), 0.1, this.getScene());
-        this.shipHolderZ.parent = this;
-        this.shipHolderZ.isVisible = false;
-        this.shipHolderX = new BABYLON.Mesh.CreateBox(scene_1.MotionScene.descendantName(this.name, 'shipHolder'), 0.1, this.getScene());
-        this.shipHolderX.parent = this.shipHolderZ;
-        this.shipHolderX.isVisible = false;
-        this.ship = this.getScene().meshesLoader.retrieve(this.modelName);
-        this.ship = this.ship.clone(scene_1.MotionScene.descendantName(this.name, 'ship'));
-        this.ship.parent = this.shipHolderX;
-        this.ship.scaling = new BABYLON.Vector3(0.1, 0.1, 0.1);
-        this.ship.rotation = new BABYLON.Vector3(3 * Math.PI / 2, 0, Math.PI);
-        this.ship.setEnabled(true);
-        this.ship.material = new BABYLON.StandardMaterial('ship', this.getScene());
-        this.ship.material.emissiveColor = new BABYLON.Color3(107 / 255, 118 / 255, 186 / 255);
-        this.camera = new BABYLON.TargetCamera(scene_1.MotionScene.descendantName(this.name, 'ship'), new BABYLON.Vector3(0, 0, 0), this.getScene());
-        this.camera.parent = this;
-        this.camera.setTarget(BABYLON.Vector3.Zero());
-        this.camera.position = new BABYLON.Vector3(0, 1, -5);
-        this.camera.noRotationConstraint = true;
-        this.joystick = new BABYLON.Mesh.CreateBox(scene_1.MotionScene.descendantName(this.name, 'ship'), 0.1, this.getScene());
-        this.joystick.parent = this;
-        this.joystick.position = new BABYLON.Vector3(0, 0, 5);
-        this.joystick.isVisible = false;
-        this.target = new BABYLON.Mesh.CreateBox(scene_1.MotionScene.descendantName(this.name, 'ship'), 0.1, this.getScene());
-        this.target.parent = this.shipHolderX;
-        this.target.position = new BABYLON.Vector3(0, 0, 5);
-        this.target.isVisible = false;
-        this.light = new BABYLON.HemisphericLight(scene_1.MotionScene.descendantName(this.name, 'light'), new BABYLON.Vector3(0, 5, 1), this.getScene());
-        this.light.parent = this;
-        // this.light.diffuse = new BABYLON.Color3(135 / 255, 69 / 255, 203 / 255);
-        this.light.diffuse = new BABYLON.Color3(69 / 255, 110 / 255, 203 / 255);
-        this.light.intensity = 0.8;
+    SimpleEnemy.prototype.onMeshesLoaded = function (event, emitter) {
+        _super.prototype.onMeshesLoaded.call(this, event, emitter);
+        this.light.setEnabled(false);
+        this.ship.rotation.y = Math.PI;
+        this.target.material.emissiveColor = new BABYLON.Color3(1, 0, 0);
+        this.target.position = new BABYLON.Vector3(0, 0, -5);
     };
-    Entity.slowMo = function (prev, value, power) {
+    SimpleEnemy.prototype.limitTarget = function (vector, distX, distY) {
+    };
+    SimpleEnemy.prototype.slowMo = function (prev, value, power) {
         if (power === void 0) { power = 50; }
+        var cubicBezier = function (x, p1, p2, p3, p4) {
+            var xx = x * x;
+            var nx = 1.0 - x;
+            var nxnx = nx * nx;
+            return nxnx * nx * p1 + 3.0 * nxnx * x * p2 + 3.0 * nx * xx * p3 + xx * x * p4;
+        };
+        // power = 10 + cubicBezier(Math.abs(prev - value) * 10, 1, .01, .83, .67) * 200;
         return (power * prev + value) / (power + 1);
     };
-    Entity.getTranslationMatrix = function (node, mul, scaling, position, rotation) {
-        return BABYLON.Matrix.Compose(scaling || (node || {}).scaling || new BABYLON.Vector3(1, 1, 1), BABYLON.Quaternion.RotationYawPitchRoll(rotation || ((node || {}).rotation || {}).y || 0, rotation || ((node || {}).rotation || {}).x || 0, rotation || ((node || {}).rotation || {}).z || 0), (position || (node || {}).position || BABYLON.Vector3.Zero()).scale(mul || 1));
-    };
-    Entity.prototype.calculateMovement = function (modifier) {
+    SimpleEnemy.prototype.calculateMovement = function (modifier) {
         if (modifier === void 0) { modifier = 1; }
-        var xMatrix = Entity.getTranslationMatrix(this.shipHolderX);
-        var zMatrix = Entity.getTranslationMatrix(this.shipHolderZ);
-        var tMatrix = BABYLON.Matrix.Compose(new BABYLON.Vector3(1, 1, 1), BABYLON.Quaternion.RotationYawPitchRoll(0, this.rotation.x, 0), BABYLON.Vector3.Zero());
-        this.direction = new BABYLON.Vector3(0, 0, modifier * this.speed);
-        // direction.addInPlace(new BABYLON.Vector3(0, this.joystick.position.y / 4 * 0.5, 0));
-        this.direction = BABYLON.Vector3.TransformCoordinates(this.direction, tMatrix);
-        this.direction = BABYLON.Vector3.TransformCoordinates(this.direction, xMatrix);
-        this.direction = BABYLON.Vector3.TransformCoordinates(this.direction, zMatrix);
-        this.position.x += this.direction.x; // * this.speed;
-        this.position.y += this.direction.y; // * this.speed;
-        this.position.z += this.direction.z; // * this.speed;
+        _super.prototype.calculateMovement.call(this, modifier);
+        var playerAbs = this.getScene().playerAbs;
+        var thisAbs = this.getAbsolutePosition();
+        if (!playerAbs) {
+            return;
+        }
+        var jMatrix = entity_1.Entity.getTranslationMatrix(this).invert();
+        var player = playerAbs.clone();
+        player.z -= -this.speed - this.bulletSpeed;
+        var dst = BABYLON.Vector3.DistanceSquared(playerAbs, thisAbs);
+        if (dst < 20000) {
+            this.firedCount++;
+            if (this.firedCount > 10) {
+                this.firedCount = 0;
+                this.joystickPressed();
+            }
+        }
+        if (dst < 500) {
+            return;
+        }
+        this.joystick.position = BABYLON.Vector3.TransformCoordinates(player, jMatrix);
+        /* if (Math.sin((<any> this).time * 10000) > 0) {
+            if (!this.fired) {
+                // this.fired = true;
+                this.joystickPressed();
+            }
+        } else {
+            this.fired = false;
+        } */
     };
-    Entity.acos = function (angle) {
-        angle = (angle < -1) ? -1 : angle;
-        angle = (angle > 1) ? 1 : angle;
-        return Math.acos(angle);
+    SimpleEnemy.prototype.onRender = function (event, emitter) {
+        _super.prototype.onRender.call(this, event, emitter);
     };
-    Entity.prototype.onRender = function (event, emitter) {
-        this.ship.isVisible = JSWorks._in_game_ === true;
-        this.angleY = Entity.acos(-(this.joystick.position.y / this.joystick.position.z));
-        this.angleX = Entity.acos((this.joystick.position.x / this.joystick.position.z) * 1.3);
-        this.shipHolderX.rotation.x = Entity.slowMo(this.shipHolderX.rotation.x, Math.PI / 2 - this.angleY);
-        this.shipHolderZ.rotation.z = Entity.slowMo(this.shipHolderZ.rotation.z, -Math.PI / 2 + this.angleX);
-        var rot = this.shipHolderX.rotation.x;
-        rot = rot - rot * Math.abs(Math.sin(this.shipHolderZ.rotation.z));
-        this.rotation.x = Entity.slowMo(this.rotation.x, rot);
-        this.calculateMovement(1);
-    };
-    Entity.limitTarget = function (vector, distX, distY) {
-        if (vector.x < -distX)
-            vector.x = -distX;
-        if (vector.y < -distY)
-            vector.y = -distY;
-        if (vector.x > distX)
-            vector.x = distX;
-        if (vector.y > distY)
-            vector.y = distY;
-    };
-    Entity.prototype.joystickMoved = function (x, y) {
-        this.joystick.position.x += x * 0.01;
-        this.joystick.position.y += -y * 0.01;
-        Entity.limitTarget(this.joystick.position, 4, 4);
-    };
-    Entity.prototype.joystickPressed = function () {
-        this.getScene().bulletManager.fire(this.ship.getAbsolutePosition(), this.direction, this.speed + 10, 100);
-    };
-    Entity.prototype.getCurrentPosition = function () {
-        return this.ship.getAbsolutePosition();
-    };
-    return Entity;
-}(BABYLON.Mesh));
-exports.Entity = Entity;
+    return SimpleEnemy;
+}(entity_1.Entity));
+exports.SimpleEnemy = SimpleEnemy;
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -619,250 +863,7 @@ window.addEventListener('load', function () {
 
 
 /***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var Chunk = (function (_super) {
-    __extends(Chunk, _super);
-    function Chunk(name, scene, widht, height) {
-        var _this = _super.call(this, name, scene) || this;
-        _this.isActive = false;
-        _this.height = 1000;
-        _this.width = 1000;
-        _this.scene = scene;
-        _this.width = widht;
-        _this.height = height;
-        _this.ground = BABYLON.Mesh.CreateGround('ground', _this.width, _this.height, 25, _this.scene);
-        _this.ground.position.z = -2000;
-        _this.ground.material = new BABYLON.StandardMaterial('ground', _this.scene);
-        /*
-        if (this.name === "red") {
-            this.ground.material.diffuseColor = new BABYLON.Color3(1.0, 0.0, 0.0);
-        }
-        if (this.name === "green") {
-            this.ground.material.diffuseColor = new BABYLON.Color3(0.0, 1.0, 0.0);
-        }
-        if (this.name === "blue") {
-            this.ground.material.diffuseColor = new BABYLON.Color3(0.0, 0.0, 1.0);
-        }
-        */
-        // this.ground.material.diffuseColor = new BABYLON.Color3(62 / 255, 73 / 255, 137 / 255);
-        _this.ground.material.emissiveColor = new BABYLON.Color3(107 / 255, 118 / 255, 186 / 255);
-        _this.ground.material.wireframe = true;
-        return _this;
-    }
-    Chunk.prototype.getScene = function () {
-        return this.scene;
-    };
-    Chunk.prototype.init = function (position) {
-        this.ground.position.x = position.x;
-        this.ground.position.z = position.z;
-        this.ground.position.y = -10;
-        this.isActive = true;
-    };
-    Chunk.prototype.getSize = function () {
-        return { h: this.height, w: this.width };
-    };
-    Chunk.prototype.getBorder = function () {
-        var halfWidth = this.width / 2;
-        var halfHeight = this.height / 2;
-        return {
-            leftDown: { x: this.ground.position.x - halfWidth, z: this.ground.position.z - halfHeight },
-            rightTop: { x: this.ground.position.x + halfWidth, z: this.ground.position.z + halfHeight }
-        };
-    };
-    Chunk.prototype.inArea = function (pos) {
-        var border = this.getBorder();
-        return (border.leftDown.x <= pos.x) && (pos.x <= border.rightTop.x) && (pos.z >= border.leftDown.z)
-            && (pos.z <= border.rightTop.z);
-    };
-    /**
-     * метод проверки входит ли блок в зону видимости
-     * @param area
-     * @returns {boolean}
-     */
-    Chunk.prototype.isSeeable = function (area) {
-        var border = this.getBorder();
-        return (border.rightTop.z >= area.leftDown.z) && (area.rightTop.x >= border.rightTop.x) && (area.leftDown.x <= border.leftDown.x);
-        // (border.rightTop.x <= area.rightTop.x);
-    };
-    return Chunk;
-}(BABYLON.Mesh));
-exports.Chunk = Chunk;
-
-
-/***/ }),
 /* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var chunk_1 = __webpack_require__(6);
-var EventType_1 = __webpack_require__(0);
-var Map = (function (_super) {
-    __extends(Map, _super);
-    function Map(name, scene) {
-        var _this = _super.call(this, name, scene) || this;
-        _this.counter = 0;
-        _this.chunkSize = { width: 1000, height: 1000, };
-        _this.scene = scene;
-        _this.loadChunks();
-        _this._potentialArea = { side: 1000, front: 1000, };
-        JSWorks.EventManager.subscribe(_this, _this.scene, EventType_1.EventType.MAP_ENDS, function (event, emitter) {
-            // провеяем какие блоки сейчас активны(попадают в прямоугольник видимости)
-            _this.chunks.forEach(function (chunk) {
-                if (!chunk.isSeeable(event.data.visibleArea)) {
-                    chunk.isActive = false;
-                }
-            });
-            _this.arrangeChunks(event.data.visibleArea, false);
-            // определяем текущий активный блок (этот параметр использует сцена, для того чтобы запускать событие
-            // MAP_ENDS
-            var pos = event.data.shipPosition;
-            _this.chunks.forEach(function (chunk) {
-                if (chunk.inArea(pos)) {
-                    _this.activeChunk = chunk;
-                    return;
-                }
-            });
-        });
-        return _this;
-    }
-    Map.prototype.getScene = function () {
-        return this.scene;
-    };
-    /**
-     * загрузить блоки
-     */
-    Map.prototype.loadChunks = function () {
-        this.chunks = [
-            new chunk_1.Chunk("blue", this.scene, this.chunkSize.width, this.chunkSize.height),
-            new chunk_1.Chunk("red", this.scene, this.chunkSize.width, this.chunkSize.height),
-            new chunk_1.Chunk("green", this.scene, this.chunkSize.width, this.chunkSize.height),
-            new chunk_1.Chunk("red", this.scene, this.chunkSize.width, this.chunkSize.height),
-            new chunk_1.Chunk("green", this.scene, this.chunkSize.width, this.chunkSize.height),
-            new chunk_1.Chunk("blue", this.scene, this.chunkSize.width, this.chunkSize.height),
-            new chunk_1.Chunk("green", this.scene, this.chunkSize.width, this.chunkSize.height),
-            new chunk_1.Chunk("red", this.scene, this.chunkSize.width, this.chunkSize.height),
-            new chunk_1.Chunk("green", this.scene, this.chunkSize.width, this.chunkSize.height),
-            new chunk_1.Chunk("green", this.scene, this.chunkSize.width, this.chunkSize.height),
-            new chunk_1.Chunk("red", this.scene, this.chunkSize.width, this.chunkSize.height),
-            new chunk_1.Chunk("green", this.scene, this.chunkSize.width, this.chunkSize.height),
-            new chunk_1.Chunk("blue", this.scene, this.chunkSize.width, this.chunkSize.height),
-            new chunk_1.Chunk("green", this.scene, this.chunkSize.width, this.chunkSize.height),
-            new chunk_1.Chunk("red", this.scene, this.chunkSize.width, this.chunkSize.height),
-            new chunk_1.Chunk("green", this.scene, this.chunkSize.width, this.chunkSize.height),
-            new chunk_1.Chunk("blue", this.scene, this.chunkSize.width, this.chunkSize.height),
-            new chunk_1.Chunk("red", this.scene, this.chunkSize.width, this.chunkSize.height),
-        ];
-    };
-    /**
-     * проход по прямоугольной бласти и рендеринг блоков в ней
-     * @param visibleArea область, в которой необходимо иметь блоки
-     * @param start флаг, помечающий то, что это начальная инициализация
-     */
-    Map.prototype.arrangeChunks = function (visibleArea, start) {
-        for (var z = Math.round(visibleArea.rightTop.z / this.chunkSize.height) * this.chunkSize.height; z >= visibleArea.leftDown.z; z -= this.chunkSize.height) {
-            for (var x = Math.round(visibleArea.leftDown.x / this.chunkSize.width) * this.chunkSize.width; x <= visibleArea.rightTop.x; x += this.chunkSize.width) {
-                var currentChunkPos = { x: x, z: z };
-                // проверка рендерили мы уже область или нет, если да переходим к следующуей итерации
-                if (!start && this.isRendered(currentChunkPos)) {
-                    // console.log("eee");
-                    continue;
-                }
-                // ищем не активный блок
-                for (var i = 0; i < this.chunks.length && this.chunks[this.counter].isActive; i++) {
-                    this.counter = (this.counter + 1) % this.chunks.length;
-                }
-                // ставим его в currentChunkPos
-                this.chunks[this.counter].init(currentChunkPos);
-                this.counter = (this.counter + 1) % this.chunks.length;
-            }
-        }
-        // обновляем область видимости
-        this.visibleArea = visibleArea;
-    };
-    /**
-     * инициализация стартовых блоков
-     */
-    Map.prototype.initStartChunks = function () {
-        var _this = this;
-        this.visibleArea = {
-            leftDown: { x: 0, z: 0 },
-            rightTop: { x: 0, z: 0 }
-        };
-        this.arrangeChunks({
-            leftDown: { x: -this._potentialArea.side / 2, z: 0 },
-            rightTop: { x: this._potentialArea.side / 2, z: this._potentialArea.front }
-        }, true);
-        this.chunks.forEach(function (chunk) {
-            if (chunk.inArea(new BABYLON.Vector3(0, 0, 1))) {
-                _this._activeChunk = chunk;
-                console.log(_this._activeChunk);
-                return;
-            }
-        });
-    };
-    Object.defineProperty(Map.prototype, "potentialArea", {
-        get: function () {
-            return this._potentialArea;
-        },
-        set: function (value) {
-            this._potentialArea = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Map.prototype, "activeChunk", {
-        get: function () {
-            return this._activeChunk;
-        },
-        set: function (value) {
-            this._activeChunk = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    /**
-     * проверка на то, рендерилась текущая точка(т.е. находится ли она в текущей зоне видимости)
-     * @param pos координаты точки
-     * @returns {boolean} true если находится
-     */
-    Map.prototype.isRendered = function (pos) {
-        return (this.visibleArea.leftDown.z < pos.z) && (this.visibleArea.leftDown.x < pos.x)
-            && (this.visibleArea.rightTop.z > pos.z) && (this.visibleArea.rightTop.x > pos.x);
-    };
-    return Map;
-}(BABYLON.Mesh));
-exports.Map = Map;
-
-
-/***/ }),
-/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

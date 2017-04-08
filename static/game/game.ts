@@ -177,7 +177,7 @@ window.addEventListener('load', () => {
 		const game = new Game(
 			<HTMLCanvasElement> document.getElementById('render-canvas'),
 			false,
-			// { width: 320, height: 240 }
+			//{ width: 320, height: 240 }
 		);
 
 		game.run();

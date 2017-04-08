@@ -6,6 +6,7 @@ import {BulletManager} from '../entity/BulletManager';
 import {Loader} from "../common/Loader";
 import {Skydome} from "../sky/skydome";
 import {Map} from "../map/map";
+import {SimpleEnemy} from "../entity/SimpleEnemy";
 
 
 declare const BABYLON;
@@ -29,8 +30,12 @@ export class MotionScene extends (<INewable> BABYLON.Scene) {
     public bulletManager: BulletManager;
     public entities: Entity[] = [];
 
-
     private last_position: number;
+    private lastEnemy: number = 0;
+    private ticks: number = -1;
+
+    public playerAbs;
+    public time = 0;
 
 
     constructor(engine) {
@@ -38,7 +43,7 @@ export class MotionScene extends (<INewable> BABYLON.Scene) {
 
         engine.enableOfflineSupport = false;
         this.bulletManager = new BulletManager(this);
-        this.map = new Map('motion-map', this);
+        // this.map = new Map('motion-map', this);
 
         this.last_position = 0;
 
@@ -52,7 +57,7 @@ export class MotionScene extends (<INewable> BABYLON.Scene) {
 		});
 
         JSWorks.EventManager.subscribe(this, this, EventType.RENDER, (event) => {
-			this.onMapEnds();
+			// this.onMapEnds();
 		});
     }
 
@@ -121,13 +126,81 @@ export class MotionScene extends (<INewable> BABYLON.Scene) {
         this.skydome = new Skydome('skydome', this);
         (<any> this.skydome).position.z = 100;
 
-        this.map.loadChunks();
-        this.map.initStartChunks();
+        // this.map.loadChunks();
+        // this.map.initStartChunks();
 
         this.loader.load();
         this.meshesLoader.load();
         this.shadersLoader.load();
     }
+
+
+    public static getRandomCoord(scater: number = 30): number {
+		return (Math.random() * 2 - 1) * scater;
+	}
+
+
+    public initRandomEnemy(): void {
+    	const enemy: SimpleEnemy = new SimpleEnemy(`enemy_${this.lastEnemy}`, this);
+		(<any> enemy).__lived = 0;
+
+    	const playerPos = (<any> this.currentInput).getAbsolutePosition();
+
+		(<any> enemy).position = new BABYLON.Vector3(
+			playerPos.x + MotionScene.getRandomCoord(),
+			playerPos.y + MotionScene.getRandomCoord(),
+			playerPos.z + MotionScene.getRandomCoord() + 200,
+		);
+
+		this.entities.push(enemy);
+	}
+
+
+	public render(): void {
+    	if (Math.random() < 0.02) {
+			this.initRandomEnemy();
+		}
+
+		this.playerAbs = (<any> this.currentInput).getAbsolutePosition();
+
+		this.entities.forEach((entity: any, index: number) => {
+			if (entity.exploding === 100) {
+				if (!entity.__lived) {
+					return;
+				}
+
+				entity.remove();
+				this.entities.splice(index, 1);
+
+				return;
+			}
+
+			if (!entity.__lived) {
+				return;
+			}
+
+			entity.__lived++;
+
+			if (entity.__lived > 10) {
+				entity.remove();
+				this.entities.splice(index, 1);
+
+				return;
+			}
+		});
+
+    	if (this.ticks > 50) {
+    		this.ticks = -1;
+		}
+
+    	if (this.ticks < 0) {
+    		// document.title = `Meshes: ${(<any> this).meshes.length}`;
+			document.title = `Bullets: ${this.bulletManager.bullets.length}`;
+		}
+
+		this.ticks++;
+		super.render();
+	}
 
 
     public run() {
@@ -144,6 +217,8 @@ export class MotionScene extends (<INewable> BABYLON.Scene) {
         });
 
         (<any> this).getEngine().runRenderLoop(() => {
+			this.time = (new Date()).getMilliseconds();
+
             (<any> this).emitEvent({type: EventType.RENDER});
             (<any> this).render();
         });

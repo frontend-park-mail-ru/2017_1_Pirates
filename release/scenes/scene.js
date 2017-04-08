@@ -15,7 +15,7 @@ var EventType_1 = require("../common/EventType");
 var BulletManager_1 = require("../entity/BulletManager");
 var Loader_1 = require("../common/Loader");
 var skydome_1 = require("../sky/skydome");
-var map_1 = require("../map/map");
+var SimpleEnemy_1 = require("../entity/SimpleEnemy");
 var MotionScene = (function (_super) {
     __extends(MotionScene, _super);
     function MotionScene(engine) {
@@ -23,9 +23,12 @@ var MotionScene = (function (_super) {
         _this.loadersCount = 0;
         _this.loadersFired = 0;
         _this.entities = [];
+        _this.lastEnemy = 0;
+        _this.ticks = -1;
+        _this.time = 0;
         engine.enableOfflineSupport = false;
         _this.bulletManager = new BulletManager_1.BulletManager(_this);
-        _this.map = new map_1.Map('motion-map', _this);
+        // this.map = new Map('motion-map', this);
         _this.last_position = 0;
         JSWorks.EventManager.subscribe(_this, _this, EventType_1.EventType.JOYSTICK_MOVE, function (event) {
             _this.currentInput.joystickMoved(event.data.x, event.data.y);
@@ -34,7 +37,7 @@ var MotionScene = (function (_super) {
             _this.currentInput.joystickPressed();
         });
         JSWorks.EventManager.subscribe(_this, _this, EventType_1.EventType.RENDER, function (event) {
-            _this.onMapEnds();
+            // this.onMapEnds();
         });
         return _this;
     }
@@ -87,11 +90,57 @@ var MotionScene = (function (_super) {
         this.entities.push(this.player);
         this.skydome = new skydome_1.Skydome('skydome', this);
         this.skydome.position.z = 100;
-        this.map.loadChunks();
-        this.map.initStartChunks();
+        // this.map.loadChunks();
+        // this.map.initStartChunks();
         this.loader.load();
         this.meshesLoader.load();
         this.shadersLoader.load();
+    };
+    MotionScene.getRandomCoord = function (scater) {
+        if (scater === void 0) { scater = 30; }
+        return (Math.random() * 2 - 1) * scater;
+    };
+    MotionScene.prototype.initRandomEnemy = function () {
+        var enemy = new SimpleEnemy_1.SimpleEnemy("enemy_" + this.lastEnemy, this);
+        enemy.__lived = 0;
+        var playerPos = this.currentInput.getAbsolutePosition();
+        enemy.position = new BABYLON.Vector3(playerPos.x + MotionScene.getRandomCoord(), playerPos.y + MotionScene.getRandomCoord(), playerPos.z + MotionScene.getRandomCoord() + 200);
+        this.entities.push(enemy);
+    };
+    MotionScene.prototype.render = function () {
+        var _this = this;
+        if (Math.random() < 0.02) {
+            this.initRandomEnemy();
+        }
+        this.playerAbs = this.currentInput.getAbsolutePosition();
+        this.entities.forEach(function (entity, index) {
+            if (entity.exploding === 100) {
+                if (!entity.__lived) {
+                    return;
+                }
+                entity.remove();
+                _this.entities.splice(index, 1);
+                return;
+            }
+            if (!entity.__lived) {
+                return;
+            }
+            entity.__lived++;
+            if (entity.__lived > 10) {
+                entity.remove();
+                _this.entities.splice(index, 1);
+                return;
+            }
+        });
+        if (this.ticks > 50) {
+            this.ticks = -1;
+        }
+        if (this.ticks < 0) {
+            // document.title = `Meshes: ${(<any> this).meshes.length}`;
+            document.title = "Bullets: " + this.bulletManager.bullets.length;
+        }
+        this.ticks++;
+        _super.prototype.render.call(this);
     };
     MotionScene.prototype.run = function () {
         var _this = this;
@@ -105,6 +154,7 @@ var MotionScene = (function (_super) {
             mesh.renderingGroupId = 1;
         });
         this.getEngine().runRenderLoop(function () {
+            _this.time = (new Date()).getMilliseconds();
             _this.emitEvent({ type: EventType_1.EventType.RENDER });
             _this.render();
         });
