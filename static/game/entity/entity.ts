@@ -29,6 +29,7 @@ export class Entity extends (<INewable> BABYLON.Mesh) implements IControllable {
     protected exploding: number = -1;
     protected health: number = 50;
     protected first: boolean = false;
+    protected jedi: boolean = true;
 
 
     constructor(name: string, scene: MotionScene, first: boolean = true) {
@@ -195,7 +196,18 @@ export class Entity extends (<INewable> BABYLON.Mesh) implements IControllable {
 
 
     public onRender(event, emitter) {
-		// this.ship.isVisible = JSWorks._in_game_ === true;
+		if (this.exploding >= 0) {
+			this.exploding++;
+
+			this.explosion.scaling.scaleInPlace(1.01);
+			this.explosion.material.alpha = Math.min((110 - this.exploding) * 0.01, 1);
+
+			if (this.exploding > 100) {
+				this.exploding = 100;
+			}
+
+			return;
+		}
 
 		this.angleY = Entity.acos(-(this.joystick.position.y / this.joystick.position.z));
         this.angleX = Entity.acos( (this.joystick.position.x / this.joystick.position.z) * 1.3);
@@ -223,17 +235,6 @@ export class Entity extends (<INewable> BABYLON.Mesh) implements IControllable {
 		(<any> this).rotation.x = this.slowMo((<any> this).rotation.x, rot);
 
         this.calculateMovement(1);
-
-        if (this.exploding >= 0) {
-        	this.exploding++;
-
-        	this.explosion.scaling.scaleInPlace(1.01);
-        	this.explosion.material.alpha = (100 - this.exploding) * 0.01;
-
-        	if (this.exploding > 100) {
-        		this.exploding = 100;
-			}
-		}
     }
 
 
@@ -269,6 +270,7 @@ export class Entity extends (<INewable> BABYLON.Mesh) implements IControllable {
             this.ship.getAbsolutePosition(),
             this.direction,
             this.bulletSpeed,
+			this.jedi,
         );
     }
 
@@ -281,7 +283,12 @@ export class Entity extends (<INewable> BABYLON.Mesh) implements IControllable {
 		(<any> this).getScene().removeMesh(this.shipHolderZ);
 		(<any> this).getScene().removeMesh(this.shipHolderX);
 		(<any> this).getScene().removeMesh(this.ship);
-		(<any> this).getScene().removeMesh(this.camera);
+
+		if (this.camera) {
+			(<any> this).getScene().removeMesh(this.camera);
+			this.camera.dispose(true);
+		}
+
 		(<any> this).getScene().removeMesh(this.target);
 		(<any> this).getScene().removeMesh(this.joystick);
 		(<any> this).getScene().removeMesh(this.light);
@@ -291,7 +298,6 @@ export class Entity extends (<INewable> BABYLON.Mesh) implements IControllable {
 		this.shipHolderZ.dispose(true);
 		this.shipHolderX.dispose(true);
 		this.ship.dispose(true);
-		this.camera.dispose(true);
 		this.target.dispose(true);
 		this.joystick.dispose(true);
 		this.light.dispose(true);
@@ -308,12 +314,11 @@ export class Entity extends (<INewable> BABYLON.Mesh) implements IControllable {
 		}
 
 		if (this.exploding === -1) {
-			this.exploding = 0;
+			this.exploding = 1;
 
 			this.ship.isVisible = false;
 			this.explosion.isVisible = true;
 			this.target.isVisible = false;
-			return;
 		}
 	}
 

@@ -24,6 +24,7 @@ var Entity = (function (_super) {
         _this.exploding = -1;
         _this.health = 50;
         _this.first = false;
+        _this.jedi = true;
         _this.bulletSpeed = _this.speed * 10;
         _this.first = first;
         JSWorks.EventManager.subscribe(_this, scene, EventType_1.EventType.RENDER, function (event, emitter) { _this.onRender(event, emitter); });
@@ -109,7 +110,15 @@ var Entity = (function (_super) {
         return Math.acos(angle);
     };
     Entity.prototype.onRender = function (event, emitter) {
-        // this.ship.isVisible = JSWorks._in_game_ === true;
+        if (this.exploding >= 0) {
+            this.exploding++;
+            this.explosion.scaling.scaleInPlace(1.01);
+            this.explosion.material.alpha = Math.min((110 - this.exploding) * 0.01, 1);
+            if (this.exploding > 100) {
+                this.exploding = 100;
+            }
+            return;
+        }
         this.angleY = Entity.acos(-(this.joystick.position.y / this.joystick.position.z));
         this.angleX = Entity.acos((this.joystick.position.x / this.joystick.position.z) * 1.3);
         /* this.shipHolderX.rotation.x = Entity.slowMo(
@@ -128,14 +137,6 @@ var Entity = (function (_super) {
         rot = rot - rot * Math.abs(Math.sin(this.shipHolderZ.rotation.z));
         this.rotation.x = this.slowMo(this.rotation.x, rot);
         this.calculateMovement(1);
-        if (this.exploding >= 0) {
-            this.exploding++;
-            this.explosion.scaling.scaleInPlace(1.01);
-            this.explosion.material.alpha = (100 - this.exploding) * 0.01;
-            if (this.exploding > 100) {
-                this.exploding = 100;
-            }
-        }
     };
     Entity.prototype.emitEvent = function (event) { };
     ;
@@ -161,7 +162,7 @@ var Entity = (function (_super) {
         if (this.exploding >= 0) {
             return;
         }
-        this.getScene().bulletManager.fire(this.ship.getAbsolutePosition(), this.direction, this.bulletSpeed);
+        this.getScene().bulletManager.fire(this.ship.getAbsolutePosition(), this.direction, this.bulletSpeed, this.jedi);
     };
     Entity.prototype.getCurrentPosition = function () {
         return this.ship.getAbsolutePosition();
@@ -170,7 +171,10 @@ var Entity = (function (_super) {
         this.getScene().removeMesh(this.shipHolderZ);
         this.getScene().removeMesh(this.shipHolderX);
         this.getScene().removeMesh(this.ship);
-        this.getScene().removeMesh(this.camera);
+        if (this.camera) {
+            this.getScene().removeMesh(this.camera);
+            this.camera.dispose(true);
+        }
         this.getScene().removeMesh(this.target);
         this.getScene().removeMesh(this.joystick);
         this.getScene().removeMesh(this.light);
@@ -179,7 +183,6 @@ var Entity = (function (_super) {
         this.shipHolderZ.dispose(true);
         this.shipHolderX.dispose(true);
         this.ship.dispose(true);
-        this.camera.dispose(true);
         this.target.dispose(true);
         this.joystick.dispose(true);
         this.light.dispose(true);
@@ -192,11 +195,10 @@ var Entity = (function (_super) {
             return;
         }
         if (this.exploding === -1) {
-            this.exploding = 0;
+            this.exploding = 1;
             this.ship.isVisible = false;
             this.explosion.isVisible = true;
             this.target.isVisible = false;
-            return;
         }
     };
     return Entity;

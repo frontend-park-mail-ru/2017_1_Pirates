@@ -37,6 +37,7 @@ export class MotionScene extends (<INewable> BABYLON.Scene) {
     public playerAbs;
     public time = 0;
     public inMenu: boolean = true;
+    public music: any;
 
 
     constructor(engine) {
@@ -47,7 +48,7 @@ export class MotionScene extends (<INewable> BABYLON.Scene) {
         // this.map = new Map('motion-map', this);
 
         this.last_position = 0;
-
+		// this.music = new BABYLON.Sound('field', "./game/assets/audio/field.wav", this);
 
         JSWorks.EventManager.subscribe(this, this, EventType.JOYSTICK_MOVE, (event) => {
 			this.currentInput.joystickMoved(event.data.x, event.data.y);
@@ -146,6 +147,10 @@ export class MotionScene extends (<INewable> BABYLON.Scene) {
 
 
     public initRandomEnemy(): void {
+    	if (this.entities.length > 50) {
+    		return;
+		}
+
     	const enemy: SimpleEnemy = new SimpleEnemy(`enemy_${this.lastEnemy}`, this);
 		(<any> enemy).__lived = 0;
 
@@ -162,6 +167,8 @@ export class MotionScene extends (<INewable> BABYLON.Scene) {
 
 
 	public render(): void {
+		(<any> this.currentInput).health = 100;
+
     	if (Math.random() < 0.02) {
 			this.initRandomEnemy();
 		}
@@ -180,13 +187,13 @@ export class MotionScene extends (<INewable> BABYLON.Scene) {
 				return;
 			}
 
-			if (!entity.__lived) {
+			if (entity.__lived === undefined) {
 				return;
 			}
 
 			entity.__lived++;
 
-			if (entity.__lived > 10) {
+			if (entity.__lived > 1000) {
 				entity.remove();
 				this.entities.splice(index, 1);
 
@@ -227,6 +234,7 @@ export class MotionScene extends (<INewable> BABYLON.Scene) {
     public run() {
         (<any> this).setActiveCameraByName(this.player.camera.name);
         this.player.camera.attachControl((<any> this).getEngine().getRenderingCanvas(), true);
+        this.player.camera.maxZ = 100000;
 
         (<any> this).meshes.forEach((mesh) => {
             if (mesh.__skybox__) {
@@ -277,6 +285,11 @@ export class MotionScene extends (<INewable> BABYLON.Scene) {
             (<any> this).emitEvent({type: EventType.MAP_ENDS, data: {visibleArea: potentialArea, shipPosition: shipPosition}});
         }
     }
+
+
+    public playMusic() {
+		// this.music.play();
+	}
 
 
     public getPlayer(): Entity {

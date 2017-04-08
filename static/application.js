@@ -126,6 +126,7 @@ var MotionScene = (function (_super) {
         _this.bulletManager = new BulletManager_1.BulletManager(_this);
         // this.map = new Map('motion-map', this);
         _this.last_position = 0;
+        // this.music = new BABYLON.Sound('field', "./game/assets/audio/field.wav", this);
         JSWorks.EventManager.subscribe(_this, _this, EventType_1.EventType.JOYSTICK_MOVE, function (event) {
             _this.currentInput.joystickMoved(event.data.x, event.data.y);
         });
@@ -199,6 +200,9 @@ var MotionScene = (function (_super) {
         return (Math.random() * 2 - 1) * scater;
     };
     MotionScene.prototype.initRandomEnemy = function () {
+        if (this.entities.length > 50) {
+            return;
+        }
         var enemy = new SimpleEnemy_1.SimpleEnemy("enemy_" + this.lastEnemy, this);
         enemy.__lived = 0;
         var playerPos = this.currentInput.getAbsolutePosition();
@@ -207,6 +211,7 @@ var MotionScene = (function (_super) {
     };
     MotionScene.prototype.render = function () {
         var _this = this;
+        this.currentInput.health = 100;
         if (Math.random() < 0.02) {
             this.initRandomEnemy();
         }
@@ -220,11 +225,11 @@ var MotionScene = (function (_super) {
                 _this.entities.splice(index, 1);
                 return;
             }
-            if (!entity.__lived) {
+            if (entity.__lived === undefined) {
                 return;
             }
             entity.__lived++;
-            if (entity.__lived > 10) {
+            if (entity.__lived > 1000) {
                 entity.remove();
                 _this.entities.splice(index, 1);
                 return;
@@ -256,6 +261,7 @@ var MotionScene = (function (_super) {
         var _this = this;
         this.setActiveCameraByName(this.player.camera.name);
         this.player.camera.attachControl(this.getEngine().getRenderingCanvas(), true);
+        this.player.camera.maxZ = 100000;
         this.meshes.forEach(function (mesh) {
             if (mesh.__skybox__) {
                 mesh.renderingGroupId = 0;
@@ -296,6 +302,9 @@ var MotionScene = (function (_super) {
             this.emitEvent({ type: EventType_1.EventType.MAP_ENDS, data: { visibleArea: potentialArea, shipPosition: shipPosition } });
         }
     };
+    MotionScene.prototype.playMusic = function () {
+        // this.music.play();
+    };
     MotionScene.prototype.getPlayer = function () {
         return this.player;
     };
@@ -335,6 +344,7 @@ var Entity = (function (_super) {
         _this.exploding = -1;
         _this.health = 50;
         _this.first = false;
+        _this.jedi = true;
         _this.bulletSpeed = _this.speed * 10;
         _this.first = first;
         JSWorks.EventManager.subscribe(_this, scene, EventType_1.EventType.RENDER, function (event, emitter) { _this.onRender(event, emitter); });
@@ -420,7 +430,15 @@ var Entity = (function (_super) {
         return Math.acos(angle);
     };
     Entity.prototype.onRender = function (event, emitter) {
-        // this.ship.isVisible = JSWorks._in_game_ === true;
+        if (this.exploding >= 0) {
+            this.exploding++;
+            this.explosion.scaling.scaleInPlace(1.01);
+            this.explosion.material.alpha = Math.min((110 - this.exploding) * 0.01, 1);
+            if (this.exploding > 100) {
+                this.exploding = 100;
+            }
+            return;
+        }
         this.angleY = Entity.acos(-(this.joystick.position.y / this.joystick.position.z));
         this.angleX = Entity.acos((this.joystick.position.x / this.joystick.position.z) * 1.3);
         /* this.shipHolderX.rotation.x = Entity.slowMo(
@@ -439,14 +457,6 @@ var Entity = (function (_super) {
         rot = rot - rot * Math.abs(Math.sin(this.shipHolderZ.rotation.z));
         this.rotation.x = this.slowMo(this.rotation.x, rot);
         this.calculateMovement(1);
-        if (this.exploding >= 0) {
-            this.exploding++;
-            this.explosion.scaling.scaleInPlace(1.01);
-            this.explosion.material.alpha = (100 - this.exploding) * 0.01;
-            if (this.exploding > 100) {
-                this.exploding = 100;
-            }
-        }
     };
     Entity.prototype.emitEvent = function (event) { };
     ;
@@ -472,7 +482,7 @@ var Entity = (function (_super) {
         if (this.exploding >= 0) {
             return;
         }
-        this.getScene().bulletManager.fire(this.ship.getAbsolutePosition(), this.direction, this.bulletSpeed);
+        this.getScene().bulletManager.fire(this.ship.getAbsolutePosition(), this.direction, this.bulletSpeed, this.jedi);
     };
     Entity.prototype.getCurrentPosition = function () {
         return this.ship.getAbsolutePosition();
@@ -481,7 +491,10 @@ var Entity = (function (_super) {
         this.getScene().removeMesh(this.shipHolderZ);
         this.getScene().removeMesh(this.shipHolderX);
         this.getScene().removeMesh(this.ship);
-        this.getScene().removeMesh(this.camera);
+        if (this.camera) {
+            this.getScene().removeMesh(this.camera);
+            this.camera.dispose(true);
+        }
         this.getScene().removeMesh(this.target);
         this.getScene().removeMesh(this.joystick);
         this.getScene().removeMesh(this.light);
@@ -490,7 +503,6 @@ var Entity = (function (_super) {
         this.shipHolderZ.dispose(true);
         this.shipHolderX.dispose(true);
         this.ship.dispose(true);
-        this.camera.dispose(true);
         this.target.dispose(true);
         this.joystick.dispose(true);
         this.light.dispose(true);
@@ -503,11 +515,10 @@ var Entity = (function (_super) {
             return;
         }
         if (this.exploding === -1) {
-            this.exploding = 0;
+            this.exploding = 1;
             this.ship.isVisible = false;
             this.explosion.isVisible = true;
             this.target.isVisible = false;
-            return;
         }
     };
     return Entity;
@@ -609,7 +620,8 @@ var BulletManager = (function () {
     BulletManager.prototype.getScene = function () {
         return this.scene;
     };
-    BulletManager.prototype.fire = function (position, direction, speed, distance) {
+    BulletManager.prototype.fire = function (position, direction, speed, jedi, distance) {
+        if (jedi === void 0) { jedi = false; }
         if (distance === void 0) { distance = 500; }
         if (this.bullets.length > 160) {
             return;
@@ -625,11 +637,18 @@ var BulletManager = (function () {
         bullet.scaling = new BABYLON.Vector3(1.0, 1.0, 100.0);
         bullet.lookAt(bullet.position.add(bullet.__direction));
         bullet.material = new BABYLON.StandardMaterial('bullet_mat', this.getScene());
-        bullet.material.emissiveColor = new BABYLON.Color3(1.0, 0.0, 0.0);
         bullet.material.alpha = 0.7;
         bullet.__light = new BABYLON.SpotLight('l', new BABYLON.Vector3(0, 0, -0.5), new BABYLON.Vector3(0, 0, 0.5), 0.05, 2, this.getScene());
-        bullet.__light.diffuse = new BABYLON.Color3(1, 0, 0);
-        bullet.__light.specular = new BABYLON.Color3(0.5, 0, 0);
+        if (!jedi) {
+            bullet.__light.diffuse = new BABYLON.Color3(1, 0, 0);
+            bullet.__light.specular = new BABYLON.Color3(0.5, 0, 0);
+            bullet.material.emissiveColor = new BABYLON.Color3(1.0, 0.0, 0.0);
+        }
+        else {
+            bullet.__light.diffuse = new BABYLON.Color3(0, 1, 0);
+            bullet.__light.specular = new BABYLON.Color3(0, 0.5, 0);
+            bullet.material.emissiveColor = new BABYLON.Color3(0.0, 1.0, 0.0);
+        }
         bullet.__light.parent = bullet;
         this.bullets.push(bullet);
     };
@@ -692,6 +711,7 @@ var SimpleEnemy = (function (_super) {
         _this.firedCount = 0;
         _this.speed *= -1 * Math.random() * 0.1;
         _this.health = 1;
+        _this.jedi = false;
         return _this;
     }
     SimpleEnemy.prototype.onMeshesLoaded = function (event, emitter) {
@@ -828,6 +848,7 @@ var Game = (function () {
         if (event.keyCode === "L".charCodeAt(0)) {
             if (!JSWorks._game.scene.inMenu) {
                 this.togglePointerLock();
+                this.scene.playMusic();
             }
         }
     };

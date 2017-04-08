@@ -19,6 +19,7 @@ var SimpleEnemy = (function (_super) {
         _this.firedCount = 0;
         _this.speed *= -1 * Math.random() * 0.1;
         _this.health = 1;
+        _this.jedi = false;
         return _this;
     }
     SimpleEnemy.prototype.onMeshesLoaded = function (event, emitter) {

@@ -31,6 +31,7 @@ var MotionScene = (function (_super) {
         _this.bulletManager = new BulletManager_1.BulletManager(_this);
         // this.map = new Map('motion-map', this);
         _this.last_position = 0;
+        // this.music = new BABYLON.Sound('field', "./game/assets/audio/field.wav", this);
         JSWorks.EventManager.subscribe(_this, _this, EventType_1.EventType.JOYSTICK_MOVE, function (event) {
             _this.currentInput.joystickMoved(event.data.x, event.data.y);
         });
@@ -104,6 +105,9 @@ var MotionScene = (function (_super) {
         return (Math.random() * 2 - 1) * scater;
     };
     MotionScene.prototype.initRandomEnemy = function () {
+        if (this.entities.length > 50) {
+            return;
+        }
         var enemy = new SimpleEnemy_1.SimpleEnemy("enemy_" + this.lastEnemy, this);
         enemy.__lived = 0;
         var playerPos = this.currentInput.getAbsolutePosition();
@@ -112,6 +116,7 @@ var MotionScene = (function (_super) {
     };
     MotionScene.prototype.render = function () {
         var _this = this;
+        this.currentInput.health = 100;
         if (Math.random() < 0.02) {
             this.initRandomEnemy();
         }
@@ -125,11 +130,11 @@ var MotionScene = (function (_super) {
                 _this.entities.splice(index, 1);
                 return;
             }
-            if (!entity.__lived) {
+            if (entity.__lived === undefined) {
                 return;
             }
             entity.__lived++;
-            if (entity.__lived > 10) {
+            if (entity.__lived > 1000) {
                 entity.remove();
                 _this.entities.splice(index, 1);
                 return;
@@ -161,6 +166,7 @@ var MotionScene = (function (_super) {
         var _this = this;
         this.setActiveCameraByName(this.player.camera.name);
         this.player.camera.attachControl(this.getEngine().getRenderingCanvas(), true);
+        this.player.camera.maxZ = 100000;
         this.meshes.forEach(function (mesh) {
             if (mesh.__skybox__) {
                 mesh.renderingGroupId = 0;
@@ -200,6 +206,9 @@ var MotionScene = (function (_super) {
             };
             this.emitEvent({ type: EventType_1.EventType.MAP_ENDS, data: { visibleArea: potentialArea, shipPosition: shipPosition } });
         }
+    };
+    MotionScene.prototype.playMusic = function () {
+        // this.music.play();
     };
     MotionScene.prototype.getPlayer = function () {
         return this.player;

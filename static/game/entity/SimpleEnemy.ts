@@ -17,6 +17,7 @@ export class SimpleEnemy extends Entity {
 		super(name, scene, false);
 		this.speed *= -1 * Math.random() * 0.1;
 		this.health = 1;
+		this.jedi = false;
 	}
 
 

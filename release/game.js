@@ -67,6 +67,7 @@ var Game = (function () {
         if (event.keyCode === "L".charCodeAt(0)) {
             if (!JSWorks._game.scene.inMenu) {
                 this.togglePointerLock();
+                this.scene.playMusic();
             }
         }
     };
