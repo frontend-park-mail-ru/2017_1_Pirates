@@ -2,10 +2,9 @@
   "name": "pirates",
   "version": "0.0.1",
   "description": "Frontend",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-	"test": "echo \"Error: no test specified\" && exit 0",
-	"start": "node index.js"
+	"start": "node ./node_modules/webpack/bin/webpack.js && node ./server.js"
   },
   "repository": {
 	"type": "git",
@@ -19,6 +18,28 @@
   },
   "homepage": "https://github.com/frontend-park-mail-ru/2017_1_Pirates#readme",
   "dependencies": {
-	"express": "^4.14.1"
+	"express": "^4.14.1",
+	"babylonjs": "2.5",
+	"swagger-ui-express": "latest",
+	"body-parser": "latest",
+	"webcomponents.js": "git://github.com/webcomponents/webcomponentsjs.git",
+	"font-awesome": "latest",
+	"eslint": "latest",
+	"jasmine": "latest",
+
+	"typescript": "latest",
+	"webpack": "latest",
+	"awesome-typescript-loader": "latest",
+	"source-map-loader": "latest",
+	"testem": "latest",
+	"sass-loader": "latest",
+	"node-sass": "latest",
+	"style-loader": "latest",
+	"html-loader": "latest",
+	"extract-loader": "latest",
+	"file-loader": "latest",
+	"css-loader": "latest",
+	"extract-text-webpack-plugin": "latest",
+	"jsworks": "git://github.com/8coon/next.git"
   }
 }

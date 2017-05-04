@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "sourceMap": true,
+        "alwaysStrict": true,
+        "baseUrl": "./src",
+        "outDir": "./release",
+        "target": "ES5",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+
+        "lib": [
+            "es2016",
+            "dom"
+        ]
+    },
+
+    "exclude": [
+        "node_modules",
+        "spec",
+        "dist"
+    ]
+}

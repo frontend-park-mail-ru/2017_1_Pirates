@@ -1,0 +1,39 @@
+<component-info id="Input" tag="input">
+
+	<component-properties>
+
+		<component-property name="text" default="" maps="input@value" listen handler="onTextChange">
+		</component-property>
+
+		<component-property name="placeholder" default="" maps="input@placeholder"></component-property>
+
+		<component-property name="password" default="false" type="Boolean" handler="onPasswordChange">
+		</component-property>
+
+		<component-property name="validates" default="" handler="onValidatesChange"></component-property>
+
+		<component-property name="erroneous" default="false" type="Boolean" handler="onErroneousChange">
+		</component-property>
+
+		<component-property name="correct" default="false" type="Boolean" handler="onCorrectChange">
+		</component-property>
+
+	</component-properties>
+
+	<component-view class="with-padding">
+		<view-row width="3"></view-row>
+
+		<view-row width="3">
+			<view-column width="0.1"></view-column>
+
+			<view-column>
+				<input>
+			</view-column>
+
+			<view-column width="0.1"></view-column>
+		</view-row>
+
+		<view-row width="3"></view-row>
+	</component-view>
+
+</component-info>
