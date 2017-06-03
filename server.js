@@ -9,7 +9,7 @@ const fontAwesomePath = `${__dirname}/node_modules/font-awesome/`;
 
 const app = express();
 
-express.static.mime.define({'text/javascript': ['js']});
+express.static.mime.define({'application/javascript': ['js']});
 
 
 app.use('/', express.static(`${__dirname}/dist/out`));
