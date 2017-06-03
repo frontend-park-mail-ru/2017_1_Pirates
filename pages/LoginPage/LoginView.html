@@ -1,0 +1,47 @@
+<app-view id="LoginView" extends="BaseView">
+
+    <div class="header">
+        <div class="header__left-container">
+            <div class="link-back">
+                <link-to route="MenuRoute">
+                    <i class="fa fa-chevron-left"></i>
+                </link-to>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <form-for model="UserModel" id="LoginForm">
+            <form>
+                <div class="form-group">
+                    <form-field for="email">
+                        <input type="text" placeholder="Логин или email" form-bind-attribute="value">
+                        <span class="bar"></span>
+                        <form-messages>
+                            <view-eval value="error.text"></view-eval>
+                        </form-messages>
+                    </form-field>
+                </div>
+
+                <div class="form-group">
+                    <form-field for="password">
+                        <input type="password" placeholder="пароль" form-bind-attribute="value">
+                        <span class="bar"></span>
+                        <form-messages>
+                            <view-eval value="error.text"></view-eval>
+                        </form-messages>
+                    </form-field>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" form-submit="true" class="button buttonWhite" >Войти</button>
+                </div>
+
+                <p>
+                    Нет аккаунта?  <link-to route="SignUpRoute">Зарегистрироваться!</link-to>
+                </p>
+            </form>
+        </form-for>
+    </div>
+
+</app-view>

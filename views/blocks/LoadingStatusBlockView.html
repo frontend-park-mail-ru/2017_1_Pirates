@@ -1,0 +1,27 @@
+<app-view id="LoadingStatusBlockView">
+
+    <view-if condition="$.loading || $.error">
+        <view-then>
+            <div class="curtain">
+
+                <view-if condition="$.loading">
+                    <view-then>
+                        <view-component name="LoadingBlockComponent"></view-component>
+                    </view-then>
+
+                    <view-else>
+                        <div class="component-error">
+                            При загрузке данных произошла ошибка.
+                            <view-for variable="_" in="[Math.random()]">
+                                <view-eval value="$.error"></view-eval>
+                            </view-for>
+                        </div>
+                    </view-else>
+                </view-if>
+            </div>
+        </view-then>
+
+        <view-else></view-else>
+    </view-if>
+
+</app-view>

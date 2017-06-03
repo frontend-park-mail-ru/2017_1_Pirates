@@ -1,45 +1,40 @@
 {
-  "name": "pirates",
-  "version": "0.0.1",
-  "description": "Frontend",
-  "main": "server.js",
-  "scripts": {
-	"start": "node ./node_modules/webpack/bin/webpack.js && node ./server.js"
-  },
-  "repository": {
-	"type": "git",
-	"url": "git+https://github.com/frontend-park-mail-ru/2017_1_Pirates.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-	"url": "https://github.com/frontend-park-mail-ru/2017_1_Pirates/issues"
-  },
-  "homepage": "https://github.com/frontend-park-mail-ru/2017_1_Pirates#readme",
-  "dependencies": {
-	"express": "^4.14.1",
-	"babylonjs": "2.5",
-	"swagger-ui-express": "latest",
-	"body-parser": "latest",
-	"webcomponents.js": "git://github.com/webcomponents/webcomponentsjs.git",
-	"font-awesome": "latest",
-	"eslint": "latest",
-	"jasmine": "latest",
-
-	"typescript": "latest",
-	"webpack": "latest",
-	"awesome-typescript-loader": "latest",
-	"source-map-loader": "latest",
-	"testem": "latest",
-	"sass-loader": "latest",
-	"node-sass": "latest",
-	"style-loader": "latest",
-	"html-loader": "latest",
-	"extract-loader": "latest",
-	"file-loader": "latest",
-	"css-loader": "latest",
-	"extract-text-webpack-plugin": "latest",
-	"jsworks": "git://github.com/8coon/next.git"
-  }
+    "name": "test",
+    "version": "1.0.0",
+    "description": "Test Application",
+    "main": "./server.js",
+    "license": "MIT",
+    "scripts": {
+        "start": "rm -rf ./dist && node ./preBuild.js && node ./node_modules/typescript/bin/tsc && node ./build.js && node ./node_modules/webpack/bin/webpack.js && node ./server.js"
+    },
+    "dependencies": {
+        "mkdirp": "0.5.1",
+        "jsdom": "9.11.0",
+        "typescript": "2.3.0",
+        "tslint": "4.5.1",
+        "extract-text-webpack-plugin": "2.1.0",
+        "webpack": "2.2.1",
+        "sass-loader": "6.0.3",
+        "node-sass": "4.5.0",
+        "css-loader": "0.27.1",
+        "html-loader": "0.4.5",
+        "style-loader": "0.13.2",
+        "ts-loader": "2.0.1",
+        "source-map-loader": "0.2.0",
+        "mocha": "3.2.0",
+        "chai": "3.5.0",
+        "source-map-support": "0.4.12",
+        "rmdir": "1.2.0",
+        "chai-as-promised": "6.0.0",
+        "cssauron": "1.4.0",
+        "body-parser": "1.17.1",
+        "eslint": "3.17.1",
+        "express": "4.15.2",
+        "reflect-metadata": "0.1.10",
+        "jsworks": "https://github.com/8coon/next",
+        "babylonjs": "2.5.0",
+        "fast-simplex-noise": "3.2.0",
+        "font-awesome": "4.7.0",
+        "download-file": "0.1.5"
+    }
 }

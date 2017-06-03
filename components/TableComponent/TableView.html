@@ -1,0 +1,159 @@
+<app-view id="TableView">
+
+    <div class="table-toolbox no-select">
+        <h1>
+            <view-for variable="title" in="[$.title]">
+                <view-eval value="title"></view-eval>
+            </view-for>
+        </h1>
+
+        <div class="table-toolbox-button table-drop-filters-button">
+            <i class="fa fa-filter"></i>
+            <span>Сбросить</span>
+        </div>
+
+        <div class="table-toolbox-button table-refresh-button">
+            <i class="fa fa-refresh"></i>
+            <span>Обновить</span>
+        </div>
+
+        <div class="table-toolbox-button table-add-button">
+            <i class="fa fa-plus"></i>
+            <span>Добавить</span>
+        </div>
+
+        <view-for variable="_" in="[$.selectedRow === undefined]">
+            <div class="table-toolbox-button table-remove-button${_ ? ' table-inactive-button' : ''}">
+                <i class="fa fa-trash"></i>
+                <span>Удалить</span>
+            </div>
+        </view-for>
+    </div>
+
+
+    <div class="table">
+        <view-include name="LoadingStatusBlockView"></view-include>
+
+        <view-for variable="column" in="$._i = 0, $.columns">
+
+            <div class="table-column" column="${$._i}">
+                <div class="table-header no-select">
+
+                    <view-if condition="$._i++, column.canOrder" static>
+                        <view-then>
+                            <view-switch static>
+
+                                <view-case condition="column.order === 'asc'">
+                                    <i class="fa fa-caret-up table-column-sorter table-column-action"></i>
+                                </view-case>
+
+                                <view-case condition="column.order === 'desc'">
+                                    <i class="fa fa-caret-down table-column-sorter table-column-action"></i>
+                                </view-case>
+
+                                <view-case condition="column.order === undefined">
+                                    <i class="fa fa-caret-up table-column-sorter table-column-action-disabled
+                                                table-column-action"></i>
+                                </view-case>
+
+                            </view-switch>
+                        </view-then>
+                        <view-else></view-else>
+                    </view-if>
+
+                    <view-if condition="column.canFilter" static>
+                        <view-then>
+                            <view-if condition="column.filter !== undefined" static>
+
+                                <view-then>
+                                    <i class="fa fa-filter table-column-filter table-column-action"></i>
+                                </view-then>
+
+                                <view-else>
+                                    <i class="fa fa-filter table-column-filter table-column-action
+                                        table-column-action-disabled"></i>
+                                </view-else>
+
+                            </view-if>
+                        </view-then>
+                        <view-else></view-else>
+                    </view-if>
+
+                    <view-eval value="column.title"></view-eval>
+
+                    <i class="fa fa-filter table-column-filter table-column-action" style="visibility: hidden"></i>
+                </div>
+
+                <div class="table-cells">
+                    <view-for variable="row" in="$._j = 0, $.data" static>
+                        <div class="table-cell${column.isTitle ? ' table-cell-title' : ''}"
+                                row="${$._j}" column="${$._i - 1}">
+
+                            <view-switch static>
+
+                                <view-case condition="column.foreignKey !== undefined">
+                                    <view-for variable="_" in="[column.foreignKey]" static>
+                                        <a href="#">
+                                            <view-eval value="(row || {})[column.name]"></view-eval>
+                                        </a>
+                                    </view-for>
+                                </view-case>
+
+                                <view-case condition="column.type === 'button'">
+                                    <button type="button">
+                                        <view-eval value="column.buttonText || '&nbsp;'"></view-eval>
+                                    </button>
+                                </view-case>
+
+                                <view-case condition="column.type !== 'button'">
+                                    <view-eval value="(row || {})[column.name] || '&nbsp;'"></view-eval>
+                                </view-case>
+
+                            </view-switch>
+
+                            <view-eval value="$._j++" style="display: none;"></view-eval>
+
+                        </div>
+                    </view-for>
+                </div>
+            </div>
+
+        </view-for>
+
+        <view-for variable="_" in="[Math.random()]">
+            <view-eval value="$.controller.onUpdate(), _" style="display: none;"></view-eval>
+        </view-for>
+    </div>
+
+
+    <div class="table-pager">
+
+        <div class="table-pager-button table-pager-start">
+            <i class="fa fa-angle-double-left"></i>
+        </div>
+
+        <div class="table-pager-button table-pager-back">
+            <i class="fa fa-angle-left"></i>
+        </div>
+
+        <div class="table-pager-text no-select">Replace Me</div>
+
+        <div class="table-pager-button table-pager-forward">
+            <i class="fa fa-angle-right"></i>
+        </div>
+
+        <div class="table-pager-button table-pager-end">
+            <i class="fa fa-angle-double-right"></i>
+        </div>
+
+    </div>
+
+
+    <div class="table-filter">
+        <input placeholder="Введите фильтр">
+        <button type="button">
+            <i class="fa fa-check"></i>
+        </button>
+    </div>
+
+</app-view>

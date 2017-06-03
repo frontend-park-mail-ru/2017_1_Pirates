@@ -1,0 +1,45 @@
+
+
+.window-template {
+    display: none;
+}
+
+
+.window-curtain {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    align-content: space-around;
+    justify-content: center;
+    background-color: rgba(51, 51, 51, 0.2);
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    overflow: scroll;
+}
+
+
+.window-content {
+    background-color: white;
+    padding: 30px 60px;
+    width: 500px;
+}
+
+.dialog-content {
+    font-weight: 100;
+    font-size: 120%;
+}
+
+
+.window-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding-top: 40px;
+    font-weight: 100;
+}
+
+.window-buttons button {
+    margin-left: 20px;
+}

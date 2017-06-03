@@ -1,0 +1,132 @@
+
+
+#game-hud {
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    touch-action: none;
+    z-index: 900;
+    position: fixed;
+    background-color: transparent;
+    font-size: 80%;
+}
+
+
+#hud-speedometer {
+    position: fixed;
+    width: 200px;
+    height: 200px;
+    z-index: 1000;
+    right: 40px;
+    bottom: 10px;
+}
+
+
+#hud-top-bar {
+    position: fixed;
+    z-index: 1000;
+    right: 50px;
+    top: 50px;
+    left: 50px;
+
+    display: flex;
+    flex-direction: row;
+}
+
+
+#hud-score {
+    width: 100px;
+    margin-right: 100px;
+}
+
+#hud-timer {
+    flex: 1;
+}
+
+#hud-stats {
+    width: 100px;
+    margin-left: 100px;
+}
+
+
+.hud-text {
+    font-size: 130%;
+    color: rgb(200, 200, 200);
+    text-align: center;
+}
+
+.hud-value {
+    font-size: 300%;
+    color: rgb(211, 42, 156);
+    /*-webkit-text-stroke: 1px white;*/
+}
+
+
+#hud-stats-delta {
+    background-color: rgb(34, 139, 34);
+    color: white;
+    font-size: 120%;
+    text-align: center;
+    padding: 5px;
+}
+
+
+#hud-timer-value {
+    color: rgb(34, 139, 34);
+    font-size: 300%;
+    text-align: center;
+    padding: 30px;
+    margin-top: 5px;
+}
+
+
+#hud-countdown {
+    font-size: 500%;
+    color: rgb(211, 42, 156);
+    -webkit-text-stroke: 1px white;
+    text-align: center;
+}
+
+
+#hud-combo-value-border {
+    border: solid 2px rgb(69, 110, 203);
+}
+
+#hud-combo-value {
+    background-color: rgb(109, 150, 253);
+    height: 10px;
+}
+
+#hud-place-delimiter {
+    color: rgb(200, 200, 200);
+}
+
+#hud-total-places {
+    color: white;
+}
+
+#hud-stats-value {
+    text-align: right;
+}
+
+#hud-combo-text {
+    margin-bottom: 10px;
+}
+
+#hud-stats-delta {
+    display: none;
+}
+
+#hud-score-value {
+    text-align: center;
+}
+
+#hud-current-place {
+    text-align: center;
+}
+
+
+
+
+

@@ -1,0 +1,56 @@
+<app-view id="MenuView" extends="BaseView">
+
+    <div class="header">
+        <div class="header__left-container">
+        </div>
+
+        <div class="header__right-container user-box">
+            <view-if condition="!$.currentUser || !$.currentUser.login">
+                <view-then>
+                    <link-to route="LoginRoute"><i class="fa fa-user-o" aria-hidden="true"></i>
+                        Вы не авторизованы</link-to>
+                </view-then>
+                <view-else>
+
+                    <view-for variable="_" in="[Math.random()]">
+                        <i class="fa fa-user-o" aria-hidden="true"></i>
+                        <view-eval value="$.currentUser ? $.currentUser.login : '' "></view-eval>
+
+                        <link-to route="MenuRoute" args="{'logout': true}">
+                            (Выход)
+                        </link-to>
+                    </view-for>
+                </view-else>
+            </view-if>
+        </div>
+    </div>
+
+    <div class="description-container">
+        <div class="logo">
+            <div class="logo-team">команда πrates представляет</div>
+            <div class="logo-project">PROJECT</div>
+            <div class="logo-motion">MOTION</div>
+        </div>
+
+        <div>
+        </div>
+    </div>
+
+
+    <div class="menu-container">
+        <div class="menu">
+            <div class="menu__element">
+                <link-to route="PresentationRoute">Помощь</link-to>
+            </div>
+
+            <div class="menu__element">
+                <link-to route="SinglePlayerRoute">Играть</link-to>
+            </div>
+
+            <div class="menu__element">
+                <link-to route="ScoresRoute">Таблица лидеров</link-to>
+            </div>
+
+        </div>
+    </div>
+</app-view>
