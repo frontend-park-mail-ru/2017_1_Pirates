@@ -2,86 +2,31 @@
 
 const fs = require('fs');
 const express = require('express');
-const swaggerUi = require('swagger-ui-express');
-const bodyParser = require('body-parser');
+
+const path = `${__dirname}/node_modules/jsworks/dist/`;
+const testsPath = `${__dirname}/spec`;
+const fontAwesomePath = `${__dirname}/node_modules/font-awesome/`;
 
 const app = express();
-const swaggerDocument = require('./static/app/swagger.json');
 
 
-app.use('/', express.static(__dirname + '/static'));
-app.use('/game', express.static(__dirname + '/static'));
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));  // Swagger
-app.use('/lib/webcomponentsjs', express.static(__dirname + '/node_modules/webcomponents.js'));
-app.use('/lib/font-awesome', express.static(__dirname + '/node_modules/font-awesome'));
-
+app.use('/', express.static(`${__dirname}/dist/out`));
+app.use('/static', express.static(`${__dirname}/static`));
+app.use('/jsworks', express.static(path));
 app.use('/babylonjs', express.static(`${__dirname}/node_modules/babylonjs`));
-app.use('/jsworks', express.static(`${__dirname}/node_modules/jsworks/dist`));
+app.use('/font-awesome', express.static(fontAwesomePath));
 
 
 app.get('/', (req,res) => {
-	res.sendFile(__dirname + '/static/app/application.html');
+    res.sendFile(__dirname + '/application.html');
 });
-
-
-/*
-	Test API implementation Start
-*/
-
-app.use('/validators/noNumbers', bodyParser.json(), (req, res) => {
-	if (((req.body.value || '').match(/\d/) || []).length == 0) {
-		res.send(JSON.stringify(
-			[
-				{
-					state: 'warning',
-					desc: 'Your name has no numbers, that\'s really bad.'
-				}
-			]
-		));
-
-		return;
-	}
-
-	res.send(JSON.stringify(
-		[
-			{
-				state: 'ok',
-				desc: 'Allright, your name has some numbers in it.'
-			}
-		]
-	));
-});
-
-
-app.use('/validators/isBob', bodyParser.json(), (req, res) => {
-	if ((req.body.value || '').toLowerCase().startsWith('bob')) {
-		res.send(JSON.stringify([{state: 'ok'}]));
-		return;
-	}
-
-	res.send(JSON.stringify(
-		[
-			{
-				state: 'error',
-				desc: 'Get lost! Only Bob allowed.'
-			}
-		]
-	));
-});
-
-
-/*
-	Test API implementation End
-*/
-
-
 
 app.use((req, res, next) => {
-	const content = fs.readFileSync('./static/error.html', 'utf-8');
-	res.status(404).send(content);
+    res.sendFile(__dirname + '/application.html');
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-	console.log(`App listening on port ${PORT}!`);
+    console.log(`Test Application server listening on port ${PORT}!`);
+    console.log(`JSWorks is in ${path}`);
 });

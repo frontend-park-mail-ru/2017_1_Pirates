@@ -1,0 +1,20 @@
+{
+  "animate":true,
+  "refreshrate": 60,
+
+  "uniforms": [
+    {
+      "type": "float",
+      "name": "time",
+      "value": "60.0"
+    },
+    {
+      "type": "float",
+      "name": "uv_scale",
+      "value": "1.0"
+    }
+  ],
+
+  "sampler2Ds": [
+  ]
+}

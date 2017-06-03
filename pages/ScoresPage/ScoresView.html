@@ -1,0 +1,17 @@
+<app-view id="ScoresView" extends="BaseView">
+
+    <div class="header">
+        <div class="header__left-container">
+            <div class="link-back">
+                <link-to route="MenuRoute">
+                    <i class="fa fa-chevron-left"></i>
+                </link-to>
+            </div>
+        </div>
+    </div>
+
+    <div class="scores-container">
+        <view-component name="TableComponent" id="table"></view-component>
+    </div>
+
+</app-view>

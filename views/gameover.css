@@ -1,0 +1,73 @@
+#gameover {
+    /*display: none;*/
+    display: none;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    position: fixed;
+    /*background-color: transparent;*/
+
+    background-color: rgba(0,0,0,0.2);
+}
+
+#gameover__container {
+    margin: auto;
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+}
+
+#gameover__score_text {
+    margin: auto;
+}
+
+#gameover__score {
+    padding: 20px;
+    font-size: 100px;
+    margin: auto auto;
+    -webkit-text-stroke: 2px white;
+}
+
+#gameover__kills_text {
+    margin: auto;
+}
+
+#gameover__kills {
+    padding: 20px;
+    font-size: 50px;
+    margin: auto auto;
+    -webkit-text-stroke: 1px white;
+}
+
+#gameover__combo_text {
+    margin: auto;
+}
+
+#gameover__combo {
+    padding: 20px;
+    font-size: 30px;
+    margin: auto auto;
+    -webkit-text-stroke: 1px white;
+}
+
+
+#gameover__button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+#gameover__save-btn {
+    flex: 1;
+    margin-right: 30px;
+}
+
+#gameover__exit {
+    flex: 2;
+    width: 130px;
+    margin-left: 30px;
+}

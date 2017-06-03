@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Project MOTION</title>
+
+    <!-- BabylonJS import -->
+    <script src="/babylonjs/babylon.js"></script>
+    <script src="/static/babylon.objFileLoader.min.js"></script>
+    <script src="/static/babylon.2.5.canvas2d.js"></script>
+    <!-- BabylonJS import end -->
+
+    <!-- JSWorks import -->
+    <script src="/jsworks/jsworks.js"></script>
+    <link rel="stylesheet" href="/jsworks/jsworks.css">
+    <!-- JSWorks import end -->
+
+    <script src="/application.js"></script>
+    <link rel="stylesheet" href="/main.css">
+    <link rel="import" href="/main.html">
+    <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+</head>
+<body>
+
+<script>
+    JSWorks.config = {
+            backendURL: 'https://motion-project.herokuapp.com',
+            backendSocket: 'wss://motion-project.herokuapp.com/game',
+            serviceWorkerEnabled: false
+        }
+</script>
+
+    <app-info>
+        <app-routes>
+
+            <app-route id="MenuRoute" page="MenuPage" default></app-route>
+            <app-route id="LoginRoute" page="LoginPage" match="login"></app-route>
+            <app-route id="SignUpRoute" page="SignUpPage" match="signup"></app-route>
+            <app-route id="SinglePlayerRoute" page="SinglePlayerPage" match="singleplayer"></app-route>
+            <app-route id="MultiplayerRoute" page="MultiplayerPage" match="multiplayer"></app-route>
+            <app-route id="LogoutRoute" page="LoadingPage" match="logout"></app-route>
+            <app-route id="ScoresRoute" page="ScoresPage" match="scores"></app-route>
+
+        </app-routes>
+    </app-info>
+
+    <div id="background"></div>
+
+
+    <div class="game-content">
+        <canvas id="game-canvas" tabindex="90000"></canvas>
+
+
+        <div id="game-hud" class="hidden">
+            <canvas id="hud-speedometer"></canvas>
+
+            <div id="hud-top-bar">
+
+                <div id="hud-score">
+                    <div id="hud-score-text" class="hud-text">Счёт:</div>
+                    <div id="hud-score-value" class="hud-value">3507</div>
+                </div>
+
+                <div id="hud-timer">
+                    <div id="hud-combo">
+                        <div id="hud-combo-text" class="hud-text">Комбо x2</div>
+
+                        <div id="hud-combo-value-border">
+                            <div id="hud-combo-value"></div>
+                        </div>
+                    </div>
+
+                    <div id="hud-timer-value">02:58</div>
+                    <div id="hud-countdown">3</div>
+                </div>
+
+                <div id="hud-stats">
+                    <div id="hud-stats-text" class="hud-text">Сбито:</div>
+                    <div id="hud-stats-value" class="hud-value">
+                        <div id="hud-current-place">0</div>
+                        <div style="display: none">
+                            <span id="hud-place-delimiter">/</span>
+                            <span id="hud-total-places">2</span>
+                        </div>
+                    </div>
+                    <div id="hud-stats-delta">+ 00:07</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="pause-menu">
+            <div id="pause-menu__container">
+                <div id="pause-menu__continue" class="button buttonWhite">Продолжить</div>
+                <div id="pause-menu__exit" class="button buttonWhite">Выйти</div>
+            </div>
+        </div>
+
+        <div id="gameover">
+            <div id="gameover__container">
+                <div id="gameover__score_text">Ваш счёт:</div>
+                <div id="gameover__score">1488</div>
+                <div id="gameover__kills_text">Сбитых кораблей:</div>
+                <div id="gameover__kills">13</div>
+                <div id="gameover__combo_text">Максимум контрольных точек подряд:</div>
+                <div id="gameover__combo">22</div>
+                <div id="gameover__button-container">
+                    <div id="gameover__save-btn" class="button buttonWhite">Сохранить</div>
+                    <div id="gameover__exit" class="button buttonWhite">Выйти</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <app-main></app-main>
+
+</body>
+</html>

@@ -1,22 +1,27 @@
 {
     "compilerOptions": {
+        "outDir": "./dist/compiled/",
+        "rootDir": ".",
         "sourceMap": true,
         "alwaysStrict": true,
-        "baseUrl": "./src",
-        "outDir": "./release",
-        "target": "ES5",
+        "target": "es5",
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-
         "lib": [
             "es2016",
             "dom"
         ]
     },
-
+    "include": [
+        "./**/*"
+    ],
     "exclude": [
         "node_modules",
         "spec",
-        "dist"
-    ]
+        "dist",
+        "static"
+    ],
+    "paths": {
+        "babylon": ["../../static/babylon"]
+    }
 }

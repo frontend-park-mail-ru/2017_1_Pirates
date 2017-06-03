@@ -1,0 +1,64 @@
+<app-view id="SignUpView" extends="BaseView">
+
+    <div class="header">
+        <div class="header__left-container">
+            <div class="link-back">
+                <link-to route="MenuRoute">
+                    <i class="fa fa-chevron-left"></i>
+                </link-to>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <form-for model="UserModel" id="SignUpForm">
+            <form>
+
+                <div class="form-group">
+                    <form-field for="login" validates="LoginValidator">
+                        <input type="text" placeholder="Логин" form-bind-attribute="value">
+                        <span class="bar"></span>
+                        <form-messages>
+                            <view-eval value="error.text"></view-eval>
+                        </form-messages>
+                    </form-field>
+                </div>
+
+                <div class="form-group">
+                    <form-field for="email" validates="EmailValidator">
+                        <input type="email" placeholder="email" form-bind-attribute="value">
+                        <span class="bar"></span>
+                        <form-messages>
+                            <view-eval value="error.text"></view-eval>
+                        </form-messages>
+                    </form-field>
+                </div>
+
+                <div class="form-group">
+                    <form-field for="password" validates="PasswordsMatch1Validator">
+                        <input type="password" placeholder="пароль" form-bind-attribute="value">
+                        <span class="bar"></span>
+                        <form-messages>
+                            <view-eval value="error.text"></view-eval>
+                        </form-messages>
+                    </form-field>
+                </div>
+
+                <div class="form-group">
+                    <form-field validates="PasswordsMatch2Validator">
+                        <input type="password" placeholder="ещё раз" form-bind-attribute="value">
+                        <span class="bar"></span>
+                        <form-messages>
+                            <view-eval value="error.text"></view-eval>
+                        </form-messages>
+                    </form-field>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" form-submit="true" class="button buttonWhite" >Войти</button>
+                </div>
+            </form>
+        </form-for>
+    </div>
+
+</app-view>

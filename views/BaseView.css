@@ -1,0 +1,252 @@
+html, body, app-main, app-main > app-view, .base-container {
+    height: 100%;
+}
+
+.base-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+
+.base-content {
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+html, body {
+    color: white;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'San Francisco UI', 'Helvetica Neue', 'Lucida Sans', sans-serif;
+    font-size: 120%;
+    font-weight: 200;
+}
+
+
+#background {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: black;
+    z-index: -100000;
+}
+
+
+.base-container {
+    visibility: hidden;
+}
+
+
+
+/*#game-canvas {
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    touch-action: none;
+    z-index: -1;
+    overflow: hidden;
+    position: fixed;
+}*/
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+}
+
+* { box-sizing:border-box; }
+
+form-messages {
+    color: white;
+}
+
+.header {
+    min-height: 40px;
+}
+
+.header__left-container .link-back {
+    height: 40px;
+    color: white;
+    font-size: 200%;
+    padding: 10px;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+.header__left-container .link-back a {
+    color: white;
+    text-decoration: none;
+}
+
+.base-container {
+    opacity: 0;
+    transition: opacity 0.5s ;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: stretch;
+}
+
+.header__right-container {
+    justify-self: flex-end;
+}
+
+.header__left-container, .header__right-container {
+    padding: 50px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 3em 2em 2em 2em;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+input {
+    font-size: 18px;
+    padding: 10px 10px 10px 5px;
+    -webkit-appearance: none;
+    display: block;
+    background: #fafafa;
+    color: #636363;
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid #757575;
+}
+
+input:focus {
+    outline: none;
+}
+
+
+.bar {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+.bar:before, .bar:after {
+    content: '';
+    height: 2px;
+    width: 0;
+    bottom: 1px;
+    position: absolute;
+    border-top: 1px solid black;
+    background: rgb(211, 42, 156);
+    -webkit-transition:all 0.2s ease;
+    transition: all 0.2s ease;
+    /*box-shadow:  0 0 3px 5px rgba(255, 255, 255, 0.3);*/
+}
+
+.bar:before { left: 50%; }
+
+.bar:after { right: 50%; }
+
+input:focus ~ .bar:before, input:focus ~ .bar:after {
+    width: 50%;
+}
+
+
+.button {
+    position: relative;
+    display: inline-block;
+    padding: 12px 24px;
+    margin: .3em 0 1em 0;
+    width: 100%;
+    vertical-align: middle;
+    color: #fff;
+    /*font-size: 16px;*/
+    line-height: 20px;
+    text-align: center;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+}
+.button:focus { outline: 0; }
+
+.buttonWhite {
+    background: #ffffff;
+    color: #444444;
+}
+
+.buttonWhite:hover {
+    /*background: rgba(224, 224, 224, 0.88);*/
+    background: rgb(211, 42, 156);
+    color: white;
+}
+
+.buttonOrange {
+    background: #ff8f26;
+    text-shadow: 1px 1px 0 rgba(255, 242, 84, 0.5);
+}
+
+.buttonOrange:hover { background: #ffa538; }
+
+form-field {
+    position: relative;
+}
+
+
+.user-box view-eval {
+    display: inline-block;
+}
+
+
+.blurred {
+    -moz-filter: blur(10px);
+    -o-filter: blur(10px);
+    -webkit-filter: blur(10px);
+    filter: blur(10px);
+}
+
+
+.loader-container {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 100000;
+}
+
+
+.loader-container > * {
+    padding-top: 40%;
+}
+
+.loader-text {
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.game-content {
+    background-color: black;
+}
