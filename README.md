@@ -1,5 +1,13 @@
 # Project M.O.T.I.O.N.
 
+## Описание
+Браузерная 3D игра в жанре скроллер.
+
+Игрок управляет космическим кораблём. Кораблик летит по футуристичной дороге сквозь город будущего.
+
+Цель игры – остаться на извилистой дороге, преодолевая крутые повороты и уничтожая врагов. Очки начисляются по мере прохождения карты.
+
+
 ## Master application [![Build Status](https://travis-ci.org/frontend-park-mail-ru/2017_1_Pirates.svg?branch=master)](https://travis-ci.org/frontend-park-mail-ru/2017_1_Pirates)
 ### [https://tp314rates.herokuapp.com](https://tp314rates.herokuapp.com)
 
