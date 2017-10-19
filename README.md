@@ -1,5 +1,9 @@
 # Project M.O.T.I.O.N.
 
+## Application [![Build Status](https://travis-ci.org/frontend-park-mail-ru/2017_1_Pirates.svg?branch=nightly)](https://travis-ci.org/frontend-park-mail-ru/2017_1_Pirates)
+#### [https://project-motion.herokuapp.com](https://project-motion.herokuapp.com)
+
+
 ## Описание
 Браузерная 3D игра в жанре скроллер.
 
@@ -7,12 +11,11 @@
 
 Цель игры – остаться на извилистой дороге, преодолевая крутые повороты и уничтожая врагов. Очки начисляются по мере прохождения карты.
 
+## Используемые технологии
+* SPA реализованно на основе собственного MVC фреймворка [JSWorks](https://github.com/8coon/next)
+* Typescript
+* 3D-движок [Babylon.js](https://github.com/BabylonJS/Babylon.js)
 
-## Master application [![Build Status](https://travis-ci.org/frontend-park-mail-ru/2017_1_Pirates.svg?branch=master)](https://travis-ci.org/frontend-park-mail-ru/2017_1_Pirates)
-### [https://tp314rates.herokuapp.com](https://tp314rates.herokuapp.com)
-
-## Nightly application [![Build Status](https://travis-ci.org/frontend-park-mail-ru/2017_1_Pirates.svg?branch=nightly)](https://travis-ci.org/frontend-park-mail-ru/2017_1_Pirates)
-### [https://project-motion.herokuapp.com](https://project-motion.herokuapp.com)
 
 ## Members
 * [@vileven](https://github.com/vileven)
